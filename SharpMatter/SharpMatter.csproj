@@ -56,10 +56,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SharpBehavior\BehaviorController.cs" />
+    <Compile Include="SharpBehavior\Flock.cs" />
+    <Compile Include="SharpData\Domain.cs" />
+    <Compile Include="SharpGeometry\Vec3.cs" />
+    <Compile Include="SharpMath\SharpMath.cs" />
     <Compile Include="SharpMatterComponent.cs" />
     <Compile Include="SharpMatterInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharpParticle\SharpParticle.cs" />
+    <Compile Include="SharpPhysics\IPhysicsEngine.cs" />
+    <Compile Include="SharpPhysics\PhysicsEngine.cs" />
+    <Compile Include="SharpPhysics\SharpBody.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
