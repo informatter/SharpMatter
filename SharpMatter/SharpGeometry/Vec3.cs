@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
+using Grasshopper.Kernel.Types;
+
 
 
 namespace SharpMatter.SharpGeometry
@@ -14,7 +16,7 @@ namespace SharpMatter.SharpGeometry
     /// </summary>
 
     //[Serializable]
-    public class Vec3
+    public class  Vec3//: GH_GeometricGoo<Vec3>
     {
         // Field data
         private double X;
@@ -37,15 +39,7 @@ namespace SharpMatter.SharpGeometry
             this.Z = 0;
         }
 
-       public void test()
-        {
-            Point3d b = new Point3d();
-            Vec3 temp;
-
-            temp = (Vec3)b;
-        }
-
-
+ 
         #region PROPERTIES
 
         public double Magnitude
@@ -64,8 +58,13 @@ namespace SharpMatter.SharpGeometry
 
      public static explicit operator Vec3 (Point3d v)
       {
-            return (Vec3)v;
+            return new Vec3(v.X, v.Y, v.Z);
       }
+
+        public static explicit operator Point3d(Vec3 v)
+        {
+            return new Point3d(v.X, v.Y, v.Z);
+        }
 
 
         public static implicit operator string(Vec3 vector)
@@ -449,9 +448,9 @@ namespace SharpMatter.SharpGeometry
         /// <param name="minZ"></param>
         /// <param name="maxZ"></param>
         /// <returns></returns>
-        public static Vec3 VectorRandomDistribution(double minX, double maxX, double minY, double maxY, double minZ, double maxZ)
+        public static Vec3 VectorRandomDistribution(double minX, double maxX, double minY, double maxY, double minZ, double maxZ, Random ran)
         {
-            Random ran = new Random();
+           
             double x = minX + (maxX - minX) * ran.NextDouble();
             double y = minY + (maxY - minY) * ran.NextDouble();
             double z = minZ + (maxZ - minZ) * ran.NextDouble();
@@ -464,9 +463,9 @@ namespace SharpMatter.SharpGeometry
         /// Crete random 3D vector directions
         /// </summary>
         /// <returns></returns>
-        public static Vec3 Vector3dRandom()
+        public static Vec3 Vector3dRandom(Random ran)
         {
-            Random ran = new Random();
+           
             double phi = 2.0 * Math.PI * ran.NextDouble();
             double theta = Math.Acos(2.0 * ran.NextDouble() - 1.0);
 
@@ -481,9 +480,9 @@ namespace SharpMatter.SharpGeometry
         /// Create random 2D vector directions
         /// </summary>
         /// <returns></returns>
-        public static Vec3 Vector2dRandom()
+        public static Vec3 Vector2dRandom(Random ran)
         {
-            Random ran = new Random();
+            
             double angle = 2.0 * Math.PI * ran.NextDouble();
 
             double x = Math.Cos(angle);
@@ -559,6 +558,129 @@ namespace SharpMatter.SharpGeometry
 
             return ToString().GetHashCode();
         }
+        #endregion
+
+
+        #region IGH_GOO METHOD OVERRIDING
+
+      
+
+      
+
+
+        //private BoundingBox _bbox = BoundingBox.Unset;
+
+
+
+
+
+
+      
+
+       
+        //public override bool IsValid
+        //{
+        //    get { return true; }
+        //}
+
+
+     
+        //public override string TypeName
+        //{
+        //    get { return "Vec3"; }
+        //}
+
+
+       
+        //public override string TypeDescription
+        //{
+        //    get { return "Vec3"; }
+        //}
+
+
+     
+
+      
+        //public override IGH_Goo Duplicate()
+        //{
+        //    return DuplicateGeometry();
+        //}
+
+
+        
+        //public override IGH_GeometricGoo DuplicateGeometry()
+        //{
+        //    return new Vec3(Value.X, Value.Y, Value.Z);
+           
+
+        //}
+
+
+
+      
+        //public override object ScriptVariable()
+        //{
+        //    return Value;
+        //}
+
+
+        //public override bool CastTo<T>(ref T target)
+        //{
+        //    if (typeof(T).IsAssignableFrom(typeof(Vec3)))
+        //    {
+        //        object obj = Value;
+        //        target = (T)obj;
+        //        return true;
+        //    }
+
+        //    if (typeof(T).IsAssignableFrom(typeof(Point3d)))
+        //    {
+        //        object obj = new GH_Point();
+        //        target = (T)obj;
+        //        return true;
+        //    }
+
+        //    if (typeof(T).IsAssignableFrom(typeof(GH_Point)))
+        //    {
+        //        object obj = new GH_Point();
+        //        target = (T)obj;
+        //        return true;
+        //    }
+
+        //    if (typeof(T).IsAssignableFrom(typeof(GH_ObjectWrapper)))
+        //    {
+        //        object obj = new GH_ObjectWrapper(Value);
+        //        target = (T)obj;
+        //        return true;
+        //    }
+
+        //    return false;
+        //}
+
+
+       
+        //public override bool CastFrom(object source)
+        //{
+        //    if (source is Vec3 vec)
+        //    {
+        //        Value = vec;
+        //        return true;
+        //    }
+
+        //    if (source is Point3d m)
+        //    {
+        //        Value = new Vec3(m.X, m.Y, m.Z);
+        //        return true;
+        //    }
+
+           
+        //    return false;
+        //}
+
+
+        
+   
+
         #endregion
 
     }

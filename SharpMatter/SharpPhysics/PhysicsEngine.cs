@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using SharpMatter.SharpGeometry;
 
+
 namespace SharpMatter.SharpPhysics
 {
     public class PhysicsEngine : IPhysicsEngine
@@ -21,16 +22,16 @@ namespace SharpMatter.SharpPhysics
             ResetForces(acceleration);
         }
 
-        public void ResetForces(Vec3 acceleration)
+        private void ResetForces(Vec3 acceleration)
         {
             acceleration *= 0.0;
         }
 
-        public void ApplyForces(Vec3 force, Vec3 acceleration, double mass)
+     
+
+        public void ApplyForces(Vec3 force, Vec3 acceleration, SharpParticle particle)
         {
-
-            acceleration += force / mass;
-
+            acceleration += force / particle.Mass;
         }
     }
 }

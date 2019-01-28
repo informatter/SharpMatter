@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-using SharpMatter.SharpPhysics;
 using SharpMatter.SharpGeometry;
 
-namespace SharpMatter.SharpParticle
+namespace SharpMatter.SharpPhysics
 {
     public class SharpParticle : SharpBody
 
@@ -16,6 +15,7 @@ namespace SharpMatter.SharpParticle
         public Vec3 velocity;
         private double initMaxSpeed;
         private double initMaxForce;
+        private double lifeSpan;
 
 
 
@@ -62,11 +62,26 @@ namespace SharpMatter.SharpParticle
 
         }
 
+        public double LifeSpan
+        {
+            get { return lifeSpan; }
+
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentException("Life span must be a value larger than 0");
+                }
+
+                else lifeSpan = value;
+            }
+        }
+
 
         #endregion
 
 
-        public SharpParticle(Vec3 position, Vec3 acceleration, Vec3 velocity, double maxSpeed, double maxForce, double mass) : base(mass)
+        public SharpParticle(Vec3 position, Vec3 acceleration, Vec3 velocity, double maxSpeed, double maxForce, double mass,double lifeSpan) : base(mass)
         {
             this.position = position;
             this.acceleration = acceleration;
@@ -74,16 +89,37 @@ namespace SharpMatter.SharpParticle
             this.initMaxSpeed = maxSpeed;
             this.initMaxForce = maxForce;
             base.Mass = mass;
+            this.lifeSpan = lifeSpan;
 
         }
 
 
-        public void Update(Vec3 force)
+        public void Update()
         {
-            physicsEngine.ApplyForces(force, acceleration, base.Mass);
+           
             physicsEngine.UpdatePhysics(velocity, acceleration, position, initMaxSpeed, initMaxForce);
         }
 
+        public void AddForce(Vec3 force)
+        {
+            physicsEngine.ApplyForces(force, acceleration, this);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="particle"></param>
+        public void Die(List<SharpParticle> particle)
+        {
+            for (int i = particle.Count-1; i >=0; i--)
+            {
+                if(particle[i].lifeSpan<=0)
+                {
+                    particle.Remove(particle[i]);
+                }
+            }
+        }
 
 
 
