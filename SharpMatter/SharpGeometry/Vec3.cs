@@ -15,15 +15,15 @@ namespace SharpMatter.SharpGeometry
     /// 
     /// </summary>
 
-    //[Serializable]
-    public class  Vec3//: GH_GeometricGoo<Vec3>
+    
+    public class  Vec3 //: GH_GeometricGoo<Vec3>
     {
         // Field data
-        private double X;
-        private double Y;
-        private double Z;
+        public double X;
+        public double Y;
+        public double Z;
 
-        private Random ran = new Random();
+        
 
         public Vec3(double x, double y, double z)
         {
@@ -51,16 +51,24 @@ namespace SharpMatter.SharpGeometry
 
 
 
+
+
         #endregion
 
 
         #region OPERATOR OVERLOADING
-
+    /// <summary>
+    /// Cast from Point3d to Vec3
+    /// </summary>
+    /// <param name="v"></param>
      public static explicit operator Vec3 (Point3d v)
       {
             return new Vec3(v.X, v.Y, v.Z);
       }
-
+        /// <summary>
+        /// Cast from Vec3 to Point3d
+        /// </summary>
+        /// <param name="v"></param>
         public static explicit operator Point3d(Vec3 v)
         {
             return new Point3d(v.X, v.Y, v.Z);
@@ -319,6 +327,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public bool Normalize()
         {
+            //Jhon Vince, Mathematics for computer graphics
             double length = Magnitude;
 
             if (length > 0)
@@ -347,6 +356,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static Vec3 CrossProduct(Vec3 vecA, Vec3 vecB)
         {
+            //Jhon Vince, Mathematics for computer graphics
             double deltaX = (vecA.Y * vecB.Z) - (vecA.Z * vecB.Y);
             double deltaY = (vecA.Z * vecB.X) - (vecA.X * vecB.Z);
             double deltaZ = (vecA.X * vecB.Y) - (vecA.Y * vecB.X);
@@ -354,11 +364,29 @@ namespace SharpMatter.SharpGeometry
         }
 
 
+        public static Vec3 RandomSphericalDistribution(double x0, double y0, double z0, double radius, Random ran)
+        {
+            var u = ran.NextDouble();
+            var v = ran.NextDouble();
+            var theta = 2 * Math.PI * u;
+            var phi = Math.Acos(2 * v - 1);
+            var x = x0 + (radius * Math.Sin(phi) * Math.Cos(theta));
+            var y = y0 + (radius * Math.Sin(phi) * Math.Sin(theta));
+            var z = z0 + (radius * Math.Cos(phi));
+            return new Vec3(x, y, z);
+        }
+
+
+        ///UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE 
         /// <summary>
         /// Distribute a set of vectors uniformaly in a sphere
+        /// UPDATE
         /// </summary>
         /// <param name="numDirections"></param>
         /// <returns></returns>
+        /// UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE 
+
+        [Obsolete("This Method needs to be updated to only return one vector.")]
         public static List<Vec3> UniformSphericalDistribution(int numDirections)
         {
             List<Vec3> vecList = new List<Vec3>();
@@ -380,6 +408,9 @@ namespace SharpMatter.SharpGeometry
             return vecList;
         }
 
+
+
+
         /// <summary>
         /// Return a vector at world origin
         /// </summary>
@@ -397,6 +428,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static double VectorAngle(Vec3 vecA, Vec3 vecB, bool radians)
         {
+            //Jhon Vince, Mathematics for computer graphics
             if (radians)
             {
                 double theta = vecA * vecB / (vecA.Magnitude * vecB.Magnitude);
@@ -506,6 +538,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static Vec3 VectorRotate(Vec3 v, double radians, bool in2D, bool in3D)
         {
+            //Jhon Vince, Mathematics for computer graphics
             var ca = Math.Cos(radians);
             var sa = Math.Sin(radians);
             if (in3D) return new Vec3(ca * v.X - sa * v.Y, sa * v.X + ca * v.Y, sa * v.Y + v.Z * ca);

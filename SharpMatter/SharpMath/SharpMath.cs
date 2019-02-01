@@ -60,6 +60,7 @@ namespace SharpMatter.SharpMath
         /// <returns></returns>
         public static double Lerp(double t0, double t1, double t)
         {
+            //Spatial Slur, Dave Reeves
             return t0 + (t1 - t0) * t;
         }
 
@@ -73,6 +74,7 @@ namespace SharpMatter.SharpMath
         /// <returns></returns>
         public static double Normalize(double t, double t0, double t1)
         {
+            //Spatial Slur, Dave Reeves
             return (t - t0) / (t1 - t0);
         }
 
@@ -104,6 +106,7 @@ namespace SharpMatter.SharpMath
         /// <returns></returns>
         public static double Remap(double t, double a0, double a1, double b0, double b1)
         {
+            //Spatial Slur, Dave Reeves
             return Lerp(b0, b1, Normalize(t, a0, a1));
         }
 
@@ -127,6 +130,8 @@ namespace SharpMatter.SharpMath
             return values;
 
         }
+
+
 
     }
 }

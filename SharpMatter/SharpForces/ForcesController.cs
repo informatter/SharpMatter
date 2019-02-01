@@ -8,11 +8,11 @@ namespace SharpMatter.SharpForces
 {
     public class ForcesController
     {
-        Wind wind = new Wind();
-        Friction friction = new Friction();
-        Springs springs = new Springs();
-        FluidResistance fluidResistance = new FluidResistance();
-        Gravity gravity = new Gravity();
+       public  Wind wind = new Wind();
+       public Friction friction = new Friction();
+        public Springs springs = new Springs();
+        public FluidResistance fluidResistance = new FluidResistance();
+        public Gravity gravity = new Gravity();
     }
 }
 

@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpMatter.SharpBehavior
 {
-    public class BehaviorController
+    class ReactionDiffussion
     {
-        public Flock flock = new Flock();
-        public Automata automata = new Automata();
     }
 }

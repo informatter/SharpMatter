@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpMatter.SharpGeometry;
 
 namespace SharpMatter.SharpForces
 {
     public struct Gravity
     {
-        public double gravity;
+        public Vec3 gravity;
 
-        public Gravity (double gravity)
+        public Gravity (Vec3 force)
         {
-            this.gravity = gravity;
+            this.gravity = force;
         }
 
     }

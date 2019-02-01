@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpMatter.SharpBehavior
 {
-    class Flock
+    public class Flock
     {
     }
 }
