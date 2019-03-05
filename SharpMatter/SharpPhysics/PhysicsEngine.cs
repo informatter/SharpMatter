@@ -6,33 +6,32 @@ using SharpMatter.SharpGeometry;
 
 namespace SharpMatter.SharpPhysics
 {
-    public class PhysicsEngine : IPhysicsEngine
+    public static class PhysicsEngine //: IPhysicsEngine
     {
-        public void UpdatePhysics(Vec3 velocity, Vec3 acceleration, Vec3 position, double maxSpeed, double maxForce)
+        public static void UpdatePhysics(ref Vec3 velocity, ref Vec3 acceleration, ref Vec3 position, double maxSpeed, double maxForce)
         {
 
             velocity += acceleration;
-            velocity.Normalize();
+             velocity.Normalize();
             velocity *= maxSpeed;
-
             position += velocity;
-
-
-
-            ResetForces(acceleration);
+            acceleration *= 0.0; //reset forces
         }
 
-        private void ResetForces(Vec3 acceleration)
+      
+
+
+
+        public static void ApplyForces(ref Vec3 force, ref Vec3 acceleration, SharpParticle particle)
         {
-            acceleration *= 0.0;
+           acceleration += force / particle.Mass;
+         
         }
 
-     
 
-        public void ApplyForces(Vec3 force, Vec3 acceleration, SharpParticle particle)
-        {
-            acceleration += force / particle.Mass;
-        }
+
+
+
     }
 }
 

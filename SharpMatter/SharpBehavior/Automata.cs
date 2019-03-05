@@ -9,9 +9,9 @@ namespace SharpMatter.SharpBehavior
 {
     public  class Automata
     {
-        public void ComputeNeighbours(_2DGrid<int> field)
-        {
-            field.Data
-        }
+        //public void ComputeNeighbours(_2DGrid<int> field)
+        //{
+        //    field.Data
+        //}
     }
 }

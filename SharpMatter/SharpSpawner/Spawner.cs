@@ -14,8 +14,8 @@ namespace SharpMatter.SharpBehavior
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="number"></param>
-        /// <param name="objectList"></param>
+        /// <param name="number"></param> Number of sharp particles to spawn
+        /// <param name="objectList"></param> Target list to store data
         /// <param name="position"></param>
         /// <param name="acceleration"></param>
         /// <param name="velocity"></param>
@@ -37,8 +37,8 @@ namespace SharpMatter.SharpBehavior
         /// <summary>
         /// Spawn particles randomly on a unit sphere
         /// </summary>
-        /// <param name="number"></param>
-        /// <param name="objectList"></param>
+        /// <param name="number"></param> Number of sharp particles to spawn
+        /// <param name="objectList"></param> Target list to store data
         /// <param name="position"></param>
         /// <param name="acceleration"></param>
         /// <param name="velocity"></param>

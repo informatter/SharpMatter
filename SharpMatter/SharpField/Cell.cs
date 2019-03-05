@@ -7,19 +7,20 @@ using System.Drawing;
 
 namespace SharpMatter.SharpField
 {
-    public struct Cell
+    public struct Cell <T>
     {
         
-        //public List<T> dataHistory;
-        public double dataItem;
-        public Color color;
+       
+        public T m_scalarValue;
 
-        //public Cell( value)
-        //{
-        //   // dataHistory = new List<T>();
-        //    this.dataItem = value;
-        //    this.color = Color.FromArgb(0, 0, 0, 0);
-        //}
+        public Color m_color;
+
+        public Cell(T value)
+        {
+           
+            m_scalarValue = value;
+            m_color = Color.FromArgb(0, 0, 0, 0);
+        }
 
 
 

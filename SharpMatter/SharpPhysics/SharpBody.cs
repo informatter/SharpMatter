@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SharpMatter.SharpGeometry;
 
 namespace SharpMatter.SharpPhysics
 {
@@ -14,18 +11,18 @@ namespace SharpMatter.SharpPhysics
         //private double maxForce;
         //private double maxSpeed;
 
-        private double mass;
+        private double m_mass;
 
         public SharpBody(double mass)
         {
-            this.mass = mass;
+            this.m_mass = mass;
         }
 
         #region PROPERTIES
 
         public double Mass
         {
-            get { return mass; }
+            get { return m_mass; }
             set
             {
                 if (value <= 0)
@@ -33,7 +30,7 @@ namespace SharpMatter.SharpPhysics
                     throw new ArgumentException("Mass must be a value larger than 0");
                 }
 
-                else mass = value;
+                else m_mass = value;
             }
 
 

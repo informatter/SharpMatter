@@ -9,36 +9,45 @@ using SharpMatter.SharpBehavior;
 
 namespace SharpMatter.SharpPhysics
 {
-    public class SharpParticle : SharpBody
+    public class SharpParticle : SharpBody//,ICloneable
 
     {
-        //Field data
-        public Vec3 position;
-        public Vec3 acceleration;
-        public Vec3 velocity;
-        private double initMaxSpeed;
-        private double initMaxForce;
-        private double lifeSpan;
-        private string tag;
-        private int state;
+        #region FIELD DATA
+        private Vec3 m_position;
+        private Vec3 m_acceleration;
+        private Vec3 m_velocity;
+        private double m_initMaxSpeed;
+        private double m_initMaxForce;
+        private double m_lifeSpan;
+        private string m_tag;
+        private int m_state;
 
+        #endregion
 
-
-
+        #region POLYMORPHIC RELATIONSHIPS
         // private Polymorphic relationships
-        private PhysicsEngine physicsEngine = new PhysicsEngine();
+        
         // public Polymorphic relationships
         public BehaviorController behaviorController = new BehaviorController();
 
+        #endregion
 
 
+       
+        
 
 
         #region PROPERTIES
 
+        public Vec3 Acceleration
+        {
+            get { return m_acceleration; }
+            set { m_acceleration = value; }
+        }
+
         public double LifeSpan
         {
-            get { return lifeSpan; }
+            get { return m_lifeSpan; }
 
             set
             {
@@ -47,22 +56,24 @@ namespace SharpMatter.SharpPhysics
                     throw new ArgumentException("Life span must be a value larger than 0");
                 }
 
-                else lifeSpan = value;
+                else m_lifeSpan = value;
             }
         }
 
+       
+
         public double MaxSpeed
         {
-            get { return initMaxSpeed; }
+            get { return m_initMaxSpeed; }
             set
             {
-                //mass = sb.Mass;
+                
                 if (value <= 0)
                 {
                     throw new ArgumentException("MaxSpeed must be a value larger than 0");
                 }
 
-                else initMaxSpeed = value;
+                else m_initMaxSpeed = value;
             }
 
 
@@ -71,7 +82,7 @@ namespace SharpMatter.SharpPhysics
 
         public double MaxForce
         {
-            get { return initMaxForce; }
+            get { return m_initMaxForce; }
             set
             {
 
@@ -80,24 +91,36 @@ namespace SharpMatter.SharpPhysics
                     throw new ArgumentException("MaxForce must be a value larger than 0");
                 }
 
-                else initMaxForce = value;
+                else m_initMaxForce = value;
             }
 
 
         }
 
+        public Vec3 Position
+        {
+            get { return m_position; }
+            set { m_position = value; }
+        }
+
         public int State
         {
-            get { return state; }
-            set { state = value; }
+            get { return m_state; }
+            set { m_state = value; }
         }
 
         public string Tag
         {
-            get { return tag; }
-            set { tag = value; }
+            get { return m_tag; }
+            set { m_tag = value; }
         }
-       
+
+        public Vec3 Velocity
+        {
+            get { return m_velocity; }
+            set { m_velocity = value; }
+        }
+
 
 
         #endregion
@@ -105,21 +128,21 @@ namespace SharpMatter.SharpPhysics
 
         public SharpParticle(Vec3 position, Vec3 acceleration, Vec3 velocity, double maxSpeed, double maxForce, double mass,double lifeSpan) : base(mass)
         {
-            this.position = position;
-            this.acceleration = acceleration;
-            this.velocity = velocity;
-            this.initMaxSpeed = maxSpeed;
-            this.initMaxForce = maxForce;
+            this.m_position = position;
+            this.m_acceleration = acceleration;
+            this.m_velocity = velocity;
+            this.m_initMaxSpeed = maxSpeed;
+            this.m_initMaxForce = maxForce;
             base.Mass = mass;
-            this.lifeSpan = lifeSpan;
+            this.m_lifeSpan = lifeSpan;
 
-          
+            
         }
 
 
         public SharpParticle(Vec3 position, double mass =1) : base(mass)
         {
-            this.position = position;      
+            this.m_position = position;      
             base.Mass = mass;
            
 
@@ -127,33 +150,38 @@ namespace SharpMatter.SharpPhysics
         }
 
 
-
+      
 
         public void Update()
         {
             
            
-            physicsEngine.UpdatePhysics(velocity, acceleration, position, initMaxSpeed, initMaxForce);
+            PhysicsEngine.UpdatePhysics(ref m_velocity, ref m_acceleration, ref m_position,  m_initMaxSpeed,  m_initMaxForce);
         }
 
         public void AddForce(Vec3 force)
         {
+
+            PhysicsEngine.ApplyForces(ref force, ref m_acceleration, this);
+
           
-            physicsEngine.ApplyForces(force, acceleration, this);
-            
+
         }
 
 
-       /// <summary>
-       /// Death rate of the given particle, given a life threashold
-       /// </summary>
-       /// <param name="particle"></param> target Sharp Particle
-       /// <param name="lifeThreshold"></param> life threshold which the particle will die
+      
+
+
+        /// <summary>
+        /// Death rate of the given particle, given a life threashold
+        /// </summary>
+        /// <param name="particle"></param> target Sharp Particle
+        /// <param name="lifeThreshold"></param> life threshold which the particle will die
         public static  void Die(List<SharpParticle> particle, double lifeThreshold)
         {
             for (int i = particle.Count-1; i >=0; i--)
             {
-                if(particle[i].lifeSpan<= lifeThreshold && particle.Count!=0)
+                if(particle[i].m_lifeSpan<= lifeThreshold && particle.Count!=0)
                 {
                     particle.Remove(particle[i]);
                 }
@@ -161,21 +189,47 @@ namespace SharpMatter.SharpPhysics
         }
 
 
+
+
+
         /// <summary>
-        /// particle to duplicate
+        /// Method duplicates the current particle uppon any given condition generated by the user.
+        /// Please note that the forloop that will iterate the list of particle objects has to be from end to beginning, otheriwse the compiler
+        /// will generate an enumerator exception
         /// </summary>
-        /// <param name="particle"></param>
-        /// <param name="numOfDuplicates"></param>
-        public void Duplicate( List<SharpParticle> particle, int numOfDuplicates)
+        /// <param name="list">List to store particle duplicate</param>
+        /// <param name="numberOfDuplicates">number of particles to duplicate </param>
+        /// <param name="ran"> random class instance</param>
+        private  void  CopyParticles(List<SharpParticle> list, int numberOfDuplicates, Random ran)
         {
-            for (int i = 0; i < numOfDuplicates; i++)
-            {
-                particle.Add(new SharpParticle(position, acceleration, velocity, MaxSpeed, MaxForce, Mass, LifeSpan));
-            }
             
+            for (int i = 0; i < numberOfDuplicates; i++)
+            {
+                SharpParticle copy = new SharpParticle(this.m_position, this. m_acceleration, Vec3.Vector3dRandom(ran), this. m_initMaxSpeed, this.m_initMaxForce, this.Mass, this.m_lifeSpan);
+
+                list.Add(copy);
+            }
+
+          
+        }
+
+
+        public  void Test(List<SharpParticle> list, int numberOfDuplicates, Random ran, bool condition)
+        {
+            for (int i = list.Count - 1; i >= 0; i--)
+            {
+               if(condition)
+                {
+                    CopyParticles(list, numberOfDuplicates, ran);
+                }
+            }
         }
 
         
+
+
+
+
 
         /// <summary>
         /// Calculate life span of particle
@@ -185,7 +239,7 @@ namespace SharpMatter.SharpPhysics
         public void Life(SharpParticle particle, double decay)
         {
             
-            particle.lifeSpan -= decay;
+            particle.m_lifeSpan -= decay;
           
         }
 

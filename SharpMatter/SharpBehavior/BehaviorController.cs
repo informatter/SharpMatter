@@ -8,7 +8,7 @@ namespace SharpMatter.SharpBehavior
 {
     public class BehaviorController
     {
-        public Flock flock = new Flock();
+        public FlockBehavior flock = new FlockBehavior();
         public Automata automata = new Automata();
     }
 }
