@@ -9,7 +9,7 @@ using SharpMatter.SharpMath;
 
 namespace SharpMatter.SharpField
 {
-    public class Field2D<T> where T: struct
+    public class SharpField2D<T> where T: struct
 
     {
         #region FIELDS
@@ -23,7 +23,7 @@ namespace SharpMatter.SharpField
         #endregion
 
 
-        public Field2D(int columns, int rows, double resolution)
+        public SharpField2D(int columns, int rows, double resolution)
         {
             m_columns = columns;
             m_rows = rows;

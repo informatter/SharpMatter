@@ -72,10 +72,21 @@ namespace SharpMatter.SharpMath
         /// <param name="t1"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static double Normalize(double t, double t0, double t1)
+        //public static double Normalize(double t, double t0, double t1)
+        //{
+        //    //Spatial Slur, Dave Reeves
+        //    return (t - t0) / (t1 - t0);
+        //}
+
+
+        /// <summary>
+        /// Normalizes a number between 0 and 1
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns> 
+        public static double Normalize(double t)
         {
-            //Spatial Slur, Dave Reeves
-            return (t - t0) / (t1 - t0);
+            return Math.Min(Math.Max(t, 0), 1);
         }
 
 
@@ -107,7 +118,9 @@ namespace SharpMatter.SharpMath
         public static double Remap(double t, double a0, double a1, double b0, double b1)
         {
             //Spatial Slur, Dave Reeves
-            return Lerp(b0, b1, Normalize(t, a0, a1));
+            //return Lerp(b0, b1, Normalize(t, a0, a1));
+
+            return Lerp(b0, b1, Normalize(t));
         }
 
 

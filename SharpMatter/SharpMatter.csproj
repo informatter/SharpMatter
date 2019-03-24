@@ -61,11 +61,13 @@
     <Compile Include="SharpBehavior\Clone.cs" />
     <Compile Include="SharpBehavior\Flock.cs" />
     <Compile Include="SharpBehavior\ReactionDiffussion.cs" />
-    <Compile Include="SharpField\Field2D.cs" />
+    <Compile Include="SharpField\SharpField1D.cs" />
+    <Compile Include="SharpField\SharpField2D.cs" />
     <Compile Include="SharpField\Cell.cs" />
     <Compile Include="SharpForces\Drag.cs" />
     <Compile Include="SharpMath\Matrix.cs" />
     <Compile Include="SharpPixel\ImageTools.cs" />
+    <Compile Include="SharpSolvers\ReactionDiffussion3D.cs" />
     <Compile Include="SharpSpawner\Spawner.cs" />
     <Compile Include="SharpData\Domain.cs" />
     <Compile Include="SharpForces\FluidResistance.cs" />
