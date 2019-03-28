@@ -2,15 +2,15 @@
 using System.Drawing;
 using Grasshopper.Kernel;
 
-namespace SharpMatter
+namespace SharpMatterGH
 {
-    public class SharpMatterInfo : GH_AssemblyInfo
+    public class SharpMatterGHInfo : GH_AssemblyInfo
     {
         public override string Name
         {
             get
             {
-                return "SharpMatter";
+                return "SharpMatterGH";
             }
         }
         public override Bitmap Icon
@@ -33,7 +33,7 @@ namespace SharpMatter
         {
             get
             {
-                return new Guid("60893576-4fd5-4724-ab71-55a60d01bc48");
+                return new Guid("77a87092-5c62-49bd-acc7-28d374affee6");
             }
         }
 

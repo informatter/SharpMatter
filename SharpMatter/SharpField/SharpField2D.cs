@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using SharpMatter.SharpGeometry;
 using SharpMatter.SharpData;
 using SharpMatter.SharpMath;
+using SharpMatter.SharpUtilities;
+using Rhino.Geometry;
 
 namespace SharpMatter.SharpField
 {
-    public class SharpField2D<T> where T: struct
+    public class SharpField2D<T> 
 
     {
         #region FIELDS
@@ -19,19 +21,43 @@ namespace SharpMatter.SharpField
         private double m_resolution;
         private Cell<T>[,] m_Field;
         private Cell<T>[,] m_nextField;
+        private T[,] m_fieldValues;
 
         #endregion
 
+        #region CONSTRUCTORS
 
-        public SharpField2D(int columns, int rows, double resolution)
+        public SharpField2D()
+        { }
+
+        public SharpField2D(int columns, int rows, double resolution, List<T> valueA, List<T> valueB)
         {
             m_columns = columns;
             m_rows = rows;
+            m_resolution = resolution;
 
-            m_Field = new Cell<T>[columns, rows];
+            m_Field = new Cell<T>[m_columns, m_rows];
+            m_nextField = new Cell<T>[m_columns, m_rows];
+            m_fieldValues = new T[m_columns, m_rows];
+
+            T[] tempValueA = valueA.ToArray();
+            T[] tempValueB = valueB.ToArray();
+            T[,] valueA2D = Utilities.Make2DArray(tempValueA, m_columns, m_rows);
+            T[,] valueB2D = Utilities.Make2DArray(tempValueB, m_columns, m_rows);
+
+            /// Initialize Cell values
+            for (int i = 0; i < m_columns; i++)
+            {
+                for (int j = 0; j < m_rows; j++)
+                {
+                    m_Field[i, j] = new Cell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i*m_resolution,j * m_resolution, 0));
+                    m_nextField[i, j] = new Cell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0));
+                }
+            }
 
         }
 
+        #endregion
 
         #region PROPERTIES
 
@@ -45,12 +71,37 @@ namespace SharpMatter.SharpField
             }
         }
 
-      
+
 
 
         public Cell<T>[,] Field
         {
             get { return m_Field; }
+            set
+            {
+                m_Field = value;
+            }
+        }
+
+        public T [,] FieldValues
+        {
+            get { return m_fieldValues; }
+
+            set { m_fieldValues = value; }
+        }
+
+        public Point3d [,] Grid
+        {
+            get { return DisplayField(); }
+        }
+
+        public Cell<T>[,] NextField
+        {
+            get { return m_nextField; }
+            set
+            {
+                m_nextField = value;
+            }
         }
 
 
@@ -78,80 +129,40 @@ namespace SharpMatter.SharpField
         #endregion
 
         #region METHODS
-        public Vec3[,] DisplayField()
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        private Point3d[,] DisplayField()
         {
-            Vec3[,] vecs = new Vec3[m_columns, m_rows];
+            Point3d[,] vecs = new Point3d[m_columns, m_rows];
+
             for (int i = 0; i < m_columns; i++)
             {
                 for (int j = 0; j < m_rows; j++)
                 {
-                    vecs[i, j] = new Vec3(i*m_resolution, j*m_resolution, 0);
+                    vecs[i, j] = (Point3d)m_Field[i, j].Position;
                 }
             }
 
             return vecs;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public T [,] DisplayData()
+        public void ClearValues(T value)
         {
-             T[,] data = new T [m_columns, m_rows];
-           
             for (int i = 0; i < m_columns; i++)
             {
                 for (int j = 0; j < m_rows; j++)
                 {
-                    data[i, j] = m_Field[i, j].m_scalarValue;
-
+                    m_fieldValues[i, j] = value;
                    
                 }
             }
-            return data;
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <typeparam name="U"></typeparam>
-       /// <param name="data"></param>
-        public void InitializeFieldExistingData(T [,] data)
-        {
-            for (int i = 0; i < m_columns; i++)
-            {
-                for (int j = 0; j < m_rows; j++)
-                {
-                    m_Field[i, j].m_scalarValue = data[i,j];
-                }
-            }
-
-        }
-
-
-        public void InitializeFieldRandomData(T[,] randomdata) 
-        {
-          
-            for (int i = 0; i < m_columns; i++)
-            {
-                for (int j = 0; j < m_rows; j++)
-                {
-                    
-                    m_Field[i, j].m_scalarValue = randomdata[i,j];
-
-               
-                }
-            }
-
-        }
-
-
-        #endregion
-
-
-
-
+     
 
         /// <summary>
         /// 
@@ -169,6 +180,21 @@ namespace SharpMatter.SharpField
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Swap()
+        {
+
+            Cell<T>[,] temp = m_Field;
+
+            m_Field = m_nextField;
+
+            m_nextField = temp;
+
+        }
+
+        #endregion
 
 
 

@@ -18,7 +18,8 @@ namespace SharpMatter.SharpGeometry
     /// 
     /// </summary>
 
-   
+  
+    
     public struct Vec3 //: IEquatable<Vec3>
     {
         // Field data

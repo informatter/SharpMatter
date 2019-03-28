@@ -5,22 +5,83 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
+using SharpMatter.SharpGeometry;
+
 namespace SharpMatter.SharpField
 {
-    public struct Cell <T>
+    public class Cell <T>
     {
         
        
-        public T m_scalarValue;
+        private T m_scalarValueA;
+        private T m_scalarValueB;
+        private bool m_occupied;
+        private Vec3 m_position;
 
-        public Color m_color;
 
-        public Cell(T value)
+        public Cell(T valueA)
         {
            
-            m_scalarValue = value;
-            m_color = Color.FromArgb(0, 0, 0, 0);
+            m_scalarValueA = valueA;
+          
         }
+
+        public Cell(T valueA, bool occupied)
+        {
+
+            m_scalarValueA = valueA;
+            m_occupied = occupied;
+
+        }
+
+
+        public Cell(T valueA, T valueB, Vec3 position)
+        {
+
+            m_scalarValueA = valueA;
+            m_scalarValueB = valueB;
+            m_position = position;
+
+        }
+
+        public bool Occupied
+        {
+            get { return m_occupied; }
+
+            set
+            {
+                m_occupied = value;
+            }
+        }
+
+        public Vec3 Position
+        {
+            get { return m_position; }
+        }
+
+        public T ScalarValueA
+        {
+            get { return m_scalarValueA; }
+
+            set
+            {
+                m_scalarValueA = value;
+            }
+        }
+
+
+        public T ScalarValueB
+        {
+            get { return m_scalarValueB; }
+
+            set
+            {
+                m_scalarValueB = value;
+            }
+        }
+
+
+      
 
 
 

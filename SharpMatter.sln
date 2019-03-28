@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatter", "SharpMatter\SharpMatter.csproj", "{B7EFC195-C7D7-42DB-ABFF-41738F692069}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatterGH", "SharpMatterGH\SharpMatterGH.csproj", "{3E241832-C437-491B-B5D9-27863C0529DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B7EFC195-C7D7-42DB-ABFF-41738F692069}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7EFC195-C7D7-42DB-ABFF-41738F692069}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7EFC195-C7D7-42DB-ABFF-41738F692069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E241832-C437-491B-B5D9-27863C0529DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E241832-C437-491B-B5D9-27863C0529DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E241832-C437-491B-B5D9-27863C0529DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E241832-C437-491B-B5D9-27863C0529DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
