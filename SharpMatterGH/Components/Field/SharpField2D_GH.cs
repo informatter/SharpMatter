@@ -7,7 +7,7 @@ using Grasshopper.Kernel.Parameters;
 using Rhino.Geometry;
 using SharpMatter.SharpField;
 
-namespace SharpMatter.SharpMatterGH.Components
+namespace SharpMatter.SharpMatterGH.Components.Field
 {
     public class SharpField2D_GH : GH_Component
     {
@@ -74,11 +74,11 @@ namespace SharpMatter.SharpMatterGH.Components
 
             }
 
-          //  sharpField2D = new SharpField2D<double>(_columns, _rows, _resolution, _valueA, _valueB);
+     
             DA.SetData(0, new GH_ObjectWrapper(sharpField2D));
 
 
-           // DA.SetData(0, sharpField2D);
+        
 
 
         }

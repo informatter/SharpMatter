@@ -16,6 +16,7 @@ namespace SharpMatter.SharpPhysics
         private Vec3 m_position;
         private Vec3 m_acceleration;
         private Vec3 m_velocity;
+        private Vec3 m_force;
         private double m_initMaxSpeed;
         private double m_initMaxForce;
         private double m_lifeSpan;
@@ -43,6 +44,13 @@ namespace SharpMatter.SharpPhysics
         {
             get { return m_acceleration; }
             set { m_acceleration = value; }
+        }
+
+
+        public Vec3 Force
+        {
+            get { return m_force; }
+            set { m_force = value; }
         }
 
         public double LifeSpan
@@ -135,8 +143,9 @@ namespace SharpMatter.SharpPhysics
             this.m_initMaxForce = maxForce;
             base.Mass = mass;
             this.m_lifeSpan = lifeSpan;
+            m_force = Vec3.Zero;
 
-            
+           
         }
 
 

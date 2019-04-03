@@ -59,9 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\ReactionDiffusion2D_GH.cs" />
-    <Compile Include="Components\SaveImageSecuence_GH.cs" />
-    <Compile Include="Components\SharpField2D_GH.cs" />
+    <Compile Include="Components\FieldIO\WriteToImage_GH.cs" />
+    <Compile Include="Components\Learning\KMeans_GH.cs" />
+    <Compile Include="Components\Solvers\ReactionDiffusion2DV2_GH.cs" />
+    <Compile Include="Components\Solvers\ReactionDiffusion2D_GH.cs" />
+    <Compile Include="Components\Field\SharpField2D_GH.cs" />
     <Compile Include="SharpMatterGHInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

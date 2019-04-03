@@ -13,6 +13,7 @@ namespace SharpMatter.SharpForces
         public Springs springs = new Springs();
         public FluidResistance fluidResistance = new FluidResistance();
         public Gravity gravity = new Gravity();
+        public Attraction attraction = new Attraction();
     }
 }
 

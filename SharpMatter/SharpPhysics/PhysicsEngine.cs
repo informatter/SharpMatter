@@ -12,10 +12,10 @@ namespace SharpMatter.SharpPhysics
         {
 
             velocity += acceleration;
-             velocity.Normalize();
+           //  velocity.Normalize();
             velocity *= maxSpeed;
             position += velocity;
-            acceleration *= 0.0; //reset forces
+           // acceleration *= 0.0; //reset forces
         }
 
       

@@ -14,14 +14,14 @@ using SharpMatter.SharpSolvers;
 // folder in Grasshopper.
 // You can use the _GrasshopperDeveloperSettings Rhino command for that.
 
-namespace SharpMatter.SharpMatterGH.Components
+namespace SharpMatter.SharpMatterGH.Components.Solvers
 {
     public class ReactionDiffusion2D_GH : GH_Component
     {
 
         SharpField2D<double> sharpField2D;
 
-        int iterations = 0;
+       
 
 
         /// <summary>
@@ -164,8 +164,7 @@ namespace SharpMatter.SharpMatterGH.Components
             {
                 sharpField2D = new SharpField2D<double>(_columns, _rows, _resolution, _chemA, _chemB);
                 sharpField2D.ClearValues(1);
-                iterations = 0;
-
+     
             }
 
 
@@ -176,7 +175,7 @@ namespace SharpMatter.SharpMatterGH.Components
                 if (_run)
                 {
                     ReactionDiffusion2D.SolveGreyScottReactionDiffussion(sharpField2D, _Da, _Db, _kill, _feed, _deltaT);
-                   // ReactionDiffusion2D.SolveGreyScottReactionDiffussion(_field, _Da, _Db, _kill, _feed, _deltaT);
+              
                     ExpireSolution(true);
                 }
             }

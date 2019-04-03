@@ -6,13 +6,18 @@ using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Grasshopper.Kernel.Parameters;
 using Rhino.Geometry;
-
 using SharpMatter.SharpField;
-namespace SharpMatter.SharpMatterGH.Components
+
+
+namespace SharpMatter.SharpMatterGH.Components.FieldIO
 {
-    public class SaveImageSecuence_GH : GH_Component
+    public class WriteToImage_GH: GH_Component
     {
         int counter = 0;
+
+
+
+
 
         private imageFormat _imageFormat = imageFormat.jpg;
 
@@ -27,25 +32,18 @@ namespace SharpMatter.SharpMatterGH.Components
         }
 
 
-        //private Param_Number _imageformatParam = new Param_Number()
-        //{
-        //    Name = "format",
-        //    NickName = "format",
-        //    Description = "image format",
-        //    Access = GH_ParamAccess.list,
-        //    //Optional = true
-        //};
+        
 
 
         /// <summary>
         /// Initializes a new instance of the SaveImageSecuence_GH class.
         /// </summary>
-        public SaveImageSecuence_GH()
-          : base("Save Image Secuencee", "Save Image Secuencee",
+        public WriteToImage_GH()
+          : base("Write to image", "Write to image",
               "Description",
               "SharpMatter", "Field I/O")
         {
-           ImageFormat = imageFormat.jpg;
+            ImageFormat = imageFormat.jpg;
         }
 
         /// <summary>
@@ -57,11 +55,11 @@ namespace SharpMatter.SharpMatterGH.Components
             pManager.AddBooleanParameter("run", "run", "save image secuence iteratively", GH_ParamAccess.item, false);
             pManager.AddGenericParameter("field", "field", "sharp field 2d", GH_ParamAccess.item);
             pManager.AddTextParameter("path", "path", "file path", GH_ParamAccess.item, "C:\\Users\nicol\\Desktop\\Material\\New folder");
-            pManager.AddTextParameter("name", "name", "file name", GH_ParamAccess.item,"image");
+            pManager.AddTextParameter("name", "name", "file name", GH_ParamAccess.item, "image");
             // pManager.AddIntegerParameter("format", "format", "image format", GH_ParamAccess.item,0);
-           // pManager.AddParameter(_imageformatParam);
+            // pManager.AddParameter(_imageformatParam);
             pManager.AddColourParameter("colors", "colors", "list of colors", GH_ParamAccess.list);
-           
+
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace SharpMatter.SharpMatterGH.Components
             SharpField2D<double> _field = new SharpField2D<double>();
             string _path = "";
             string _name = "";
-           // int _format = 0;
+            // int _format = 0;
             List<Color> _colors = new List<Color>();
 
             DA.GetData(0, ref _reset);
@@ -90,19 +88,19 @@ namespace SharpMatter.SharpMatterGH.Components
             DA.GetData(2, ref _field);
             DA.GetData(3, ref _path);
             DA.GetData(4, ref _name);
-           // DA.GetData(5, ref _format);
+            // DA.GetData(5, ref _format);
             DA.GetDataList(5, _colors);
 
-            if(_run)
+            if (_run)
             {
                 counter++;
                 SharpFieldIO.SaveImageSecuence(_field, _path, _name, counter, _imageFormat, _colors);
 
-              //  SharpFieldIO.SaveImageSecuence(_field, _path, _name, counter, _colors);
-
+         
                 ExpireSolution(true);
             }
 
+       
             if (_reset) counter = 0;
         }
 
@@ -156,15 +154,10 @@ namespace SharpMatter.SharpMatterGH.Components
         private void PngClicked(object sender, EventArgs e)
         {
             ImageFormat = imageFormat.png;
-           // Params.Input[5] = _imageformatParam;
+            // Params.Input[5] = _imageformatParam;
             Params.OnParametersChanged();
             ExpireSolution(true);
         }
-
-
-
-
-
 
 
     }
