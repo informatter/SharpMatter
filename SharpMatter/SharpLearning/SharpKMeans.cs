@@ -60,7 +60,7 @@ namespace SharpMatter.SharpLearning
             double[][] observations = ConvertGH_NumberToDouble(observationsTemp);
 
             KMeansClusterCollection clusters = k.Learn(observations);
-
+        
 
             int[] labels = clusters.Decide(observations);
             centroids = k.Centroids.ToDataTree();

@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
-
+using Grasshopper.Kernel.Types;
 
 
 
@@ -20,7 +20,7 @@ namespace SharpMatter.SharpGeometry
 
   
     
-    public struct Vec3 //: IEquatable<Vec3>
+    public struct Vec3 : IEquatable<Vec3>
     {
         // Field data
         
@@ -28,7 +28,7 @@ namespace SharpMatter.SharpGeometry
         private double m_y;
         private double m_z;
 
-
+        
 
         public Vec3(double x, double y, double z)
         {
@@ -265,6 +265,64 @@ namespace SharpMatter.SharpGeometry
         public static explicit operator Point3d(Vec3 v)
         {
             return new Point3d(v.m_x, v.m_y, v.m_z);
+        }
+
+        /// <summary>
+        /// Cast from Vector3d to Vec3
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator Vec3(Vector3d v)
+        {
+            return new Vec3(v.X, v.Y, v.Z);
+        }
+
+
+        /// <summary>
+        /// Cast from Vec3 to Vector3d
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator Vector3d(Vec3 v)
+        {
+            return new Vector3d(v.X, v.Y, v.Z);
+        }
+
+
+        /// <summary>
+        /// Cast from Vec3 to GH_Vector
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator GH_Vector(Vec3 v)
+        {
+            return new GH_Vector(new Vector3d(v.X, v.Y, v.Z));
+        }
+
+
+        /// <summary>
+        /// Cast from GH_Vector to Vec3
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator Vec3(GH_Vector v)
+        {
+            return new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
+        }
+
+        /// <summary>
+        /// Cast from GH_Point to Vec3
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator Vec3(GH_Point v)
+        {
+            return new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
+        }
+
+
+        /// <summary>
+        /// Cast from Vec3 to GH_Point
+        /// </summary>
+        /// <param name="v"></param>
+        public static explicit operator GH_Point(Vec3 v)
+        {
+            return new GH_Point(new Point3d(v.X, v.Y, v.Z));
         }
 
 
@@ -749,9 +807,21 @@ namespace SharpMatter.SharpGeometry
 
         }
 
-      
 
-       
+        public static Vec3 VectorRotate(ref Vec3 v, double radians, bool in2D, bool in3D)
+        {
+            //Jhon Vince, Mathematics for computer graphics
+            var ca = Math.Cos(radians);
+            var sa = Math.Sin(radians);
+            if (in3D) return new Vec3(ca * v.m_x - sa * v.m_y, sa * v.m_x + ca * v.m_y, sa * v.m_y + v.m_z * ca);
+            else return new Vec3(ca * v.m_x - sa * v.m_y, sa * v.m_x + ca * v.m_y, 0);
+
+        }
+
+
+
+
+
 
 
         #endregion

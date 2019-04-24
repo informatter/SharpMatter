@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpMatter">
@@ -59,14 +60,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Components\FieldIO\WriteToImage_GH.cs" />
+    <Compile Include="Components\Field\DeconstructField_GH.cs" />
     <Compile Include="Components\Learning\KMeans_GH.cs" />
-    <Compile Include="Components\Solvers\ReactionDiffusion2DV2_GH.cs" />
+    <Compile Include="Components\Solvers\PhysarumPolycephalum_GH.cs" />
     <Compile Include="Components\Solvers\ReactionDiffusion2D_GH.cs" />
     <Compile Include="Components\Field\SharpField2D_GH.cs" />
+    <Compile Include="Components\Math\SharpDomain_GH.cs" />
+    <Compile Include="Parameters\Vec3_Param.cs" />
     <Compile Include="SharpMatterGHInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\Vec3_GH.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -87,5 +94,6 @@ Erase "$(TargetPath)"</PostBuildEvent>
     <StartArguments>
     </StartArguments>
     <StartAction>Program</StartAction>
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 </Project>

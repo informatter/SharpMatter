@@ -11,12 +11,12 @@ using SharpMatter.SharpUtilities;
 namespace SharpMatter.SharpField
 {
     public enum imageFormat{ jpg, png}
-    public static class SharpFieldIO
+    public static class SharpFieldIO 
     {
 
 
         /// <summary>
-        /// nunuunnunununununununu
+        /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="field"></param>
@@ -24,9 +24,12 @@ namespace SharpMatter.SharpField
         /// <param name="name"></param>
         /// <param name="counter"></param>
         /// <param name="format"></param>
-        /// <param name="colors"></param>                                                                 imageFormat format,
-        public static void SaveImageSecuence<T>(SharpField2D<T> field, string path, string name,int counter, imageFormat format, List<Color> colors )
+        /// <param name="colors"></param>                                                              
+        public static void SaveImageSecuence<T>(SharpField2D<T> field, string path, string name, int counter, imageFormat format, List<Color> colors) where T: struct
         {
+            //****
+            // METHOD NEEDS TO BEE UPDATED TO HAVE PARALLEL FORLOOPS. CURRENTLY I NEED TO FIGURE OUT HOW TO DO THEM WHEM MANIPULATING BITMAPS
+            //****
             Bitmap bmp = new Bitmap(field.Columns, field.Rows);
             Color[] tempColors = colors.ToArray();
             Color[,] colors2D = Utilities.Make2DArray(tempColors, field.Columns, field.Rows);
@@ -41,6 +44,8 @@ namespace SharpMatter.SharpField
 
                     for (int j = 0; j < field.Rows; j++)
                     {
+
+                        bmp.SetResolution(300, 300);
                         bmp.SetPixel(i, j, colors2D[i, j]);
                     }
                  }
@@ -59,6 +64,7 @@ namespace SharpMatter.SharpField
 
                     for (int j = 0; j < field.Rows; j++)
                     {
+                        bmp.SetResolution(300, 300);
                         bmp.SetPixel(i, j, colors2D[i, j]);
                     }
                 }

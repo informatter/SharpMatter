@@ -12,6 +12,8 @@ namespace SharpMatter.SharpSolvers
     /// <summary>
     /// 
     /// </summary>
+    
+    [Serializable]
     public static class ReactionDiffussion3D
     {
 
@@ -30,18 +32,20 @@ namespace SharpMatter.SharpSolvers
 
             int multiplier = (int)Math.Sqrt(cellCount);
 
-            for (int i = 0; i < iterations; i++)
-            {
+           // Parallel.For(0, iterations,i =>
+           // {
+                for (int i = 0; i < iterations; i++)
+              {
                 for (int j = 0; j < timeSteps; j++)
                 {
 
-                    for (int k = 1; k < multiplier-1; k++)
+                    for (int k = 1; k < multiplier - 1; k++)
                     {
                         for (int l = 1; l < multiplier - 1; l++)
                         {
 
                             int index = k + l * multiplier;
-                      
+
                             double a = chemA.Values[index];
                             double b = chemB.Values[index];
 
@@ -54,7 +58,7 @@ namespace SharpMatter.SharpSolvers
 
                     for (int m = 0; m < cellCount; m++)
                     {
-                       
+
                         chemA.Values[m] = SharpMath.SharpMath.Normalize(deltaChemA.Values[m]);
                         chemB.Values[m] = SharpMath.SharpMath.Normalize(deltaChemB.Values[m]);
 
@@ -75,7 +79,8 @@ namespace SharpMatter.SharpSolvers
                     }
 
                 }
-            }
+              }
+           // });
 
         }
 

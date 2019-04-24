@@ -7,34 +7,46 @@ using System.IO;
 
 namespace SharpMatter.SharpMath
 {
+
+    /// <summary>
+    /// Matrix class. Currently under development
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
    
-        public class Matrix
+        [Serializable]
+        public class Matrix<T> where T: struct
         {
-            private int columns;
-            private int rows;
-            public double[,] values;
+     
+            private int m_columns;
+            private int m_rows;
+            public T[,] values;
 
 
             public Matrix(int columns, int rows)
             {
-                this.columns = columns;
-                this.rows = rows;
+                this.m_columns = columns;
+                this.m_rows = rows;
+
+                values = new T[m_columns, m_rows];
+
 
             }
 
 
             public int Columns
             {
-                get { return columns; }
+                get { return m_columns; }
 
                 set
                 {
                     if (value <= 0)
                     {
-                        throw new ArgumentException("value has to be larger than 0!");
+                    
+                        throw new Exception("value has to be larger than 0!");
+                       
                     }
 
-                    else columns = value;
+                    else m_columns = value;
 
                 }
             }
@@ -42,23 +54,23 @@ namespace SharpMatter.SharpMath
 
             public int Rows
             {
-                get { return rows; }
+                get { return m_rows; }
 
                 set
                 {
                     if (value <= 0)
                     {
-                        throw new ArgumentException("value has to be larger than 0!");
+                        throw new Exception("value has to be larger than 0!");
                     }
 
-                    else rows = value;
+                    else m_rows = value;
 
                 }
             }
 
             #region STATIC METHODS
 
-         public static void Display(Matrix a)
+         public  void DisplayToTextFile()
         {
             string path = @"C:\Users\nicol\source\repos\SharpMatter";
             string name = "\test." + "txt";
@@ -66,12 +78,12 @@ namespace SharpMatter.SharpMath
 
             StreamWriter sr = new StreamWriter(fullPath);
 
-            for (int i = 0; i < a.columns; i++)
+            for (int i = 0; i < m_columns; i++)
             {
-                for (int j = 0; j < a.rows; j++)
+                for (int j = 0; j < m_rows; j++)
                 {
 
-                    string OutPut = a.values[i,j].ToString();
+                    string OutPut = values[i,j].ToString();
 
 
                     sr.WriteLine(OutPut);
@@ -81,19 +93,45 @@ namespace SharpMatter.SharpMath
         }
 
 
-
-            public static void InitializeValues(Matrix a, double[,] data)
+        public void DisplayToConsoleWindow()
+        {
+            for (int i = 0; i < m_columns; i++)
             {
-         
 
-            for (int i = 0; i < a.columns; i++)
+                for (int j = 0; j < m_rows; j++)
                 {
-                    for (int j = 0; j < a.rows; j++)
-                    {
-                        a.values[i, j] = data[i, j];
-                    }
+
+                    Console.Write(values[i, j] + "\t" );
                 }
 
+                Console.WriteLine();
+            }
+
+            Console.ReadLine();
+        }
+
+
+
+            public  void InitializeValues( T[,] data)
+            {
+
+            if (data.GetLength(0) != m_columns && data.GetLength(1) != m_rows)
+            {
+                throw new ArgumentException("Input 2D array has to have the same dimensions as the current matrix");
+            }
+
+            else
+            {
+
+                for (int i = 0; i < m_columns; i++)
+                {
+                    for (int j = 0; j < m_rows; j++)
+                    {
+                        values[i, j] = data[i, j];
+                    }
+                }
+            }
+
             }
 
 
@@ -103,7 +141,7 @@ namespace SharpMatter.SharpMath
             /// <param name="a"></param>
             /// <param name="b"></param>
             /// <returns></returns>
-            public static Matrix Rotate(Matrix a, Matrix b)
+            public static Matrix<T> Rotate(Matrix<T> a, Matrix<T> b)
             {
                 return null;
             }
@@ -115,7 +153,7 @@ namespace SharpMatter.SharpMath
             /// <param name="a"></param>
             /// <param name="b"></param>
             /// <returns></returns>
-            public static Matrix Scale(Matrix a, Matrix b)
+            public static Matrix<T> Scale(Matrix<T> a, Matrix<T> b)
             {
                 return null;
             }
@@ -127,7 +165,7 @@ namespace SharpMatter.SharpMath
             /// <param name="a"></param>
             /// <param name="b"></param>
             /// <returns></returns>
-            public static Matrix Translate(Matrix a, Matrix b)
+            public static Matrix<T> Translate(Matrix<T> a, Matrix<T> b)
             {
                 return null;
             }

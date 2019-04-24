@@ -13,7 +13,19 @@ namespace SharpMatter.SharpExtensions
     public static class Extensions
     {
 
-
+        public static T[,] Make2DArray<T>(this T[] input, int height, int width)
+        {
+            // if(input.GetType().IsArray)
+            T[,] output = new T[height, width];
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    output[i, j] = input[i * width + j];
+                }
+            }
+            return output;
+        }
 
 
         /// <summary>
@@ -105,6 +117,59 @@ namespace SharpMatter.SharpExtensions
 
 
 
+
+        /// <summary>
+        /// Convert from Jagged Array to Multidimensional Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jaggedArray"></param>
+        /// <param name="numOfColumns"></param>
+        /// <param name="numOfRows"></param>
+        /// <returns></returns>
+        public static T[,] To2DArrayParallel<T>(this T[][] jaggedArray, int numOfColumns, int numOfRows)
+        {
+            T[,] temp2DArray = new T[numOfColumns, numOfRows];
+
+            // for (int c = 0; c < numOfColumns; c++)
+            Parallel.For(0, numOfColumns, c =>
+            {
+                for (int r = 0; r < numOfRows; r++)
+                {
+                    temp2DArray[c, r] = jaggedArray[c][r];
+                }
+
+            });
+
+            return temp2DArray;
+        }
+
+
+        /// <summary>
+        /// Convert from Jagged Array to Multidimensional Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jaggedArray"></param>
+        /// <param name="numOfColumns"></param>
+        /// <param name="numOfRows"></param>
+        /// <returns></returns>
+        public static T[,] To2DArray<T>(this T[][] jaggedArray, int numOfColumns, int numOfRows)
+        {
+            T[,] temp2DArray = new T[numOfColumns, numOfRows];
+
+             for (int c = 0; c < numOfColumns; c++)
+
+            {
+                for (int r = 0; r < numOfRows; r++)
+                {
+                    temp2DArray[c, r] = jaggedArray[c][r];
+                }
+
+            }
+
+            return temp2DArray;
+        }
+
+
         /// <summary>
         /// Convert Data Tree to Jagged Array data structure
         /// </summary>
@@ -137,6 +202,59 @@ namespace SharpMatter.SharpExtensions
             return observations;
         }
 
+
+
+        /// <summary>
+        /// Convert from Multidimensional Array to Jagged Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="multiArray"></param>
+        /// <param name="numOfColumns"></param>
+        /// <param name="numOfRows"></param>
+        /// <returns></returns>
+        public static T[][] ToJaggedArrayParallel<T>(this T[,] multiArray, int numOfColumns, int numOfRows)
+        {
+            T[][] jaggedArray = new T[numOfColumns][];
+
+            //for (int c = 0; c < numOfColumns; c++)
+            Parallel.For(0, numOfColumns, c =>
+            {
+                jaggedArray[c] = new T[numOfRows];
+                for (int r = 0; r < numOfRows; r++)
+                {
+                    jaggedArray[c][r] = multiArray[c, r];
+                }
+            });
+
+            return jaggedArray;
+        }
+
+
+
+        /// <summary>
+        /// Convert from Multidimensional Array to Jagged Array
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="multiArray"></param>
+        /// <param name="numOfColumns"></param>
+        /// <param name="numOfRows"></param>
+        /// <returns></returns>
+        public static T[][] ToJaggedArray<T>(this T[,] multiArray, int numOfColumns, int numOfRows)
+        {
+            T[][] jaggedArray = new T[numOfColumns][];
+
+            for (int c = 0; c < numOfColumns; c++)
+           
+            {
+                jaggedArray[c] = new T[numOfRows];
+                for (int r = 0; r < numOfRows; r++)
+                {
+                    jaggedArray[c][r] = multiArray[c, r];
+                }
+            }
+
+            return jaggedArray;
+        }
 
 
         public static GH_Number [][] GH_StructureToJaggedArray(this GH_Structure<GH_Number> data)

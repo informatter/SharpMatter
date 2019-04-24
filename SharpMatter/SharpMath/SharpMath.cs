@@ -29,11 +29,11 @@ namespace SharpMatter.SharpMath
         /// </summary>
         /// <param name="numbers"></param>
         /// <returns></returns>
-        public static Domain Bounds(List<double> numbers)
+        public static SharpDomain Bounds(List<double> numbers)
         {
             numbers.Sort();
 
-            return new Domain(numbers[0], numbers[numbers.Count - 1]);
+            return new SharpDomain(numbers[0], numbers[numbers.Count - 1]);
         }
 
 
@@ -91,19 +91,7 @@ namespace SharpMatter.SharpMath
 
 
 
-        /// <summary>
-        /// Compare to numbers for similarity within a given threshold
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <param name="threshHold"></param>
-        /// <returns></returns>
-        public static bool Similar(double a, double b, double threshHold)
-        {
-
-            return Math.Abs((a - b)) <= threshHold;
-        }
-
+   
 
 
         /// <summary>
@@ -142,6 +130,37 @@ namespace SharpMatter.SharpMath
 
             return values;
 
+        }
+
+
+        /// <summary>
+        /// Compare to numbers for similarity within a given threshold
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="threshHold"></param>
+        /// <returns></returns>
+        public static bool Similar(double a, double b, double threshHold)
+        {
+
+            return Math.Abs((a - b)) <= threshHold;
+        }
+
+
+        /// <summary>
+        /// Convert an agnle in degrees to radians
+        /// </summary>
+        /// <param name="degrees"></param>
+        /// <returns></returns>
+        public static double ToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180;
+        }
+
+
+        public static double ToDegrees(double radians)
+        {
+            return radians * 180 / Math.PI;
         }
 
 

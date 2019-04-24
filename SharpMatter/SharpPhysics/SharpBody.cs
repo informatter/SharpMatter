@@ -18,6 +18,11 @@ namespace SharpMatter.SharpPhysics
             this.m_mass = mass;
         }
 
+        public SharpBody()
+        {
+           
+        }
+
         #region PROPERTIES
 
         public double Mass

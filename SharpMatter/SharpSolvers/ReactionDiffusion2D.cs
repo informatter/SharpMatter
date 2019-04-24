@@ -8,8 +8,16 @@ using SharpMatter.SharpField;
 using SharpMatter.SharpMath;
 using SharpMatter.SharpUtilities;
 
+using Rhino.Geometry;
+
 namespace SharpMatter.SharpSolvers
 {
+    /// <summary>
+    /// 
+    /// </summary>
+
+   
+    [Serializable]
     public static class ReactionDiffusion2D
     {
 
@@ -28,14 +36,34 @@ namespace SharpMatter.SharpSolvers
             double[] tempKill = kill.ToArray();
             double[] tempFeed = feed.ToArray();
 
-            double [,] dA2D = Utilities.Make2DArray(tempdA, scalarField.Columns, scalarField.Rows);
-            double [,] dB2D = Utilities.Make2DArray(tempdB, scalarField.Columns, scalarField.Rows);
-            double [,] kill2D = Utilities.Make2DArray(tempKill, scalarField.Columns, scalarField.Rows);
-            double[,] feed2D = Utilities.Make2DArray(tempFeed, scalarField.Columns, scalarField.Rows);
+            double [,] dA2D = Utilities.Make2DArrayParallel(tempdA, scalarField.Columns, scalarField.Rows);
+            double [,] dB2D = Utilities.Make2DArrayParallel(tempdB, scalarField.Columns, scalarField.Rows);
+            double [,] kill2D = Utilities.Make2DArrayParallel(tempKill, scalarField.Columns, scalarField.Rows);
+            double[,] feed2D = Utilities.Make2DArrayParallel(tempFeed, scalarField.Columns, scalarField.Rows);
 
             ComputeEquations(scalarField, dA2D, dB2D, kill2D, feed2D, deltaT);
 
             ComputeField(scalarField);
+
+         
+
+
+
+        }
+
+
+        public static void SolveGreyScottReactionDiffussionB(SharpField2D<double> scalarField, double [,] dA, double[,] dB, double[,] kill, double[,] feed, double deltaT)
+        {
+           
+
+            ComputeEquations(scalarField, dA, dB, kill, feed, deltaT);
+
+            ComputeField(scalarField);
+
+
+
+
+
         }
 
         /// <summary>
@@ -86,7 +114,7 @@ namespace SharpMatter.SharpSolvers
 
                     //values[i, j] = Normal(scalarField[i, j].a - scalarField[i, j].b);
 
-                    scalarField.FieldValues[i, j] = Math.Abs(SharpMath.SharpMath.Normalize(scalarField.Field[i, j].ScalarValueA - scalarField.Field[i, j].ScalarValueB));
+                    scalarField.Values[i, j] = Math.Abs(SharpMath.SharpMath.Normalize(scalarField.Field[i, j].ScalarValueA - scalarField.Field[i, j].ScalarValueB));
                     //values[i, j] = SharpMath.LinearInterpolation(0, 1, scalarField[i, j].a - scalarField[i, j].b);
 
                     //values[i, j] = Math.Abs(scalarField[i, j].b);
@@ -95,6 +123,8 @@ namespace SharpMatter.SharpSolvers
                 }
                 // }
             });// parallel forloop
+
+
         }
 
 

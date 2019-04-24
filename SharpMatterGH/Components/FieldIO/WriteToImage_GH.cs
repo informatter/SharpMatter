@@ -80,7 +80,7 @@ namespace SharpMatter.SharpMatterGH.Components.FieldIO
             SharpField2D<double> _field = new SharpField2D<double>();
             string _path = "";
             string _name = "";
-            // int _format = 0;
+       
             List<Color> _colors = new List<Color>();
 
             DA.GetData(0, ref _reset);
@@ -88,7 +88,6 @@ namespace SharpMatter.SharpMatterGH.Components.FieldIO
             DA.GetData(2, ref _field);
             DA.GetData(3, ref _path);
             DA.GetData(4, ref _name);
-            // DA.GetData(5, ref _format);
             DA.GetDataList(5, _colors);
 
             if (_run)
@@ -157,6 +156,12 @@ namespace SharpMatter.SharpMatterGH.Components.FieldIO
             // Params.Input[5] = _imageformatParam;
             Params.OnParametersChanged();
             ExpireSolution(true);
+        }
+
+
+        public override void CreateAttributes()
+        {
+            m_attributes = new CustomAttributes.CustomAttributes(this);
         }
 
 
