@@ -105,8 +105,8 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
 
             pManager.AddPointParameter("SensorPositions", "SensorPositions", "Sensor positions", GH_ParamAccess.tree);
             pManager.AddVectorParameter("SensorDisplays", "SensorDisplays", "Sensor display", GH_ParamAccess.tree);
-            pManager.AddBooleanParameter("CellStates", "CellStates", "Shows if a Cell is occupied or not", GH_ParamAccess.list);
-            pManager.AddIntegerParameter("AgentCount", "AgentCount", "Counts total of agents per Cell", GH_ParamAccess.list);
+          //  pManager.AddBooleanParameter("CellStates", "CellStates", "Shows if a Cell is occupied or not", GH_ParamAccess.list);
+          //  pManager.AddIntegerParameter("AgentCount", "AgentCount", "Counts total of agents per Cell", GH_ParamAccess.list);
 
             pManager.AddCurveParameter("Grid", "Grid", "Counts total of agents per Cell", GH_ParamAccess.list);
 
@@ -193,11 +193,6 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
 
 
 
-                //Computes the Cell states and diffusses Chemoattractant levels across the field
-                // PhysarumField2D.SolvePhysarumField(_field, physarumPolycephalumPopulation.Population, out cellStates, _decayT);
-
-               // PhysarumField2D.SolvePhysarumField(_field, physarumPolycephalumPopulation.Population, _decayT);
-
 
 
 
@@ -222,10 +217,12 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
             DA.SetDataTree(1, positions);
             DA.SetDataTree(2, sensorPositions);
             DA.SetDataTree(3, sensorDisplays);
-       
-           DA.SetDataList(4, _field.States);
-            DA.SetDataList(5, _field.AgentCount);
-           DA.SetDataList(6, cells);
+
+            DA.SetDataList(4, cells);
+
+            //   DA.SetDataList(4, _field.States);
+            //   DA.SetDataList(5, _field.AgentCount);
+            //  DA.SetDataList(6, cells);
 
         }
 

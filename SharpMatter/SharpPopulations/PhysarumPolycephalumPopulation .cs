@@ -20,7 +20,7 @@ namespace SharpMatter.SharpPopulations
 
         private List<PhysarumAgent> m_population;
 
-
+        
       
 
         public PhysarumPolycephalumPopulation(int number, SharpDomain xDimension, SharpDomain yDimension,double fieldResolution ,double maxSpeed, double mass, double sensorOffsetDistance, double sensorAngle, double agentRotationAngle,

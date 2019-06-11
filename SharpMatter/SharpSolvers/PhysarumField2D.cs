@@ -36,22 +36,6 @@ namespace SharpMatter.SharpSolvers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         /// <summary>
         ///<para> Compute the Difussion equation for the Chemoattractant in the Scalar Field </para>
         /// <para> Jeff Jhones states the equation in pg. 42 in his book "From Pattern Formation to Material Computation. Multi-agent Modelling of Physarum Polycephalum </para>
@@ -80,7 +64,7 @@ namespace SharpMatter.SharpSolvers
 
                 for (int j = 1; j < scalarField.Rows - 1; j++)
                 {
-                    scalarField.NextField[i, j].ScalarValueA = (1 - decayT) * Laplacian(i, j, scalarField); // new value ///  workin much better
+                    scalarField.NextField[i, j].ScalarValueA = (1 - decayT) * Laplacian(i, j, scalarField); 
                 }
 
 
@@ -124,11 +108,16 @@ namespace SharpMatter.SharpSolvers
 
                 Parallel.For(0, scalarField.Rows, paraOpts, j =>
                   {
-                      scalarField.Values[i, j] = Math.Abs((SharpMath.SharpMath.Normalize(scalarField.Field[i, j].ScalarValueA)));
+                     // scalarField.Values[i, j] = Math.Abs((SharpMath.SharpMath.Normalize(scalarField.Field[i, j].ScalarValueA)));
+
+                      scalarField.Values[i, j] = scalarField.Field[i, j].ScalarValueA;
+
+
+                      /// CALCULATE CELL CONTAINMENT
                       scalarField.Field[i, j].Contains(PhysarumAgentPopulation);
 
                       scalarField.States[i, j] = scalarField.Field[i, j].Occupied;
-                      scalarField.AgentCount[i, j] = scalarField.Field[i, j].AgentsInCell;
+                    //  scalarField.AgentCount[i, j] = scalarField.Field[i, j].AgentsInCell;
 
                   });
 

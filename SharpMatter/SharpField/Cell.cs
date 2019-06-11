@@ -190,7 +190,7 @@ namespace SharpMatter.SharpField
 
 
         /// <summary>
-        /// 
+        /// "Draws" imaginary boundary around a cell
         /// </summary>
         private void DetermineBBox()
         {
@@ -344,28 +344,6 @@ namespace SharpMatter.SharpField
       
 
 
-        [Obsolete("Use Contains instead! this method is computationally inneficient when dealing with large collections")]
-        public void DetermineOccupationState(List<PhysarumAgent> particles)
-        {
-            DrawCell(); // draws cell curve to compute containment
-
-            int ptscount = 0;
-            for (int i = 0; i < particles.Count; i++)
-            {
-                if (m_cellBoundingBox.Contains((Point3d)particles[i].ForewordSensorB, Plane.WorldXY, 0.0001) == PointContainment.Inside)
-                {
-
-                    ptscount++;
-                }
-            }
-            m_numAgentsInCell = ptscount;
-
-            if (ptscount > 1) m_occupied = true;
-            else m_occupied = false;
-
-
-
-        }
 
 
 

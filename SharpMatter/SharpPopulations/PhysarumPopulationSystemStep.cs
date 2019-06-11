@@ -19,6 +19,7 @@ namespace SharpMatter.SharpPopulations
 {
     public static  class PhysarumPopulationSystemStep
     {
+        
 
         /// <summary>
         /// This method iterates through all the Physarum Agent Population and calls the Motor and Sensory stage of each Agent
@@ -30,7 +31,7 @@ namespace SharpMatter.SharpPopulations
         /// <param name="sensorPositions"></param>
         /// <param name="sensorDisplays"></param>
         /// 
-      //  [Obsolete("Dont forget to update this method to update Motor and Sensory stage instead of 'RotationByRefTest Method!!'")]
+
         public static void SystemStep(List<PhysarumAgent> physarumAgents,Random ran, SharpField2D<double> field,out DataTree<GH_Point> positions, out DataTree<GH_Point> sensorPositions, out DataTree<GH_Vector> sensorDisplays)
         {
             DataTree<GH_Point> _positions = new DataTree<GH_Point>();
@@ -44,7 +45,6 @@ namespace SharpMatter.SharpPopulations
             int pathCounter = -1;// -1 so DataTree will be {0} {1} .....
 
 
-          //  double num = ran.NextDouble();
 
          
 
@@ -53,17 +53,14 @@ namespace SharpMatter.SharpPopulations
 
             foreach (PhysarumAgent item in physarumAgents)
             {
-          
+
                 item.SystemStep(field);
-                
-                item.CheckBoundary();
-           
+
+                item.CheckBoundary(); 
 
                 pathCounter++;
 
                 GH_Path path = new GH_Path(pathCounter);
-
-
 
                 Point3d tempPos = new Point3d(item.Position.X, item.Position.Y, item.Position.Z);
                 _positions.Add(new GH_Point(tempPos), path);

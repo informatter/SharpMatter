@@ -588,6 +588,9 @@ namespace SharpMatter.SharpGeometry
                 m_y *= length;
                 m_z *= length;
 
+                double[] a = new double[10];
+                a.ToList();
+
 
                 return true;
             }
@@ -620,7 +623,10 @@ namespace SharpMatter.SharpGeometry
             return new Vec3(deltaX, deltaY, deltaZ);
         }
 
-      
+      public static void Foo()
+        {
+            //TEST TO GITHUB AND CLONE
+        }
 
    
 
@@ -871,127 +877,7 @@ namespace SharpMatter.SharpGeometry
         #endregion
 
 
-        #region IGH_GOO METHOD OVERRIDING
-
-
-
-
-
-
-        //private BoundingBox _bbox = BoundingBox.Unset;
-
-
-
-
-
-
-
-
-
-        //public override bool IsValid
-        //{
-        //    get { return true; }
-        //}
-
-
-
-        //public override string TypeName
-        //{
-        //    get { return "Vec3"; }
-        //}
-
-
-
-        //public override string TypeDescription
-        //{
-        //    get { return "Vec3"; }
-        //}
-
-
-
-
-
-        //public override IGH_Goo Duplicate()
-        //{
-        //    return DuplicateGeometry();
-        //}
-
-
-
-        //public override IGH_GeometricGoo DuplicateGeometry()
-        //{
-        //    return new Vec3(Value.X, Value.Y, Value.Z);
-
-
-        //}
-
-
-
-
-        //public override object ScriptVariable()
-        //{
-        //    return Value;
-        //}
-
-
-        //public override bool CastTo<T>(ref T target)
-        //{
-        //    if (typeof(T).IsAssignableFrom(typeof(Vec3)))
-        //    {
-        //        object obj = Value;
-        //        target = (T)obj;
-        //        return true;
-        //    }
-
-        //    if (typeof(T).IsAssignableFrom(typeof(Point3d)))
-        //    {
-        //        object obj = new GH_Point();
-        //        target = (T)obj;
-        //        return true;
-        //    }
-
-        //    if (typeof(T).IsAssignableFrom(typeof(GH_Point)))
-        //    {
-        //        object obj = new GH_Point();
-        //        target = (T)obj;
-        //        return true;
-        //    }
-
-        //    if (typeof(T).IsAssignableFrom(typeof(GH_ObjectWrapper)))
-        //    {
-        //        object obj = new GH_ObjectWrapper(Value);
-        //        target = (T)obj;
-        //        return true;
-        //    }
-
-        //    return false;
-        //}
-
-
-
-        //public override bool CastFrom(object source)
-        //{
-        //    if (source is Vec3 vec)
-        //    {
-        //        Value = vec;
-        //        return true;
-        //    }
-
-        //    if (source is Point3d m)
-        //    {
-        //        Value = new Vec3(m.X, m.Y, m.Z);
-        //        return true;
-        //    }
-
-
-        //    return false;
-        //}
-
-
-
-
-
-        #endregion
+ 
 
     }
 }

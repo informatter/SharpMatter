@@ -22,6 +22,8 @@ namespace SharpMatter.SharpBehavior
         #region FIELD DATA
 
      
+        private double m_targetValue=5;
+
         private double m_agentRotationAngle; // RA
         private double m_sensorAngle;// SA
 
@@ -404,7 +406,8 @@ namespace SharpMatter.SharpBehavior
             //Refer to diagrams on pg 39 of the book "From Pattern Formation to Material Computation. Multi-agent Modelling of Physarum Polycephalum"   
 
             Cell<double> cell =  field.LookUpCell(m_frontSensorBPos);
-            Vec3 vel = Vec3.Zero;
+
+        
 
             bool occupied = cell.Occupied;
 
@@ -424,16 +427,32 @@ namespace SharpMatter.SharpBehavior
             if (occupied == true)
             {
                 // Stay in current Cell, dont deposit chemoattractant and choose random new orientration
-               // cell.Occupied = true;
-               
-                Vec3 newVel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(random.Next(0, 360)), true, false);
-                // Velocity = newVel;
-                vel = newVel;
-                Velocity = vel;
+                // cell.Occupied = true;
+
+                Vec3 temp = Velocity;
+                Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(random.Next(0, 360)), true, false);
+                Velocity = newVel;
+
+       
 
             }
 
           
+
+        }
+
+
+        private void MotorStageB(SharpField2D<double> field)
+        {
+
+
+            //Foreword sensor B is the one that samples the field to determine if its inmediatelly front cell is occupied or not
+            //Refer to diagrams on pg 39 of the book "From Pattern Formation to Material Computation. Multi-agent Modelling of Physarum Polycephalum"   
+
+           Cell<double> cell = field.LookUpCell(m_frontSensorBPos);     
+           UpdateInternal();
+           cell.ScalarValueA += 5.0;
+
 
         }
 
@@ -474,16 +493,12 @@ namespace SharpMatter.SharpBehavior
             // Each sensor retrieves its current chemoattractant value from the scalar field
             SampleField(field, out F, out FL, out FR);
 
-            Vec3 vel= Vec3.Zero;
 
             if (F > FL && F > FR)
             {
 
-
-                // continue facing same direction
-
-                vel = Velocity;
-
+                /// CONTINUE FACING SAME DIRECTION
+                return;
             }
 
             else if (F < FL && F < FR)
@@ -491,45 +506,38 @@ namespace SharpMatter.SharpBehavior
                 //double num = random.NextDouble();
                 //if (num > 0.5)
                 //{
-                //    //rotate left
-                //   // Vec3 temp = Velocity;
-                //  //  Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
-                //    //Velocity = newVel;
-
-                //    vel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false); 
-
-
+                //    ///ROTATE LEFT
+                //Vec3 temp = Velocity;
+                //Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                //Velocity = newVel;
 
                 //}
 
                 //// or
                 //else
                 //{
-                //    // rotate right
-                //   // Vec3 temp = Velocity;
-                //    //  Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);
-                //    //Velocity = newVel;
-                //    vel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle*-1), true, false);
+                //    /// ROTATE RIGHT
+                //Vec3 temp = Velocity;
+                //Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle*-1), true, false);
+                //Velocity = newVel;
                 //}
-
-
-
 
                 /////////MOVE TOWARDS HIGHER CONCENTRATION///////////
                 if (FL > FR)
                 {
-                    //rotate left
-             
-                    Vec3 newVel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
-             
-                    vel = newVel;
+                    ///ROTATE LEFT                
+                    Vec3 temp = Velocity;
+                    Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                    Velocity = newVel;
                 }
 
                 if (FL < FR)
                 {
-                    //rotate right
-                    Vec3 newVel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);  
-                    vel = newVel;
+                    /// ROTATE RIGHT
+              
+                    Vec3 temp = Velocity;
+                    Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);
+                    Velocity = newVel;
                 }
 
 
@@ -537,35 +545,114 @@ namespace SharpMatter.SharpBehavior
 
             else if(FL< FR)
             {
-                // rotate right
-  
-                vel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle*-1), true, false);
+                /// ROTATE RIGHT
+                Vec3 temp = Velocity;
+                Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);
+                Velocity = newVel;
 
             }
 
             else if (FR < FL)
             {
-                // rotate left
-
-                vel = Vec3.VectorRotate(Velocity, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                ///ROTATE LEFT
+                Vec3 temp = Velocity;
+                Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                Velocity = newVel;
             }
 
             else
             {
-                // continue facing same direction
+                /// CONTINUE FACING SAME DIRECTION
+                return;
+            }
 
-                vel = Velocity;
+       
+        }
+
+
+
+        /// <summary>
+        /// Sensory stage of the Slime Agent. Each sensor retrieves its current Chemo-attractant value from the scalar field
+        /// Each value will determine which direction the agent will face next. Each agent will be attracted to a "Target" chemoattractant value
+        /// in order to automatically avoid over crowded areas. This method is supposed to aliviate the necesity for each cell to calculate its occupatonal state
+        /// </summary>
+        /// <param name="field"></param>
+        private void SensoryStageTargetValue(SharpField2D<double> field)
+        {
+            double F; //F
+            double FL; //FL
+            double FR; //FR
+
+            // Each sensor retrieves its current chemoattractant value from the scalar field
+            SampleField(field, out F, out FL, out FR);
+
+
+            if (F > FL && F > FR)
+            {
+
+                /// CONTINUE FACING SAME DIRECTION
+                return;
+            }
+
+            else if (F < FL && F < FR)
+            {
+                
+
+                /////////MOVE TOWARDS TARGET CONCENTRATION///////////
+                if ( FL>= m_targetValue &&  FR< m_targetValue)
+                {
+                    ///ROTATE LEFT                
+                    Vec3 temp = Velocity;
+                    Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                    Velocity = newVel;
+                }
+
+                if (FR >= m_targetValue && FL < m_targetValue)
+                {
+                    /// ROTATE RIGHT
+
+                    Vec3 temp = Velocity;
+                    Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);
+                    Velocity = newVel;
+                }
+
+                else
+                {
+                    Vec3 temp = Velocity;
+                    Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(random.Next(0, 360)), true, false);
+                    Velocity = newVel;
+                }
 
 
             }
 
-            Velocity = vel;
-       
+            else if (FL < FR)
+            {
+                /// ROTATE RIGHT
+                Vec3 temp = Velocity;
+                Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle * -1), true, false);
+                Velocity = newVel;
+
+            }
+
+            else if (FR < FL)
+            {
+                ///ROTATE LEFT
+                Vec3 temp = Velocity;
+                Vec3 newVel = Vec3.VectorRotate(temp, SharpMath.SharpMath.ToRadians(m_agentRotationAngle), true, false);
+                Velocity = newVel;
+            }
+
+            else
+            {
+                /// CONTINUE FACING SAME DIRECTION
+                return;
+            }
 
 
         }
 
-     
+
         /// <summary>
         /// 
         /// </summary>
@@ -613,9 +700,9 @@ namespace SharpMatter.SharpBehavior
 
 
         [Obsolete("This method was written for debugging purposes only")]
-        public void RotationByRefTest()
+        public void RotationTest()
         {
-            //CheckBoundary();
+           
 
             double num = random.NextDouble();
 
@@ -630,7 +717,7 @@ namespace SharpMatter.SharpBehavior
                 Velocity = newVel;
             }
 
-
+            UpdateSensorPositions();
 
         }
 
@@ -643,9 +730,9 @@ namespace SharpMatter.SharpBehavior
         {
             this.MotorStage(field);
             this.SensoryStage(field);
-          
-
-           UpdateSensorPositions();// has to be all the time
+            // this.MotorStageB(field);
+            // this.SensoryStageTargetValue(field);
+            UpdateSensorPositions();
         }
 
 
@@ -666,14 +753,6 @@ namespace SharpMatter.SharpBehavior
         #endregion
 
        
-
-
-
-
-
-
-
-
 
     }/// END SLIME MOULD CLASS
 }

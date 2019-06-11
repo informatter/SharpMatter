@@ -68,7 +68,7 @@
     <Compile Include="Components\Solvers\ReactionDiffusion2D_GH.cs" />
     <Compile Include="Components\Field\SharpField2D_GH.cs" />
     <Compile Include="Components\Math\SharpDomain_GH.cs" />
-    <Compile Include="Parameters\Vec3_Param.cs" />
+    <Compile Include="Components\Parameters\Vec3_Param_GH.cs" />
     <Compile Include="SharpMatterGHInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Types\Vec3_GH.cs" />
