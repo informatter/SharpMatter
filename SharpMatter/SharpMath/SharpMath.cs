@@ -7,12 +7,9 @@ using SharpMatter.SharpData;
 
 namespace SharpMatter.SharpMath
 {
-    /// <summary>
-    /// 
-    /// Math class written by Nicholas Rawitscher. This library is currently under development 
-    /// 
-    /// 
-    /// </summary>
+  /// <summary>
+  /// 
+  /// </summary>
 
     public static class SharpMath
     {
