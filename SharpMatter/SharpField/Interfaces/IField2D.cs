@@ -41,7 +41,7 @@ namespace SharpMatter.SharpField.Interfaces
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        Cell<T> LookUpCell(Vec3 position);
+        SharpCell<T> LookUpCell(Vec3 position);
 
     }
 }

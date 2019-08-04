@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Drawing;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using Rhino.Geometry;
 using Grasshopper.Kernel.Types;
+using SharpMatter.SharpField;
 
 
 
@@ -18,17 +20,17 @@ namespace SharpMatter.SharpGeometry
     /// 
     /// </summary>
 
-  
-    
+
+
     public struct Vec3 : IEquatable<Vec3>
     {
         // Field data
-        
+
         private double m_x;
         private double m_y;
         private double m_z;
 
-        
+
 
         public Vec3(double x, double y, double z)
         {
@@ -36,17 +38,17 @@ namespace SharpMatter.SharpGeometry
             m_y = y;
             m_z = z;
 
-           
+
         }
 
-       
+
 
 
         #region PROPERTIES
 
         public double Magnitude
         {
-            get { return m_x * m_x + m_y * m_y + m_z * m_z; }
+            get { return Math.Sqrt(m_x * m_x + m_y * m_y + m_z * m_z); }
 
         }
 
@@ -56,7 +58,7 @@ namespace SharpMatter.SharpGeometry
             get { return Math.Pow(Magnitude, 2); }
         }
 
-      
+
 
 
         public double X
@@ -140,7 +142,7 @@ namespace SharpMatter.SharpGeometry
 
                 return -1;
 
-            if (m_x> other.m_x)
+            if (m_x > other.m_x)
 
                 return 1;
 
@@ -228,7 +230,7 @@ namespace SharpMatter.SharpGeometry
 
                 if (0 == index)
 
-                   m_x = value;
+                    m_x = value;
 
                 else if (1 == index)
 
@@ -254,10 +256,10 @@ namespace SharpMatter.SharpGeometry
         /// Cast from Point3d to Vec3
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vec3 (Point3d v)
-      {
+        public static explicit operator Vec3(Point3d v)
+        {
             return new Vec3(v.X, v.Y, v.Z);
-      }
+        }
         /// <summary>
         /// Cast from Vec3 to Point3d
         /// </summary>
@@ -275,6 +277,25 @@ namespace SharpMatter.SharpGeometry
         {
             return new Vec3(v.X, v.Y, v.Z);
         }
+
+
+
+        /// <summary>
+        /// Cast from Color to Vec3
+        /// </summary>
+        /// <param name="c"></param>
+        public static explicit operator Vec3(Color c)
+        {
+            return new Vec3(c.R, c.G, c.B);
+        }
+
+
+
+        public static explicit operator Vec3(GH_Colour c)
+        {
+            return new Vec3(c.Value.R, c.Value.G, c.Value.B);
+        }
+
 
 
         /// <summary>
@@ -571,6 +592,8 @@ namespace SharpMatter.SharpGeometry
             return other.Magnitude;
         }
 
+
+
         /// <summary>
         /// Unitizes the vector in place. A unit vector has length 1 unit. 
         ///An invalid or zero length vector cannot be unitized. in this case will return false
@@ -583,14 +606,9 @@ namespace SharpMatter.SharpGeometry
 
             if (length > 0)
             {
-                length = 1.0 / Math.Sqrt(length);
-                m_x *= length;
-                m_y *= length;
-                m_z *= length;
-
-                double[] a = new double[10];
-                a.ToList();
-
+                m_x *= 1.0 / length;
+                m_y *= 1.0 / length;
+                m_z *= 1.0 / length;
 
                 return true;
             }
@@ -604,6 +622,123 @@ namespace SharpMatter.SharpGeometry
         #endregion
 
         #region STATIC METHODS
+
+
+
+        /// <summary>
+        /// Find closest point in a point collection.
+        /// </summary>
+        /// <param name="pointToSearchFrom"></param>
+        /// <param name="pointCloud"></param>
+        /// <returns></returns>
+        public static Vec3 ClosestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud)
+
+        {
+
+            List<double> distanceList = new List<double>();
+
+            if (pointToSearchFrom != null)
+
+            {
+
+                for (int i = 0; i < pointCloud.Count; i++)
+
+                {
+
+
+
+                    if (pointCloud[i] != null)
+
+                    {
+
+
+
+                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
+
+                        distanceList.Add(distance);
+
+                    }
+
+                }
+
+            }
+
+            int smallestIndex = distanceList.IndexOf(distanceList.Min());
+
+            return pointCloud[smallestIndex];
+
+
+        }
+
+
+
+
+
+        public static void ClosestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out int index)
+
+        {
+
+            List<double> distanceList = new List<double>();
+
+            if (pointToSearchFrom != null)
+
+            {
+
+                for (int i = 0; i < pointCloud.Count; i++)
+
+                {
+
+
+
+                    if (pointCloud[i] != null)
+
+                    {
+
+
+
+                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
+
+                        distanceList.Add(distance);
+
+                    }
+
+                }
+
+            }
+
+            int smallestIndex = distanceList.IndexOf(distanceList.Min());
+            index = smallestIndex;
+
+
+
+        }
+
+
+
+        /// <summary>
+        /// Convert a collection of colours to a collection of vectors
+        /// </summary>
+        /// <param name="colours"></param>
+        /// <returns></returns>
+        public List<Vec3> ColoursToVectors(List<Color> colours)
+        {
+
+            List<Vec3> colorvecs = new List<Vec3>();
+
+            for (int i = 0; i < colours.Count; i++)
+            {
+                colorvecs.Add(new Vec3(colours[i].R, colours[i].G, colours[i].B));
+            }
+
+
+            return colorvecs;
+
+        }
+
+        public static Vec3 ColourToVector(Color color)
+        {
+            return new Vec3(color.R, color.G, color.B);
+        }
         /// <summary>
         /// Return the cross product of two vectos. The result is a third vector that is at 90 degrees to both
         /// </summary>
@@ -623,14 +758,159 @@ namespace SharpMatter.SharpGeometry
             return new Vec3(deltaX, deltaY, deltaZ);
         }
 
-      public static void Foo()
+
+        public static Vec3 Constrain(Vec3 vec, double minTargetDomain, double maxTargetDomain)
         {
-            //TEST TO GITHUB AND CLONE
+            double x = vec.m_x;
+            double y = vec.m_y;
+            double z = vec.m_z;
+
+            double newX = 0;
+            double newY = 0;
+            double newZ = 0;
+            newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
+            newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
+            newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
+
+            return new Vec3(newX, newY, newZ);
+
         }
 
-   
+
+        public static List<Vec3> ConstrainCollectionOfVectors(List<Vec3> vecs, double minTargetDomain, double maxTargetDomain)
+        {
+            List<Vec3> remapedVecs = new List<Vec3>();
+
+            for (int i = 0; i < vecs.Count; i++)
+            {
+                double x = vecs[i].m_x;
+                double y = vecs[i].m_y;
+                double z = vecs[i].m_z;
+
+                double newX = 0;
+                double newY = 0;
+                double newZ = 0;
+
+                newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
+                newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
+                newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
+
+                remapedVecs.Add(new Vec3(newX, newY, newZ));
 
 
+            }
+            return remapedVecs;
+
+        }
+
+
+        /// <summary>
+        /// Get total non empty values in an Array of Vec3's
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns> int </returns>
+        public static int CountNonNullItemsArray(Vec3[] array)
+        {
+            Vec3[] matchedItems = Array.FindAll(array, z => z == Vec3.Zero);
+            return matchedItems.Length;
+
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pointToSearchFrom"></param>
+        /// <param name="pointCloud"></param>
+        /// <param name="farthestPointIndex"></param>
+        /// <returns></returns>
+        public static Vec3 FarthestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out int farthestPointIndex)
+
+        {
+            List<double> distanceList = new List<double>();
+
+            if (pointToSearchFrom != null)
+
+            {
+
+                for (int i = 0; i < pointCloud.Count; i++)
+
+                {
+                    if (pointCloud[i] != null)
+
+                    {
+
+                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
+
+                        distanceList.Add(distance);
+
+                    }
+
+                }
+
+            }
+
+            int LargestIndex = distanceList.IndexOf(distanceList.Max());
+            farthestPointIndex = LargestIndex;
+            return pointCloud[LargestIndex];
+
+
+        }
+
+
+        /// <summary>
+        /// Returns the index of the farthest point
+        /// </summary>
+        /// <param name="pointToSearchFrom"></param>
+        /// <param name="pointCloud"></param>
+        /// <returns></returns>
+        public static int FarthestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud)
+
+        {
+            List<double> distanceList = new List<double>();
+
+            if (pointToSearchFrom != null)
+
+            {
+
+                for (int i = 0; i < pointCloud.Count; i++)
+
+                {
+                    if (pointCloud[i] != null)
+
+                    {
+
+                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
+
+                        distanceList.Add(distance);
+
+                    }
+
+                }
+
+            }
+
+            int LargestIndex = distanceList.IndexOf(distanceList.Max());
+
+            return LargestIndex;
+
+
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x0"></param>
+        /// <param name="y0"></param>
+        /// <param name="z0"></param>
+        /// <param name="radius"></param>
+        /// <param name="ran"></param>
+        /// <returns></returns>
         public static Vec3 RandomSphericalDistribution(double x0, double y0, double z0, double radius, Random ran)
         {
             var u = ran.NextDouble();
@@ -642,6 +922,8 @@ namespace SharpMatter.SharpGeometry
             var z = z0 + (radius * Math.Cos(phi));
             return new Vec3(x, y, z);
         }
+
+
 
 
         ///UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE UPDATE 
@@ -721,16 +1003,27 @@ namespace SharpMatter.SharpGeometry
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static Vec3 VectorialAverege(List<Vec3> data)
+        public static Vec3 VectorialAverege(List<Vec3> data, bool round)
         {
+            Vec3 tempAverege = Vec3.Zero;
             Vec3 averege = Vec3.Zero;
 
             for (int i = 0; i < data.Count; i++)
             {
-                averege = averege + data[i];
+                tempAverege += data[i];
             }
 
-            averege = averege / data.Count;
+            tempAverege /= data.Count;
+            if (round)
+            {
+                averege = VectorRound(tempAverege);
+            }
+
+            if (round == false)
+            {
+                averege = tempAverege;
+            }
+
 
             return averege;
         }
@@ -749,7 +1042,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static Vec3 VectorRandomDistribution(double minX, double maxX, double minY, double maxY, double minZ, double maxZ, Random ran)
         {
-           
+
             double x = minX + (maxX - minX) * ran.NextDouble();
             double y = minY + (maxY - minY) * ran.NextDouble();
             double z = minZ + (maxZ - minZ) * ran.NextDouble();
@@ -764,7 +1057,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static Vec3 Vector3dRandom(Random ran)
         {
-           
+
             double phi = 2.0 * Math.PI * ran.NextDouble();
             double theta = Math.Acos(2.0 * ran.NextDouble() - 1.0);
 
@@ -781,7 +1074,7 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static Vec3 Vector2dRandom(Random ran)
         {
-            
+
             double angle = 2.0 * Math.PI * ran.NextDouble();
 
             double x = Math.Cos(angle);
@@ -825,6 +1118,30 @@ namespace SharpMatter.SharpGeometry
         }
 
 
+        /// <summary>
+        /// 
+        /// Return a new Vector with its components rounded to the nearest integer
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns></returns>
+        public static Vec3 VectorRound(Vec3 vec)
+        {
+            return new Vec3(Math.Round(vec.X), Math.Round(vec.Y), Math.Round(vec.Z));
+        }
+
+
+
+        public static List<Color> Vec3ToColor(List<Vec3> vectors)
+        {
+            List<Color> l = new List<Color>();
+            for (int i = 0; i < vectors.Count; i++)
+            {
+                l.Add(Color.FromArgb((int)SharpMath.SharpMath.Constrain(vectors[i].X, 0, 255),
+                    (int)SharpMath.SharpMath.Constrain(vectors[i].Y, 0, 255), (int)SharpMath.SharpMath.Constrain(vectors[i].Z, 0, 255)));
+
+            }
+            return l;
+        }
 
 
 
@@ -839,12 +1156,15 @@ namespace SharpMatter.SharpGeometry
 
         public override string ToString()
         {
-            //return $"({x}, {y}, {z})";
-
             var culture = System.Globalization.CultureInfo.InvariantCulture;
+            return $"({m_x.ToString(culture)}, {m_y.ToString(culture)}, {m_z.ToString(culture)})";
 
-            return String.Format("{0},{1},{2}", m_x.ToString(culture), m_y.ToString(culture), m_z.ToString(culture));
+
+
+            //return String.Format("{0},{1},{2}", m_x.ToString(culture), m_y.ToString(culture), m_z.ToString(culture));
         }
+
+
 
         public override bool Equals(object obj)
         {
@@ -877,7 +1197,7 @@ namespace SharpMatter.SharpGeometry
         #endregion
 
 
- 
+
 
     }
 }

@@ -29,8 +29,8 @@ namespace SharpMatter.SharpField
         private int m_columns;
         private int m_rows;
         private double m_resolution;
-        private Cell<T>[,] m_Field;
-        private Cell<T>[,] m_nextField;
+        private SharpCell<T>[,] m_Field;
+        private SharpCell<T>[,] m_nextField;
         private T[,] m_fieldValues;
 
         private bool[,] m_fieldStates;
@@ -49,8 +49,8 @@ namespace SharpMatter.SharpField
             m_rows = rows;
             m_resolution = resolution;
 
-            m_Field = new Cell<T>[m_columns, m_rows];
-            m_nextField = new Cell<T>[m_columns, m_rows];
+            m_Field = new SharpCell<T>[m_columns, m_rows];
+            m_nextField = new SharpCell<T>[m_columns, m_rows];
             m_fieldValues = new T[m_columns, m_rows];
             m_agentCountPerCell = new int[m_columns, m_rows];
             m_fieldStates = new bool[m_columns, m_rows]; 
@@ -68,8 +68,8 @@ namespace SharpMatter.SharpField
             {
                 for (int j = 0; j < m_rows; j++)
                 {
-                    m_Field[i, j] = new Cell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i*m_resolution,j * m_resolution, 0));
-                    m_nextField[i, j] = new Cell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0));
+                    m_Field[i, j] = new SharpCell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i*m_resolution,j * m_resolution, 0));
+                    m_nextField[i, j] = new SharpCell<T>(valueA2D[i, j], valueB2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0));
                 }
             }
 
@@ -82,8 +82,8 @@ namespace SharpMatter.SharpField
             m_rows = rows;
             m_resolution = resolution;
 
-            m_Field = new Cell<T>[m_columns, m_rows];
-            m_nextField = new Cell<T>[m_columns, m_rows];
+            m_Field = new SharpCell<T>[m_columns, m_rows];
+            m_nextField = new SharpCell<T>[m_columns, m_rows];
             m_fieldValues = new T[m_columns, m_rows];
             m_fieldStates = new bool[m_columns, m_rows];
             m_agentCountPerCell = new int[m_columns, m_rows];
@@ -100,8 +100,8 @@ namespace SharpMatter.SharpField
             {
                 for (int j = 0; j < m_rows; j++)
                 {
-                    m_Field[i, j] = new Cell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), occupied2D[i, j], m_resolution, m_columns, m_rows);
-                    m_nextField[i, j] = new Cell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), occupied2D[i, j], m_resolution, m_columns, m_rows);
+                    m_Field[i, j] = new SharpCell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), occupied2D[i, j], m_resolution, m_columns, m_rows);
+                    m_nextField[i, j] = new SharpCell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), occupied2D[i, j], m_resolution, m_columns, m_rows);
                 }
             }
 
@@ -116,8 +116,8 @@ namespace SharpMatter.SharpField
             m_rows = rows;
             m_resolution = resolution;
 
-            m_Field = new Cell<T>[m_columns, m_rows];
-            m_nextField = new Cell<T>[m_columns, m_rows];
+            m_Field = new SharpCell<T>[m_columns, m_rows];
+            m_nextField = new SharpCell<T>[m_columns, m_rows];
             m_fieldValues = new T[m_columns, m_rows];
             m_fieldStates = new bool[m_columns, m_rows];
             m_agentCountPerCell = new int[m_columns, m_rows];
@@ -135,8 +135,8 @@ namespace SharpMatter.SharpField
             {
                 for (int j = 0; j < m_rows; j++)
                 {
-                    m_Field[i, j] = new Cell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), false, m_resolution, m_columns, m_rows);
-                    m_nextField[i, j] = new Cell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), false, m_resolution, m_columns, m_rows);
+                    m_Field[i, j] = new SharpCell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), false, m_resolution, m_columns, m_rows);
+                    m_nextField[i, j] = new SharpCell<T>(valueA2D[i, j], new Vec3(i * m_resolution, j * m_resolution, 0), false, m_resolution, m_columns, m_rows);
                 }
             }
 
@@ -172,7 +172,7 @@ namespace SharpMatter.SharpField
 
 
 
-        public Cell<T>[,] Field
+        public SharpCell<T>[,] Field
         {
             get { return m_Field; }
             set
@@ -193,7 +193,7 @@ namespace SharpMatter.SharpField
             get { return DisplayField(); }
         }
 
-        public Cell<T>[,] NextField
+        public SharpCell<T>[,] NextField
         {
             get { return m_nextField; }
             set
@@ -299,9 +299,9 @@ namespace SharpMatter.SharpField
         /// <param name="indexX"></param>
         /// <param name="indexY"></param>
         /// <returns></returns>
-        public Cell<T>[] GetKernelNeighbours(int indexX, int indexY)
+        public SharpCell<T>[] GetKernelNeighbours(int indexX, int indexY)
         {
-            Cell<T>[] neighbours = new Cell<T>[8];
+            SharpCell<T>[] neighbours = new SharpCell<T>[8];
    
             neighbours[0] = m_Field[indexX + 1, indexY];
             neighbours[1] = m_Field[indexX - 1, indexY];
@@ -324,7 +324,7 @@ namespace SharpMatter.SharpField
         /// </summary>
         /// <param name="position"> Particle position</param>
         /// <returns></returns>
-        public Cell<T> LookUpCell(Vec3 position)
+        public SharpCell<T> LookUpCell(Vec3 position)
         {
 
            
@@ -341,7 +341,7 @@ namespace SharpMatter.SharpField
         public void Swap()
         {
 
-            Cell<T>[,] temp = m_Field;
+            SharpCell<T>[,] temp = m_Field;
 
             m_Field = m_nextField;
 

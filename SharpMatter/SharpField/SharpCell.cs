@@ -19,7 +19,7 @@ namespace SharpMatter.SharpField
     /// </summary>
     /// <typeparam name="T"></typeparam>
   
-    public class Cell <T> 
+    public class SharpCell <T> 
         //where T: struct
     {
 
@@ -54,14 +54,14 @@ namespace SharpMatter.SharpField
 
         #region CONSTRUCTORS
 
-        public Cell(T valueA)
+        public SharpCell(T valueA)
         {
            
             m_scalarValueA = valueA;
           
         }
 
-        public Cell(T valueA, Vec3 position, bool occupied)
+        public SharpCell(T valueA, Vec3 position, bool occupied)
         {
 
             m_scalarValueA = valueA;
@@ -78,7 +78,7 @@ namespace SharpMatter.SharpField
         /// <param name="resolution"></param>
         /// <param name="columns"></param>
         /// <param name="rows"></param>
-        public Cell(T valueA, Vec3 position, bool occupied, double resolution,int columns, int rows )
+        public SharpCell(T valueA, Vec3 position, bool occupied, double resolution,int columns, int rows )
         {
 
             m_scalarValueA = valueA;
@@ -99,7 +99,7 @@ namespace SharpMatter.SharpField
         }
 
 
-        public Cell(T valueA, T valueB, Vec3 position)
+        public SharpCell(T valueA, T valueB, Vec3 position)
         {
 
             m_scalarValueA = valueA;

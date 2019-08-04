@@ -201,7 +201,7 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
 
             if (_cellBoundDisplay == CellBoundaryDisplay.Yes)
             {
-                foreach (Cell<double> item in _field.Field)
+                foreach (SharpCell<double> item in _field.Field)
                 {
                     cells.Add(item.BoundingBox);
                 }

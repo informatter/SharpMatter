@@ -405,7 +405,7 @@ namespace SharpMatter.SharpBehavior
             //Foreword sensor B is the one that samples the field to determine if its inmediatelly front cell is occupied or not
             //Refer to diagrams on pg 39 of the book "From Pattern Formation to Material Computation. Multi-agent Modelling of Physarum Polycephalum"   
 
-            Cell<double> cell =  field.LookUpCell(m_frontSensorBPos);
+            SharpCell<double> cell =  field.LookUpCell(m_frontSensorBPos);
 
         
 
@@ -449,7 +449,7 @@ namespace SharpMatter.SharpBehavior
             //Foreword sensor B is the one that samples the field to determine if its inmediatelly front cell is occupied or not
             //Refer to diagrams on pg 39 of the book "From Pattern Formation to Material Computation. Multi-agent Modelling of Physarum Polycephalum"   
 
-           Cell<double> cell = field.LookUpCell(m_frontSensorBPos);     
+            SharpCell<double> cell = field.LookUpCell(m_frontSensorBPos);     
            UpdateInternal();
            cell.ScalarValueA += 5.0;
 
@@ -466,9 +466,9 @@ namespace SharpMatter.SharpBehavior
         {
 
 
-            Cell<double> currentCell = field.LookUpCell(m_frontSensorAPos);
-            Cell<double> currentCellRight = field.LookUpCell(m_rightSensorPos);
-            Cell<double> currentCellLeft = field.LookUpCell(m_leftSensorPos);
+            SharpCell<double> currentCell = field.LookUpCell(m_frontSensorAPos);
+            SharpCell<double> currentCellRight = field.LookUpCell(m_rightSensorPos);
+            SharpCell<double> currentCellLeft = field.LookUpCell(m_leftSensorPos);
 
             frontSensorVal = currentCell.ScalarValueA;
             leftSensorVal = currentCellLeft.ScalarValueA;
