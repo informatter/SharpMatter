@@ -13,131 +13,6 @@ namespace SharpMatter.SharpExtensions
     public static class Extensions
     {
 
-
-        public static List<T> ListSlice<T>(this List<T> li, int start, int end)
-        {
-            end += 1;
-            if (start < 0)    // support negative indexing
-            {
-                start = li.Count + start;
-            }
-            if (end < 0)    // support negative indexing
-            {
-                end = li.Count + end;
-            }
-            if (start > li.Count)    // if the start value is too high
-            {
-                start = li.Count;
-            }
-            if (end > li.Count)    // if the end value is too high
-            {
-                end = li.Count;
-            }
-            var count = end - start;             // calculate count (number of elements)
-            return li.GetRange(start, count);    // return a shallow copy of li of count elements
-        }
-
-
-        /// <summary>
-        /// Function will reorder elements in list randomly
-        /// </summary>
-        /// <typeparam name="T"></typeparam> generic type
-        /// <param name="list"></param> input list
-
-        public static void ListJitter<T>(this List<T> list)
-        {
-            Random ran = new Random();
-
-            list.Sort((x, y) => ran.Next(-1, 1));
-
-        }
-
-
-
-
-        /// <summary>
-        /// Convert from a multidimensional array to an array
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="_2DArray"></param>
-        /// <returns></returns>
-        public static T[] ToArray<T>(this T[,] _2DArray)
-        {
-            ParallelOptions paraOpts = new ParallelOptions();
-            paraOpts.MaxDegreeOfParallelism = System.Environment.ProcessorCount;
-
-            int count = 0;
-
-            T[] data = new T[_2DArray.GetLength(0) * _2DArray.GetLength(1)];
-
-            Parallel.For(0, _2DArray.GetLength(0), paraOpts, i =>
-
-            {
-                for (int j = 0; j < _2DArray.GetLength(1); j++)
-                {
-                    data[count++] = _2DArray[i, j];
-                }
-
-
-            });
-
-
-            return data;
-        }
-
-
-        public static bool IsNull<T>(this T[,] _2DArray)
-        {
-            int nullCount = 0;
-            bool result = false;
-            for (int i = 0; i < _2DArray.GetLength(0); i++)
-            {
-                for (int j = 0; j < _2DArray.GetLength(1); j++)
-                {
-                    if (_2DArray[i, j] == null) nullCount++;
-                }
-            }
-
-            if (nullCount == _2DArray.Length) result = true;
-            else result = false;
-            return result;
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="collection"></param>
-        /// <returns></returns>
-        public static bool IsNull<T>(this T[] collection)
-        {
-
-            int nullCount = 0;
-            bool result = false;
-            for (int i = 0; i < collection.Length; i++)
-            {
-                if (collection[i] == null) nullCount++;
-
-            }
-
-            if (nullCount == collection.Length) result = true;
-            else result = false;
-            return result;
-
-        }
-
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="input"></param>
-        /// <param name="height"></param>
-        /// <param name="width"></param>
-        /// <returns></returns>
         public static T[,] Make2DArray<T>(this T[] input, int height, int width)
         {
             // if(input.GetType().IsArray)
@@ -385,14 +260,6 @@ namespace SharpMatter.SharpExtensions
                     temp.RemoveAt(index);
                     temp.Insert(index, default(T));
 
-                }
-            });
-
-            return temp.ToArray();
-
-        }
-
-
         /// <summary>
         /// Convert from Jagged Array to Multidimensional Array
         /// </summary>
@@ -477,15 +344,6 @@ namespace SharpMatter.SharpExtensions
             return observations;
         }
 
-
-        public static T[][] ToJaggedArray<T>(this List<T> data, DataTree<T> dataTree)
-        {
-            // Get total elements on each row
-            //dataTree.DataCount = total elements in data structure
-            int totalElementsPerArray = dataTree.DataCount / dataTree.BranchCount;
-
-            // dataTree.BranchCount = number of elemets/rows
-            int numElements = dataTree.BranchCount;
 
             T[][] outPut = new T[numElements][];
 
