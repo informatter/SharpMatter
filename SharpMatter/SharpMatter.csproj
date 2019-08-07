@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Foo.cs" />
     <Compile Include="SharpBehavior\Automata.cs" />
     <Compile Include="SharpBehavior\BehaviorController.cs" />
     <Compile Include="SharpBehavior\Clone.cs" />
