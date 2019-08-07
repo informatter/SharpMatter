@@ -501,6 +501,25 @@ namespace SharpMatter.SharpColor
         }
 
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double Magnitude
+        {
+            get { return Math.Sqrt(m_r * m_r + m_g * m_g + m_b * m_b); }
+
+        }
+
+
+        public double SqrMagnitude
+        {
+            get { return Math.Pow(Magnitude, 2); }
+        }
+
+
+
+
         #endregion
 
         #region STATIC METHODS
@@ -599,13 +618,6 @@ namespace SharpMatter.SharpColor
         }
 
 
-        public static SharpColor Round(SharpColor color)
-        {
-
-            return new SharpColor(Math.Round(color.R), Math.Round(color.G), Math.Round(color.B));
-
-        }
-
 
         /// <summary>
         /// computes distance between two vectors
@@ -621,15 +633,25 @@ namespace SharpMatter.SharpColor
         }
 
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public double Magnitude
+        public static SharpColor Round(SharpColor color)
         {
-            get { return Math.Sqrt(m_r * m_r + m_g * m_g + m_b * m_b); }
+
+            return new SharpColor(Math.Round(color.R), Math.Round(color.G), Math.Round(color.B));
 
         }
+
+
+
+
+        public double SqrDistanceTo(SharpColor other)
+        {
+            other.m_r -= m_r;
+            other.m_g -= m_g;
+            other.m_b -= m_b;
+           return  other.SqrMagnitude;
+        }
+
+       
 
         #endregion
 
