@@ -13,7 +13,14 @@ namespace SharpMatter.SharpExtensions
     public static class Extensions
     {
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="li"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         public static List<T> ListSlice<T>(this List<T> li, int start, int end)
         {
             end += 1;
