@@ -432,11 +432,6 @@ namespace SharpMatter.SharpColor
 
 
 
-
-
-
-
-
         #endregion
 
         #region IMPLICIT INTERFACE IMPLEMENTATION

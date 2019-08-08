@@ -65,6 +65,7 @@
     <Compile Include="Components\FieldIO\WriteToImage_GH.cs" />
     <Compile Include="Components\Field\DeconstructField_GH.cs" />
     <Compile Include="Components\Learning\KMeans_GH.cs" />
+    <Compile Include="Components\Parameters\SharpColor_Param_GH.cs" />
     <Compile Include="Components\Solvers\PhysarumPolycephalum_GH.cs" />
     <Compile Include="Components\Solvers\ReactionDiffusion2D_GH.cs" />
     <Compile Include="Components\Field\SharpField2D_GH.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Components\Parameters\Vec3_Param_GH.cs" />
     <Compile Include="SharpMatterGHInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\SharpColor_GH.cs" />
     <Compile Include="Types\Vec3_GH.cs" />
   </ItemGroup>
   <ItemGroup />
