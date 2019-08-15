@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Grasshopper;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
+using Rhino.Geometry;
 
 namespace SharpMatter.SharpExtensions
 {
@@ -216,8 +217,27 @@ namespace SharpMatter.SharpExtensions
         }
 
 
+        /// <summary>
+        /// Convert a list of Point3d to a Data Tree
+        /// </summary>
+        /// <param name="data"></param>
+        public static void ToDataTree(this List<Point3d> data)
+        {
+            DataTree<double> dataTree = new DataTree<double>();
 
+            int totalBranches = data.Count;
 
+            // Parallel.For(0, data.Length, i =>
+            for (int i = 0; i < data.Count; i++)
+            {
+                GH_Path path = new GH_Path(i);
+                double[] structure = new double[] { data[i].X, data[i].Y, data[i].Z };
+                for (int j = 0; j < structure.Length; j++)
+                {
+                    dataTree.Add(structure[j], path);
+                }
+            }
+        }
 
         /// <summary>
         /// Write Jagged Array contents to a .txt file

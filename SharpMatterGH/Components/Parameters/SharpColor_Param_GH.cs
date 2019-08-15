@@ -114,8 +114,10 @@ namespace SharpMatter.SharpMatterGH.Components.Parameters
 
         public void DrawViewportWires(GH_PreviewWireArgs args)
         {
+           
             throw new NotImplementedException();
         }
+
 
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {

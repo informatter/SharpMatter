@@ -64,6 +64,7 @@
     <Compile Include="Components\CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Components\FieldIO\WriteToImage_GH.cs" />
     <Compile Include="Components\Field\DeconstructField_GH.cs" />
+    <Compile Include="Components\Learning\KDNNS_GH.cs" />
     <Compile Include="Components\Learning\KMeans_GH.cs" />
     <Compile Include="Components\Parameters\SharpColor_Param_GH.cs" />
     <Compile Include="Components\Solvers\PhysarumPolycephalum_GH.cs" />
@@ -86,7 +87,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\nicholas.rawitscher\AppData\Roaming\Grasshopper\Libraries\SharpMatterGH.gha"
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\nicho\AppData\Roaming\Grasshopper\Libraries\SharpMatterGH.gha"
 Erase "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
