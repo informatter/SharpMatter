@@ -17,6 +17,15 @@ namespace SharpMatter.SharpLearning
 {
     public static class SharpKDTree
     {
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PointCloud"></param>
+        /// <param name="testPoint"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
         public static List<Point3d> Knearest (GH_Structure<GH_Number> PointCloud, double [] testPoint, int num )
         {
 
