@@ -12,7 +12,7 @@ using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 using SharpMatter.SharpExtensions;
-
+using SharpMatter.SharpUtilities;
 namespace SharpMatter.SharpLearning
 {
     public static class SharpKDTree
@@ -31,11 +31,9 @@ namespace SharpMatter.SharpLearning
 
             
 
-
-
             GH_Number[][] observationsTemp = PointCloud.GH_StructureToJaggedArray();
 
-            double [][] pCloud = ConvertGH_NumberToDouble(observationsTemp);
+            double [][] pCloud = Utilities.ConvertGH_NumberToDouble(observationsTemp);
 
             KDTree<int> tree = KDTree.FromData<int>(pCloud);
 
@@ -68,38 +66,72 @@ namespace SharpMatter.SharpLearning
         }
 
 
-        private static double[][] ConvertGH_NumberToDouble(GH_Number[][] data)
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="PointCloud"></param>
+        /// <param name="testPoints"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        /// 
+
+        [Obsolete("Under dev : Method needs to output data tree")]
+        public static DataTree<Point3d> Knearest(GH_Structure<GH_Number> PointCloud, GH_Structure<GH_Number> testPoints, int num)
         {
 
-            double[][] output = new double[data.Length][];
+            DataTree<Point3d> output = new DataTree<Point3d>();
 
-            Parallel.For(0, data.Length, i =>
-            //for (int i = 0; i < data.Length; i++)
+            GH_Number[][] pointCloudTemp = PointCloud.GH_StructureToJaggedArray();
+
+            double[][] pCloud = Utilities.ConvertGH_NumberToDouble(pointCloudTemp);
+
+            GH_Number[][] testPointsTemp = testPoints.GH_StructureToJaggedArray();
+
+            double[][] tPoints = Utilities.ConvertGH_NumberToDouble(testPointsTemp);
+
+            KDTree<int> tree = KDTree.FromData<int>(pCloud);
+
+
+
+            for (int i = 0; i < tPoints.Length; i++)
             {
-                double[] temp = new double[data[i].Length]; // create  array 
 
-                List<GH_Number> itemsInElementTemp = data[i].ToList();
 
-                List<double> itemsInElement = new List<double>();
-                foreach (var item in itemsInElementTemp)
-                {
-                    object a = new GH_Number(item);
-                    GH_Number b = (GH_Number)a;
-                    double c = b.Value;
+                GH_Path path = new GH_Path(i);
+           
+                    KDTreeNodeCollection<KDTreeNode<int>> neighbours = tree.Nearest(tPoints[i], num);
 
-                    itemsInElement.Add(c);
+                    List<double[]> neighbourNodes = new List<double[]>();
+                    for (int k = 0; k < neighbours.Count; k++)
+                    {
 
-                }
-                for (int j = 0; j < data[i].Length; j++)
-                {
-                    temp[j] = itemsInElement[j];
-                }
 
-                output[i] = temp;
+                        KDTreeNode<int> node = neighbours[k].Node;
+                        neighbourNodes.Add(node.Position);
 
-                //}
-            });
+
+                    }
+
+    
+                    foreach (var item in neighbourNodes)
+                    {
+                        double[] d = item;
+
+
+                        output.Add(new Point3d(d[0], d[1], d[2]), path);
+
+                    }
+
+             
+
+            }
+
+            
+
             return output;
         }
+
     }
 }
