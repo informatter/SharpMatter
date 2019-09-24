@@ -69,20 +69,19 @@ namespace SharpMatter.SharpLearning
 
 
         /// <summary>
-        /// 
+        /// Find K-nearest points from a collection of points to a cloud of points to search
         /// </summary>
         /// <param name="PointCloud"></param>
         /// <param name="testPoints"></param>
         /// <param name="num"></param>
-        /// <returns></returns>
-        /// 
-
-        [Obsolete("Under dev : Method needs to output data tree")]
+        /// <returns>For every testPoint it will return K-neighbours </returns>
+        ///     
         public static DataTree<Point3d> Knearest(GH_Structure<GH_Number> PointCloud, GH_Structure<GH_Number> testPoints, int num)
         {
 
             DataTree<Point3d> output = new DataTree<Point3d>();
 
+            // Conversions between data structures 
             GH_Number[][] pointCloudTemp = PointCloud.GH_StructureToJaggedArray();
 
             double[][] pCloud = Utilities.ConvertGH_NumberToDouble(pointCloudTemp);
@@ -99,8 +98,9 @@ namespace SharpMatter.SharpLearning
             {
 
 
-                GH_Path path = new GH_Path(i);
+                    GH_Path path = new GH_Path(i);
            
+                    // Actually use KDTree's Nearest Neighbour Search
                     KDTreeNodeCollection<KDTreeNode<int>> neighbours = tree.Nearest(tPoints[i], num);
 
                     List<double[]> neighbourNodes = new List<double[]>();

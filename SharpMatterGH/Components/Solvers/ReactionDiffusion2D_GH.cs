@@ -24,7 +24,7 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
         /// </summary>
         public ReactionDiffusion2D_GH()
           : base("Reaction Diffusion 2D", "Reaction Diffusion 2D",
-              "Solve Grey Scott's reactiong diffusion equations",
+              "Solve Grey Scott's reaction diffusion equations",
               "SharpMatter", "Solvers")
         {
         }

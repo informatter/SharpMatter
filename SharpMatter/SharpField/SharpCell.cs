@@ -20,7 +20,7 @@ namespace SharpMatter.SharpField
     /// <typeparam name="T"></typeparam>
   
     public class SharpCell <T> 
-        //where T: struct
+        where T: struct
     {
 
         #region FIELDS
@@ -28,12 +28,12 @@ namespace SharpMatter.SharpField
         private PolylineCurve m_cellBoundingBox;
         private T m_scalarValueA;
         private T m_scalarValueB;
-        private bool m_occupied;
+        private bool m_state;
         private Vec3 m_position;
         
 
-        private readonly int m_columns;
-        private readonly int m_rows;
+        private  int m_columns;
+        private  int m_rows;
 
         private Vec3[] m_vertices;
       
@@ -48,12 +48,16 @@ namespace SharpMatter.SharpField
 
        
 
-        //private bool m_flag=true;
+      
 
         #endregion
 
         #region CONSTRUCTORS
 
+        public SharpCell()
+        {
+
+        }
         public SharpCell(T valueA)
         {
            
@@ -61,29 +65,45 @@ namespace SharpMatter.SharpField
           
         }
 
-        public SharpCell(T valueA, Vec3 position, bool occupied)
+
+        public SharpCell(Vec3 position, T valueA, T valueB)
         {
 
             m_scalarValueA = valueA;
-            m_occupied = occupied;
+            m_scalarValueB = valueB;
+            m_position = position;
 
         }
+
+
+        public SharpCell(Vec3 position, T valueA, double resolution, int columns, int rows)
+        {
+
+            m_scalarValueA = valueA;
+            m_position = position;
+            m_resolution = resolution;
+            m_columns = columns;
+            m_rows = rows;
+
+        }
+
 
         /// <summary>
         /// This constructor is typically used for Physarum models
         /// </summary>
         /// <param name="valueA"></param>
         /// <param name="position"></param>
-        /// <param name="occupied"></param>
+        /// <param name="state"></param>
         /// <param name="resolution"></param>
         /// <param name="columns"></param>
         /// <param name="rows"></param>
-        public SharpCell(T valueA, Vec3 position, bool occupied, double resolution,int columns, int rows )
+        public SharpCell(Vec3 position,T valueA, bool state, double resolution,int columns, int rows ) 
+            
         {
 
             m_scalarValueA = valueA;
             m_position = position;
-            m_occupied = occupied;
+            m_state = state;
             m_resolution = resolution;
             m_columns = columns;
             m_rows = rows;
@@ -99,14 +119,13 @@ namespace SharpMatter.SharpField
         }
 
 
-        public SharpCell(T valueA, T valueB, Vec3 position)
-        {
 
-            m_scalarValueA = valueA;
-            m_scalarValueB = valueB;
-            m_position = position;
+    
 
-        }
+
+    
+
+
 
         #endregion
 
@@ -128,13 +147,20 @@ namespace SharpMatter.SharpField
             get { return m_cellBoundingBox ; } 
         }
 
+        public int Columns
+        {
+            get { return m_columns; }
+
+            set { m_columns = value; }
+        }
+
         public bool Occupied
         {
-            get { return m_occupied; }
+            get { return m_state; }
 
             set
             {
-                m_occupied = value;
+                m_state = value;
             }
         }
 
@@ -157,6 +183,20 @@ namespace SharpMatter.SharpField
         public Vec3 Position
         {
             get { return m_position; }
+            set {  m_position = value; }
+        }
+
+        public double Resolution
+        {
+            get { return m_resolution; }
+            set { m_resolution = value; }
+        }
+
+        public int Rows
+        {
+            get { return m_rows; }
+
+            set { m_rows = value; }
         }
 
         public T ScalarValueA
@@ -280,8 +320,8 @@ namespace SharpMatter.SharpField
             ///////////////// FOR SOME RESON IT DECREASES PERFORMANCE BY 8 MS. IT IS FASTER TO HAVE PARALLEL NESTED FORLOOP IN PHYSARUM FIELD 2D /////////////////////////////////
 
             m_numAgentsInCell = ptsCount;
-            if (ptsCount > 1) m_occupied = true;
-            else m_occupied = false;
+            if (ptsCount > 1) m_state = true;
+            else m_state = false;
 
 
 
@@ -335,8 +375,8 @@ namespace SharpMatter.SharpField
             }
 
             m_numAgentsInCell = ptsCount;
-            if (ptsCount > 1) m_occupied = true;
-            else m_occupied = false;
+            if (ptsCount > 1) m_state = true;
+            else m_state = false;
         }
 
 

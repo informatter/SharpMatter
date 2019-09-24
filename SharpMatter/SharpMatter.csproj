@@ -88,6 +88,8 @@
     <Compile Include="SharpField\SharpCell.cs" />
     <Compile Include="SharpField\SharpFieldIO.cs" />
     <Compile Include="SharpLearning\SharpKNearest.cs" />
+    <Compile Include="SharpPopulations\AutomataPopulation.cs" />
+    <Compile Include="SharpSolvers\CellularAutomata.cs" />
     <Compile Include="SharpSolvers\PhysarumField2D.cs" />
     <Compile Include="SharpForces\Attraction.cs" />
     <Compile Include="SharpForces\Drag.cs" />

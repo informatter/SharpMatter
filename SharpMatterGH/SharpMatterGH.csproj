@@ -68,6 +68,7 @@
     <Compile Include="Components\Learning\KDTreeClosestPoints.cs" />
     <Compile Include="Components\Learning\KMeans_GH.cs" />
     <Compile Include="Components\Parameters\SharpColor_Param_GH.cs" />
+    <Compile Include="Components\Solvers\CellularAutomata_GH.cs" />
     <Compile Include="Components\Solvers\PhysarumPolycephalum_GH.cs" />
     <Compile Include="Components\Solvers\ReactionDiffusion2D_GH.cs" />
     <Compile Include="Components\Field\SharpField2D_GH.cs" />
@@ -88,7 +89,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\nicholas.rawitscher\AppData\Roaming\Grasshopper\Libraries\SharpMatterGH.gha"
+    <PostBuildEvent>Copy "$(TargetPath)" "C:\Users\nicho\AppData\Roaming\Grasshopper\Libraries\SharpMatterGH.gha"
 Erase "$(TargetPath)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>

@@ -94,11 +94,11 @@ namespace SharpMatter.SharpMath
             /// <param name="t1"></param>
             /// <param name="t"></param>
             /// <returns></returns>
-            public static double Normalize(double t, double t0, double t1)
-            {
-                //Spatial Slur, Dave Reeves
-                return (t - t0) / (t1 - t0);
-            }
+            //public static double Normalize(double t, double t0, double t1)
+            //{
+            //    //Spatial Slur, Dave Reeves
+            //    return (t - t0) / (t1 - t0);
+            //}
 
 
             /// <summary>

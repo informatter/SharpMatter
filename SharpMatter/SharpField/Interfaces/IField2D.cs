@@ -14,7 +14,8 @@ namespace SharpMatter.SharpField.Interfaces
     /// </summary>
     /// <typeparam name="T"></typeparam>
     interface IField2D<T>
-        //where T: struct
+        where T: struct
+        
     {
         /// <summary>
         /// Returns/sets the number of columns in the field. X-dimension
