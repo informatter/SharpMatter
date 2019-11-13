@@ -15,10 +15,19 @@ namespace SharpMatter.SharpPhysics
            //  velocity.Normalize();
             velocity *= maxSpeed;
             position += velocity;
-           // acceleration *= 0.0; //reset forces
+            acceleration *= 0.0; //reset forces
         }
 
-      
+
+        //public static void UpdatePhysics(ref Vec3 velocity, ref Vec3 acceleration, ref Vec3 position, double maxSpeed)
+        //{
+        //    velocity += acceleration;         
+        //    velocity *= maxSpeed;
+        //    position += velocity;
+        //    acceleration *= 0.0; //reset forces
+        //}
+
+
 
 
 

@@ -7,8 +7,8 @@ namespace SharpMatter.SharpPhysics
 {
     interface IPhysicsEngine
     {
-        void UpdatePhysics(Vec3 velocity, Vec3 acceleration, Vec3 position, double maxSpeed, double maxForce);
-        void ApplyForces(Vec3 force, Vec3 acceleration, SharpParticle particle);
+        void UpdatePhysics(ref Vec3  velocity, ref Vec3 acceleration, ref Vec3 position, double maxSpeed, double maxForce);
+        void ApplyForces( ref Vec3 force, ref Vec3 acceleration, SharpParticle particle);
        
     }
 }

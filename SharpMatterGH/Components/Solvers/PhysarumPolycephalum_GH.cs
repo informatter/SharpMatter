@@ -105,8 +105,7 @@ namespace SharpMatter.SharpMatterGH.Components.Solvers
 
             pManager.AddPointParameter("SensorPositions", "SensorPositions", "Sensor positions", GH_ParamAccess.tree);
             pManager.AddVectorParameter("SensorDisplays", "SensorDisplays", "Sensor display", GH_ParamAccess.tree);
-          //  pManager.AddBooleanParameter("CellStates", "CellStates", "Shows if a Cell is occupied or not", GH_ParamAccess.list);
-          //  pManager.AddIntegerParameter("AgentCount", "AgentCount", "Counts total of agents per Cell", GH_ParamAccess.list);
+
 
             pManager.AddCurveParameter("Grid", "Grid", "Counts total of agents per Cell", GH_ParamAccess.list);
 

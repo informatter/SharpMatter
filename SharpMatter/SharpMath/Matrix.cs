@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using SharpMatter.SharpExtensions;
 namespace SharpMatter.SharpMath
 {
 
@@ -14,20 +14,39 @@ namespace SharpMatter.SharpMath
     /// <typeparam name="T"></typeparam>
    
         [Serializable]
-        public class Matrix<T> where T: struct
+        public class Matrix 
         {
      
             private int m_columns;
             private int m_rows;
-            public T[,] values;
+            private double [][] m_matrix;
 
 
+            /// <summary>
+            /// Initialize a N X N Matrix with default values set to zero
+            /// </summary>
+            /// <param name="columns"></param>
+            /// <param name="rows"></param>
             public Matrix(int columns, int rows)
             {
                 this.m_columns = columns;
                 this.m_rows = rows;
 
-                values = new T[m_columns, m_rows];
+                m_matrix = new double [m_rows][];
+
+                double[,] temp = new double [m_columns,m_rows];
+
+                for (int i = 0; i < rows; i++)
+                {
+
+                    for (int j = 0; j< columns; j++)
+                    {
+                        temp[i, j] = 0;
+                    }
+    
+                }
+
+                m_matrix = temp.ToJaggedArray(m_columns, rows);
 
 
             }
@@ -68,111 +87,68 @@ namespace SharpMatter.SharpMath
                 }
             }
 
-            #region STATIC METHODS
 
-         public  void DisplayToTextFile()
-        {
-            string path = @"C:\Users\nicol\source\repos\SharpMatter";
-            string name = "\test." + "txt";
-            string fullPath = System.IO.Path.Combine(path, name);
-
-            StreamWriter sr = new StreamWriter(fullPath);
-
-            for (int i = 0; i < m_columns; i++)
+            public double[][] Values
             {
-                for (int j = 0; j < m_rows; j++)
+                get { return m_matrix; }
+
+            }
+
+
+        #region METHODS
+
+
+            public void Create()
+            {
+
+            }
+
+        #endregion
+
+        #region STATIC METHODS
+
+            public void DisplayToTextFile(string path, string name)
+            {
+                m_matrix.JaggedArrayToTxtFile(path, name);
+            }
+
+
+            public void DisplayToConsoleWindow()
+            {
+                m_matrix.JaggedArrayToConsoleWindow();
+            }
+
+
+
+            public  void InitializeValues(double [][] data)
+            {
+
+                
+
+                if (data.Length!= m_rows && data[0].Length != m_columns)
                 {
-
-                    string OutPut = values[i,j].ToString();
-
-
-                    sr.WriteLine(OutPut);
-
+                    throw new ArgumentException("Input  has to have the same dimensions as the current matrix");
                 }
-            }
-        }
 
-
-        public void DisplayToConsoleWindow()
-        {
-            for (int i = 0; i < m_columns; i++)
-            {
-
-                for (int j = 0; j < m_rows; j++)
+                else
                 {
 
-                    Console.Write(values[i, j] + "\t" );
-                }
-
-                Console.WriteLine();
-            }
-
-            Console.ReadLine();
-        }
-
-
-
-            public  void InitializeValues( T[,] data)
-            {
-
-            if (data.GetLength(0) != m_columns && data.GetLength(1) != m_rows)
-            {
-                throw new ArgumentException("Input 2D array has to have the same dimensions as the current matrix");
-            }
-
-            else
-            {
-
-                for (int i = 0; i < m_columns; i++)
-                {
-                    for (int j = 0; j < m_rows; j++)
+                    for (int i = 0; i < m_matrix.Length; i++)
                     {
-                        values[i, j] = data[i, j];
+                        for (int j = 0; j < m_matrix[i].Length; j++)
+                        {
+                            m_matrix[i][j] = data[i][j];
+                        }
                     }
+                     
                 }
-            }
 
             }
 
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="a"></param>
-            /// <param name="b"></param>
-            /// <returns></returns>
-            public static Matrix<T> Rotate(Matrix<T> a, Matrix<T> b)
-            {
-                return null;
-            }
+      
+        #endregion
 
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="a"></param>
-            /// <param name="b"></param>
-            /// <returns></returns>
-            public static Matrix<T> Scale(Matrix<T> a, Matrix<T> b)
-            {
-                return null;
-            }
 
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="a"></param>
-            /// <param name="b"></param>
-            /// <returns></returns>
-            public static Matrix<T> Translate(Matrix<T> a, Matrix<T> b)
-            {
-                return null;
-            }
-
-            #endregion
-
-
-        
     }
 }

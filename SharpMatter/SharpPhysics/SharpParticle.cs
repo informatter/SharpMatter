@@ -9,7 +9,7 @@ using SharpMatter.SharpBehavior;
 
 namespace SharpMatter.SharpPhysics
 {
-    public class SharpParticle : SharpBody//,ICloneable
+    public class SharpParticle : SharpBody
 
     {
         #region FIELD DATA
@@ -199,6 +199,22 @@ namespace SharpMatter.SharpPhysics
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CheckCollision()
+        {
+            Vec3 normal = Vec3.ZAxis;
+            if (m_position.Z < 0)
+            {
+                m_position.Z = 0;
+
+                Vec3 reflectVec = m_velocity - (2 * (m_velocity * normal)) * normal; // reflection
+                reflectVec.Normalize();
+                AddForce(reflectVec);
+
+            }
+        }
 
 
         /// <summary>
@@ -261,6 +277,11 @@ namespace SharpMatter.SharpPhysics
            
             PhysicsEngine.UpdatePhysics(ref m_velocity, ref m_acceleration, ref m_position,  m_initMaxSpeed,  m_initMaxForce);
         }
+
+        //public void UpdateWResetAcce()
+        //{
+        //    PhysicsEngine.UpdatePhysics(ref m_velocity, ref m_acceleration, ref m_position, m_initMaxSpeed);
+        //}
 
 
        
