@@ -10,6 +10,10 @@ using SharpMatter.SharpGeometry;
 
 namespace SharpMatter.SharpLearning.GeneticAlgorithm
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class GAPopulation
     {
         #region FIELDS

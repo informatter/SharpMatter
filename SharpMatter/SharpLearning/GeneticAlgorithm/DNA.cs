@@ -7,6 +7,9 @@ using SharpMatter.SharpGeometry;
 
 namespace SharpMatter.SharpLearning.GeneticAlgorithm
 {
+    /// <summary>
+    /// DNA Class, in the future it will be generic so it can manipulate any kind of data
+    /// </summary>
     public class DNA //where T: struct ** in the future it will be generic so it can have any data of type struct
     {
         #region FIELDS

@@ -19,6 +19,12 @@ namespace SharpMatter.SharpField
     public enum SharpField2DType { ReactionDiffusion, Physarium,Automata, Generic }
     public enum CellBoundaryDisplay { Yes, No}
     public enum BoundaryType { Wrap, Rebound, SoftRebound}
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class SharpField2D<T> : IField2D<T>
         where T: struct
       

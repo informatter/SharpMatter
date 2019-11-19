@@ -7,6 +7,9 @@ using SharpMatter.SharpLearning.GeneticAlgorithm;
 
 namespace SharpMatter.SharpMatterGH.Components.Learning.GeneticAlgorithm
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class GASolver_GH : GH_Component
     {
         private GAPopulation m_population;

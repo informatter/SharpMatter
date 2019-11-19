@@ -8,6 +8,10 @@ using SharpMatter.SharpBehavior;
 
 namespace SharpMatter.SharpLearning.GeneticAlgorithm
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
     public static class GASolver
     {
 
