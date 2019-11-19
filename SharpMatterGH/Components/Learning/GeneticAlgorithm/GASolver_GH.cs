@@ -8,7 +8,7 @@ using SharpMatter.SharpLearning.GeneticAlgorithm;
 namespace SharpMatter.SharpMatterGH.Components.Learning.GeneticAlgorithm
 {
     /// <summary>
-    /// 
+    /// GA Solver Component. Wrapper class
     /// </summary>
     public class GASolver_GH : GH_Component
     {
