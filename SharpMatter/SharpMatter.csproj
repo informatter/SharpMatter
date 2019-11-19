@@ -82,7 +82,9 @@
     <Compile Include="SharpBehavior\BehaviorController.cs" />
     <Compile Include="SharpBehavior\Clone.cs" />
     <Compile Include="SharpBehavior\Flock.cs" />
+    <Compile Include="SharpBehavior\Interfaces\ISmartAgent.cs" />
     <Compile Include="SharpBehavior\PhysarumAgent.cs" />
+    <Compile Include="SharpBehavior\SmartAgent.cs" />
     <Compile Include="SharpColor\SharpColor.cs" />
     <Compile Include="SharpExtensions\Extensions.cs" />
     <Compile Include="SharpField\Interfaces\IField2D.cs" />
@@ -90,6 +92,9 @@
     <Compile Include="SharpField\SharpField2D.cs" />
     <Compile Include="SharpField\SharpCell.cs" />
     <Compile Include="SharpField\SharpFieldIO.cs" />
+    <Compile Include="SharpLearning\GeneticAlgorithm\DNA.cs" />
+    <Compile Include="SharpLearning\GeneticAlgorithm\GASolver.cs" />
+    <Compile Include="SharpLearning\GeneticAlgorithm\GAPopulation.cs" />
     <Compile Include="SharpLearning\SharpKNearest.cs" />
     <Compile Include="SharpMath\VecN.cs" />
     <Compile Include="SharpPhysics\ISharpSpring.cs" />

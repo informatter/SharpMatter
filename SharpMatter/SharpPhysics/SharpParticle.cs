@@ -202,7 +202,7 @@ namespace SharpMatter.SharpPhysics
         /// <summary>
         /// 
         /// </summary>
-        public void CheckCollision()
+        public virtual void CheckCollision()
         {
             Vec3 normal = Vec3.ZAxis;
             if (m_position.Z < 0)
@@ -236,6 +236,20 @@ namespace SharpMatter.SharpPhysics
             }
 
 
+        }
+
+
+        public virtual Vec3 DiplayPosition()
+        {
+            return m_position;
+        }
+
+
+        public virtual Vec3 DiplayVelocity()
+        {
+            
+            m_velocity.Normalize();
+            return m_velocity;
         }
 
 

@@ -64,6 +64,8 @@
     <Compile Include="Components\CustomAttributes\CustomAttributes.cs" />
     <Compile Include="Components\FieldIO\WriteToImage_GH.cs" />
     <Compile Include="Components\Field\DeconstructField_GH.cs" />
+    <Compile Include="Components\Learning\GeneticAlgorithm\GAPopulation_GH.cs" />
+    <Compile Include="Components\Learning\GeneticAlgorithm\GASolver_GH.cs" />
     <Compile Include="Components\Learning\KDNNS_GH.cs" />
     <Compile Include="Components\Learning\KDTreeClosestPoints.cs" />
     <Compile Include="Components\Learning\KMeans_GH.cs" />
