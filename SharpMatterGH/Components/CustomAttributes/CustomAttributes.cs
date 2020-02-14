@@ -16,6 +16,8 @@ namespace SharpMatter.SharpMatterGH.Components.CustomAttributes
 {
     public class CustomAttributes : GH_ComponentAttributes
     {
+       
+
         Color transparent = Color.FromArgb(0, 0, 0,0);
        // Color greenOpacity = Color.FromArgb(150, 38, 189, 0);
         public CustomAttributes(IGH_Component component)

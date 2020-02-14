@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
+using System.Linq;
 
-using SharpMatter.SharpData;
+using SharpMatter.SharpMath;
 
 namespace SharpMatter.SharpMatterGH.Components.Types
 {
@@ -54,7 +55,15 @@ namespace SharpMatter.SharpMatterGH.Components.Types
             DA.SetData(0, d);
 
 
+          
+
+
         }
+
+
+
+     
+
 
         /// <summary>
         /// Provides an Icon for the component.

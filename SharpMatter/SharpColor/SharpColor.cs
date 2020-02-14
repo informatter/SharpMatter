@@ -522,7 +522,7 @@ namespace SharpMatter.SharpColor
         public static SharpColor Zero()
         {
 
-            return new SharpColor(0, 0, 0);
+            return new SharpColor(0.0, 0.0, 0.0);
         }
 
 

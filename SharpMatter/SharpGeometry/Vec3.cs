@@ -6,9 +6,7 @@ using System.Linq;
 using Rhino.Geometry;
 using Grasshopper.Kernel.Types;
 using SharpMatter.SharpField;
-
-
-
+using System.Collections;
 
 namespace SharpMatter.SharpGeometry
 {
@@ -46,13 +44,37 @@ namespace SharpMatter.SharpGeometry
 
         #region PROPERTIES
 
+        /// <summary>
+        /// Determines weather a vector is valid or not
+        /// </summary>
+        public bool IsValid
+        {
+            get
+            {
+                if (m_x == double.NaN || m_y == double.NaN || m_z == double.NaN)
+                    return false;
+
+                else if (m_x == double.NaN && m_y == double.NaN && m_z == double.NaN)
+                    return false;
+
+                else
+                    return true;
+            }
+        }
+
+
+        /// <summary>
+        /// Returns de magnitude of the vector
+        /// </summary>
         public double Magnitude
         {
             get { return Math.Sqrt(m_x * m_x + m_y * m_y + m_z * m_z); }
 
         }
 
-
+        /// <summary>
+        /// Returns the squared magnitude of the vector
+        /// </summary>
         public double SqrMagnitude
         {
             get { return Math.Pow(Magnitude, 2); }
@@ -60,13 +82,14 @@ namespace SharpMatter.SharpGeometry
 
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public double X  { get => m_x; set => m_x = value; }
 
-        public double X
-        {
-            get { return m_x; }
 
-            set { m_x = value; }
-        }
+
+        
 
         public static Vec3 XAxis
 
@@ -76,12 +99,8 @@ namespace SharpMatter.SharpGeometry
 
         }
 
-        public double Y
-        {
-            get { return m_y; }
+        public double Y { get => m_y; set => m_y = value; }
 
-            set { m_y = value; }
-        }
 
 
         public static Vec3 YAxis
@@ -92,12 +111,8 @@ namespace SharpMatter.SharpGeometry
 
         }
 
-        public double Z
-        {
-            get { return m_z; }
+        public double Z { get => m_z; set => m_z = value; }
 
-            set { m_z = value; }
-        }
 
         public static Vec3 ZAxis
 
@@ -109,16 +124,9 @@ namespace SharpMatter.SharpGeometry
 
 
         public static Vec3 Zero
-
         {
-
             get { return new Vec3(0.0, 0.0, 0.0); }
-
         }
-
-
-
-
 
 
 
@@ -593,7 +601,22 @@ namespace SharpMatter.SharpGeometry
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public double ManhattanDistance(Vec3 other)
+        {
+            double a = other.m_x -= m_x;
+            double b = other.m_y -= m_y;
+            double c =  other.m_z -= m_z;
 
+            return Math.Abs(a) + Math.Abs(b) + Math.Abs(c);
+        }
+
+
+       
         /// <summary>
         /// Unitizes the vector in place. A unit vector has length 1 unit. 
         ///An invalid or zero length vector cannot be unitized. in this case will return false
@@ -630,88 +653,79 @@ namespace SharpMatter.SharpGeometry
         /// </summary>
         /// <param name="pointToSearchFrom"></param>
         /// <param name="pointCloud"></param>
+        /// <param name="minDist"></param>
         /// <returns></returns>
-        public static Vec3 ClosestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud)
-
+        public static Vec3 ClosestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out double minDist )
         {
 
-            List<double> distanceList = new List<double>();
+            if (!pointToSearchFrom.IsValid) throw new ArgumentException(" Point to search from is Invalid!");
+            Vec3 closest = Vec3.Zero;     
+            minDist = double.MaxValue;
 
-            if (pointToSearchFrom != null)
-
+            for (int i = 0; i < pointCloud.Count; i++)
             {
-
-                for (int i = 0; i < pointCloud.Count; i++)
-
+                if (pointCloud[i].IsValid)
                 {
+                   double dist =  pointToSearchFrom.DistanceTo(pointCloud[i]);
 
-
-
-                    if (pointCloud[i] != null)
-
+                    if(dist<minDist)
                     {
+                        minDist = dist;
+                        closest = pointCloud[i];
+                        
+                    }
+                }
+
+                else
+                {
+                    throw new ArgumentException(" Point cloud at index:" + " " + i.ToString() + " " + "is invalid");
+                }
+            }
 
 
+            return closest;
+        }
 
-                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
 
-                        distanceList.Add(distance);
+        /// <summary>
+        /// Find closest point in a point collection.
+        /// </summary>
+        /// <param name="pointToSearchFrom"></param>
+        /// <param name="pointCloud"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        public static Vec3 ClosestPointParallel(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out double distance)
+        {
+            if (!pointToSearchFrom.IsValid) throw new ArgumentException(" Point to search from is Invalid!");
 
+            Vec3 closest = Vec3.Zero;
+            double minDist = double.MaxValue;
+
+            System.Threading.Tasks.Parallel.For (0, pointCloud.Count, i =>
+            {
+                if (pointCloud[i].IsValid)
+                {
+                    double dist = pointToSearchFrom.DistanceTo(pointCloud[i]);
+
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        closest = pointCloud[i];
                     }
 
                 }
 
-            }
-
-            int smallestIndex = distanceList.IndexOf(distanceList.Min());
-
-            return pointCloud[smallestIndex];
-
-
-        }
-
-
-
-
-
-        public static void ClosestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out int index)
-
-        {
-
-            List<double> distanceList = new List<double>();
-
-            if (pointToSearchFrom != null)
-
-            {
-
-                for (int i = 0; i < pointCloud.Count; i++)
-
+                else
                 {
-
-
-
-                    if (pointCloud[i] != null)
-
-                    {
-
-
-
-                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
-
-                        distanceList.Add(distance);
-
-                    }
-
+                    throw new ArgumentException(" Point cloud at index:" + " " + i.ToString() + " " + "is invalid");
                 }
+            });
 
-            }
-
-            int smallestIndex = distanceList.IndexOf(distanceList.Min());
-            index = smallestIndex;
-
-
-
+            distance = minDist;
+            return closest;
         }
+
+
 
 
 
@@ -759,27 +773,32 @@ namespace SharpMatter.SharpGeometry
         }
 
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <param name="minTargetDomain"></param>
+        /// <param name="maxTargetDomain"></param>
+        /// <returns></returns>
         public static Vec3 Constrain(Vec3 vec, double minTargetDomain, double maxTargetDomain)
         {
             double x = vec.m_x;
             double y = vec.m_y;
             double z = vec.m_z;
 
-            double newX = 0;
-            double newY = 0;
-            double newZ = 0;
-            newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
-            newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
-            newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
+            double newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
+            double newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
+            double newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
 
             return new Vec3(newX, newY, newZ);
 
         }
 
 
-        public static List<Vec3> ConstrainCollectionOfVectors(List<Vec3> vecs, double minTargetDomain, double maxTargetDomain)
+        public static Vec3[] ConstrainCollectionOfVectors(List<Vec3> vecs, double minTargetDomain, double maxTargetDomain)
         {
-            List<Vec3> remapedVecs = new List<Vec3>();
+            Vec3[] remapedVecs = new Vec3[vecs.Count];
 
             for (int i = 0; i < vecs.Count; i++)
             {
@@ -787,114 +806,47 @@ namespace SharpMatter.SharpGeometry
                 double y = vecs[i].m_y;
                 double z = vecs[i].m_z;
 
-                double newX = 0;
-                double newY = 0;
-                double newZ = 0;
+                double newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
+                double newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
+                double newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
 
-                newX = SharpMath.SharpMath.Constrain(x, minTargetDomain, maxTargetDomain);
-                newY = SharpMath.SharpMath.Constrain(y, minTargetDomain, maxTargetDomain);
-                newZ = SharpMath.SharpMath.Constrain(z, minTargetDomain, maxTargetDomain);
-
-                remapedVecs.Add(new Vec3(newX, newY, newZ));
-
+                remapedVecs[i] = new Vec3(newX, newY, newZ);
 
             }
+
             return remapedVecs;
 
         }
 
 
+
+       
         /// <summary>
-        /// Get total non empty values in an Array of Vec3's
+        /// Return the dot product of two vectors
         /// </summary>
-        /// <param name="array"></param>
-        /// <returns> int </returns>
-        public static int CountNonNullItemsArray(Vec3[] array)
+        /// <param name="vecA"></param>
+        /// <param name="vecB"></param>
+        /// <returns></returns>
+        public static double DotProduct(Vec3 vecA, Vec3 vecB)
         {
-            Vec3[] matchedItems = Array.FindAll(array, z => z == Vec3.Zero);
-            return matchedItems.Length;
+
+            return vecA.X + vecB.X * vecA.Y + vecB.Y * vecA.Z + vecB.Z;
 
         }
 
 
         /// <summary>
-        /// 
+        /// Project VecA on to VecB
         /// </summary>
-        /// <param name="pointToSearchFrom"></param>
-        /// <param name="pointCloud"></param>
-        /// <param name="farthestPointIndex"></param>
+        /// <param name="vecA"></param>
+        /// <param name="VecB"></param>
         /// <returns></returns>
-        public static Vec3 FarthestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud, out int farthestPointIndex)
-
+        public static Vec3 Project(Vec3 vecA, Vec3 VecB)
         {
-            List<double> distanceList = new List<double>();
+           
+            return DotProduct(vecA, VecB) / DotProduct(VecB, VecB) * VecB;
 
-            if (pointToSearchFrom != null)
-
-            {
-
-                for (int i = 0; i < pointCloud.Count; i++)
-
-                {
-                    if (pointCloud[i] != null)
-
-                    {
-
-                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
-
-                        distanceList.Add(distance);
-
-                    }
-
-                }
-
-            }
-
-            int LargestIndex = distanceList.IndexOf(distanceList.Max());
-            farthestPointIndex = LargestIndex;
-            return pointCloud[LargestIndex];
-
-
-        }
-
-
-        /// <summary>
-        /// Returns the index of the farthest point
-        /// </summary>
-        /// <param name="pointToSearchFrom"></param>
-        /// <param name="pointCloud"></param>
-        /// <returns></returns>
-        public static int FarthestPoint(Vec3 pointToSearchFrom, List<Vec3> pointCloud)
-
-        {
-            List<double> distanceList = new List<double>();
-
-            if (pointToSearchFrom != null)
-
-            {
-
-                for (int i = 0; i < pointCloud.Count; i++)
-
-                {
-                    if (pointCloud[i] != null)
-
-                    {
-
-                        double distance = pointToSearchFrom.DistanceTo(pointCloud[i]);
-
-                        distanceList.Add(distance);
-
-                    }
-
-                }
-
-            }
-
-            int LargestIndex = distanceList.IndexOf(distanceList.Max());
-
-            return LargestIndex;
-
-
+            // also calculated as: DotProduct(vecA, VecB) /  VecB.SqrMagnitude * VecB;
         }
 
 
@@ -1045,7 +997,7 @@ namespace SharpMatter.SharpGeometry
 
             double x = minX + (maxX - minX) * ran.NextDouble();
             double y = minY + (maxY - minY) * ran.NextDouble();
-            double z = minZ + (maxZ - minZ) * ran.NextDouble();
+            double z = minZ + (maxZ - minZ) * ran.NextDouble();      
 
             return new Vec3(x, y, z);
         }
@@ -1067,6 +1019,8 @@ namespace SharpMatter.SharpGeometry
 
             return new Vec3(x, y, z);
         }
+
+
 
         /// <summary>
         /// Create random 2D vector directions
@@ -1107,16 +1061,6 @@ namespace SharpMatter.SharpGeometry
         }
 
 
-        public static Vec3 VectorRotate(ref Vec3 v, double radians, bool in2D, bool in3D)
-        {
-            //Jhon Vince, Mathematics for computer graphics
-            var ca = Math.Cos(radians);
-            var sa = Math.Sin(radians);
-            if (in3D) return new Vec3(ca * v.m_x - sa * v.m_y, sa * v.m_x + ca * v.m_y, sa * v.m_y + v.m_z * ca);
-            else return new Vec3(ca * v.m_x - sa * v.m_y, sa * v.m_x + ca * v.m_y, 0);
-
-        }
-
 
         /// <summary>
         /// 
@@ -1131,16 +1075,21 @@ namespace SharpMatter.SharpGeometry
 
 
 
-        public static List<Color> Vec3ToColor(List<Vec3> vectors)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="vectors"></param>
+        /// <returns></returns>
+        public static Color [] Vec3ToColor(List<Vec3> vectors)
         {
-            List<Color> l = new List<Color>();
+            Color[] col = new Color[vectors.Count];
             for (int i = 0; i < vectors.Count; i++)
             {
-                l.Add(Color.FromArgb((int)SharpMath.SharpMath.Constrain(vectors[i].X, 0, 255),
-                    (int)SharpMath.SharpMath.Constrain(vectors[i].Y, 0, 255), (int)SharpMath.SharpMath.Constrain(vectors[i].Z, 0, 255)));
+                col[i] = Color.FromArgb((int)SharpMath.SharpMath.Constrain(vectors[i].X, 0, 255),
+                    (int)SharpMath.SharpMath.Constrain(vectors[i].Y, 0, 255), (int)SharpMath.SharpMath.Constrain(vectors[i].Z, 0, 255));
 
             }
-            return l;
+            return col;
         }
 
 

@@ -73,14 +73,13 @@ namespace SharpMatter.SharpMath
 
             if (NVecA.NVec.Length != NVecB.NVec.Length) throw new ArgumentException("Vectors have to be the same dimensions!");
 
-            if (NVecA.NVec.Length == NVecB.NVec.Length)
-            {
+ 
                 for (int i = 0; i < NVecA.NVec.Length; i++)
                 {
                     NVecA.NVec[i] += NVecB.NVec[i];
                 }
 
-            }
+         
             return NVecA;
         }
 
@@ -97,14 +96,12 @@ namespace SharpMatter.SharpMath
 
             if (NVecA.NVec.Length != NVecB.NVec.Length) throw new ArgumentException("Vectors have to be the same dimensions!");
 
-            if (NVecA.NVec.Length == NVecB.NVec.Length)
-            {
                 for (int i = 0; i < NVecA.NVec.Length; i++)
                 {
                     NVecA.NVec[i] -= NVecB.NVec[i];
                 }
 
-            }
+         
             return NVecA;
         }
 
@@ -170,14 +167,12 @@ namespace SharpMatter.SharpMath
         {
             if (NVecA.NVec.Length != NVecB.NVec.Length) throw new ArgumentException("Vectors have to be the same dimensions!");
 
-            if (NVecA.NVec.Length == NVecB.NVec.Length)
-            {
                 for (int i = 0; i < NVecA.NVec.Length; i++)
                 {
                     NVecA.NVec[i] /= NVecB.NVec[i];
                 }
 
-            }
+            
             return NVecA;
 
         }
@@ -267,12 +262,12 @@ namespace SharpMatter.SharpMath
 
                 for (int i = 0; i < matrix.Values.Length; i++)
                 {
-                    double [] row = matrix.Values[i];
+                   
                     List<double> partialR = new List<double>();
-                    for (int j = 0; j < row.Length; j++)
+                    for (int j = 0; j < matrix.Values[i].Length; j++)
                     {
 
-                        partialR.Add(this.m_vecN[j] * row[j]);
+                        partialR.Add(this.m_vecN[j] * matrix.Values[i][j]);
 
                     }
 
@@ -296,16 +291,16 @@ namespace SharpMatter.SharpMath
         public double DotProduct(VecN other)
         {
 
-            double[] partialResults = new double[other.NVec.Length];
+            double sum = 0;
 
             for (int i = 0; i < other.NVec.Length; i++)
             {
-                partialResults[i] = other.m_vecN[i] *= this.m_vecN[i];
+                sum+= other.m_vecN[i] *this.m_vecN[i];
             }
 
-            var result = partialResults.Sum();
+           
 
-            return result;
+            return sum;
         }
 
         /// <summary>

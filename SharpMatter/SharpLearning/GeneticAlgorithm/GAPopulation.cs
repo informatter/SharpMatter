@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Rhino.Geometry;
+
 using SharpMatter.SharpBehavior;
-using SharpMatter.SharpData;
 using SharpMatter.SharpGeometry;
+using SharpMatter.SharpMath;
 
 namespace SharpMatter.SharpLearning.GeneticAlgorithm
 {

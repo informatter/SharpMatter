@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using Grasshopper.Kernel;
 using Rhino.Geometry;
-using SharpMatter.SharpData;
+using SharpMatter.SharpMath;
 using SharpMatter.SharpLearning.GeneticAlgorithm;
 
 

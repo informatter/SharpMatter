@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using SharpMatter.SharpData;
 using Rhino.Geometry;
+
 using SharpMatter.SharpField;
 using SharpMatter.SharpGeometry;
-
+using SharpMatter.SharpMath;
 using SharpMatter.SharpBehavior;
 using SharpMatter.SharpPhysics;
 
