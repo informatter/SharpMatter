@@ -19,7 +19,7 @@ namespace SharpMatter.SharpMath
      
             private int m_columns;
             private int m_rows;
-            private double [][] m_matrix;
+            private double [][] m_values;
 
 
             /// <summary>
@@ -32,7 +32,7 @@ namespace SharpMatter.SharpMath
                 this.m_columns = columns;
                 this.m_rows = rows;
 
-                m_matrix = new double [m_rows][];
+                m_values = new double [m_rows][];
 
                 double[,] temp = new double [m_columns,m_rows];
 
@@ -46,7 +46,7 @@ namespace SharpMatter.SharpMath
     
                 }
 
-                m_matrix = temp.ToJaggedArray(m_columns, rows);
+                m_values = temp.ToJaggedArray(m_columns, rows);
 
 
             }
@@ -90,7 +90,7 @@ namespace SharpMatter.SharpMath
 
             public double[][] Values
             {
-                get { return m_matrix; }
+                get { return m_values; }
 
             }
 
@@ -109,13 +109,13 @@ namespace SharpMatter.SharpMath
 
             public void DisplayToTextFile(string path, string name)
             {
-                m_matrix.JaggedArrayToTxtFile(path, name);
+                m_values.JaggedArrayToTxtFile(path, name);
             }
 
 
             public void DisplayToConsoleWindow()
             {
-                m_matrix.JaggedArrayToConsoleWindow();
+                m_values.JaggedArrayToConsoleWindow();
             }
 
 
@@ -133,11 +133,11 @@ namespace SharpMatter.SharpMath
                 else
                 {
 
-                    for (int i = 0; i < m_matrix.Length; i++)
+                    for (int i = 0; i < m_values.Length; i++)
                     {
-                        for (int j = 0; j < m_matrix[i].Length; j++)
+                        for (int j = 0; j < m_values[i].Length; j++)
                         {
-                            m_matrix[i][j] = data[i][j];
+                            m_values[i][j] = data[i][j];
                         }
                     }
                      

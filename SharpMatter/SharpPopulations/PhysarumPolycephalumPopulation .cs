@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SharpMatter.SharpBehavior;
 using SharpMatter.SharpField;
 using SharpMatter.SharpGeometry;
-using SharpMatter.SharpData;
+using SharpMatter.SharpMath;
 
 namespace SharpMatter.SharpPopulations
 {

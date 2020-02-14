@@ -103,5 +103,6 @@ Erase "$(TargetPath)"</PostBuildEvent>
     </StartArguments>
     <StartAction>Program</StartAction>
     <LangVersion>7.1</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 </Project>

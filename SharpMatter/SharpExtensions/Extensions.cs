@@ -281,6 +281,7 @@ namespace SharpMatter.SharpExtensions
 
         {
 
+          
 
             for (int i = 0; i < data.Length; i++)
             {
@@ -489,20 +490,19 @@ namespace SharpMatter.SharpExtensions
 
             T[][] observations = new T[numElements][];
 
-            List<T> temp = data.AllData();
-            Parallel.For(0, observations.Length, i =>
-            //for (int i = 0; i < observations.Length; i++)
+            
+            for (int i = 0; i < observations.Length; i++)
             {
                 T[] sub = new T[totalElementsPerArray];
-                List<T> itemsInBranch = data.Branch(i);
+             
                 for (int j = 0; j < totalElementsPerArray; j++)
                 {
 
-                    sub[j] = itemsInBranch[j];
+                    sub[j] = data.Branch(i)[j];
                 }
                 observations[i] = sub;
-                // }
-            });
+            }
+            
 
             return observations;
         }

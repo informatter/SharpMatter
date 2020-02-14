@@ -8,6 +8,7 @@ using Rhino.Geometry;
 using SharpMatter.SharpField;
 using SharpMatter.SharpGeometry;
 using SharpMatter.SharpUtilities;
+using System.Linq;
 
 namespace SharpMatter.SharpMatterGH.Components.Field
 {
@@ -88,9 +89,11 @@ namespace SharpMatter.SharpMatterGH.Components.Field
             pManager.AddNumberParameter("values", "values", "Input values", GH_ParamAccess.list);
 
             pManager.AddParameter(_reactionDiffusion);
-
+    
 
         }
+
+      
 
         /// <summary>
         /// Registers all the output parameters for this component.
@@ -222,22 +225,6 @@ namespace SharpMatter.SharpMatterGH.Components.Field
         }
 
 
-        public SharpCell<double>[,] init (double[,] _valueA, double[,] _valueB, int _columns, int _rows, double _resolution)
-        {
-            SharpCell<double>[,] sharpCellArray = new SharpCell<double>[_columns, _rows];
-
-          
-
-            for (int i = 0; i < _columns; i++)
-            {
-                for (int j = 0; j < _rows; j++)
-                {
-                    sharpCellArray[i, j] = new SharpCell<double>(new Vec3(i * _resolution, j * _resolution, 0), _valueA[i, j], _valueB[i, j]);
-                }
-            }
-
-            return sharpCellArray;
-        }
 
 
 

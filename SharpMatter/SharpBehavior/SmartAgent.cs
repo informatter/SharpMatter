@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using SharpMatter.SharpPhysics;
 using SharpMatter.SharpLearning.GeneticAlgorithm;
 using SharpMatter.SharpGeometry;
-using SharpMatter.SharpData;
-
 using SharpMatter.SharpBehavior.Interfaces;
 using Rhino.Geometry;
+using SharpMatter.SharpMath;
 
 namespace SharpMatter.SharpBehavior
 {

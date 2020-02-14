@@ -8,7 +8,7 @@ using Grasshopper.Kernel.Data;
 using Rhino.Geometry;
 
 using SharpMatter.SharpField;
-using SharpMatter.SharpData;
+using SharpMatter.SharpMath;
 using SharpMatter.SharpPopulations;
 using SharpMatter.SharpSolvers;
 using SharpMatter.SharpBehavior;

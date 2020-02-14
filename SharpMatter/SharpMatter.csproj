@@ -85,13 +85,20 @@
     <Compile Include="SharpBehavior\Interfaces\ISmartAgent.cs" />
     <Compile Include="SharpBehavior\PhysarumAgent.cs" />
     <Compile Include="SharpBehavior\SmartAgent.cs" />
+    <Compile Include="SharpCollections\NodeContainer.cs" />
     <Compile Include="SharpColor\SharpColor.cs" />
+    <Compile Include="SharpData\Graphs\Graph.cs" />
+    <Compile Include="SharpData\Graphs\GraphNode.cs" />
+    <Compile Include="SharpData\Graphs\Node.cs" />
     <Compile Include="SharpExtensions\Extensions.cs" />
     <Compile Include="SharpField\Interfaces\IField2D.cs" />
     <Compile Include="SharpField\SharpField1D.cs" />
     <Compile Include="SharpField\SharpField2D.cs" />
     <Compile Include="SharpField\SharpCell.cs" />
     <Compile Include="SharpField\SharpFieldIO.cs" />
+    <Compile Include="SharpGeometry\SharpCloudItem.cs" />
+    <Compile Include="SharpGeometry\SharpPointCloud.cs" />
+    <Compile Include="SharpImage\ImageProcessing.cs" />
     <Compile Include="SharpLearning\GeneticAlgorithm\DNA.cs" />
     <Compile Include="SharpLearning\GeneticAlgorithm\GASolver.cs" />
     <Compile Include="SharpLearning\GeneticAlgorithm\GAPopulation.cs" />
@@ -112,7 +119,7 @@
     <Compile Include="SharpSolvers\ReactionDiffusion2D.cs" />
     <Compile Include="SharpSolvers\ReactionDiffussion3D.cs" />
     <Compile Include="SharpSpawner\Spawner.cs" />
-    <Compile Include="SharpData\SharpDomain.cs" />
+    <Compile Include="SharpMath\SharpDomain.cs" />
     <Compile Include="SharpForces\FluidResistance.cs" />
     <Compile Include="SharpForces\ForcesController.cs" />
     <Compile Include="SharpForces\Friction.cs" />
@@ -152,7 +159,8 @@
     <StartArguments>
     </StartArguments>
     <StartAction>Program</StartAction>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.3</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <Import Project="..\packages\Accord.3.8.0\build\Accord.targets" Condition="Exists('..\packages\Accord.3.8.0\build\Accord.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

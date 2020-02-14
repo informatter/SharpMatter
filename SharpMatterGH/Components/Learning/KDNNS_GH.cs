@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Grasshopper;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Data;
@@ -9,6 +9,7 @@ using Grasshopper.Kernel.Types;
 using SharpMatter.SharpLearning;
 using Rhino.Geometry;
 using SharpMatter.SharpExtensions;
+using Rhino.Geometry.Collections;
 
 namespace SharpMatter.SharpMatterGH.Components.Learning
 {
@@ -78,6 +79,8 @@ namespace SharpMatter.SharpMatterGH.Components.Learning
                 return null;
             }
         }
+
+    
 
         /// <summary>
         /// Gets the unique ID for this component. Do not change this ID after release.
