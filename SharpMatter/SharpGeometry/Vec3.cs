@@ -15,7 +15,7 @@ namespace SharpMatter.SharpGeometry
     /// Represents the three components of a vector in three-dimensional space. 
     /// Vector class written by Nicholas Rawitscher. This library is currently under development 
     /// 
-    /// 
+    /// xd
     /// </summary>
 
 
