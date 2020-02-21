@@ -3,24 +3,23 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 using Rhino.Geometry;
 using Grasshopper.Kernel.Types;
 using SharpMatter.SharpField;
-using System.Collections;
 
+
+/// <summary>
+/// This namespace contains classes related to geometry
+/// </summary>
 namespace SharpMatter.SharpGeometry
 {
     /// <summary>
     /// 
     /// Represents the three components of a vector in three-dimensional space. 
-    /// Vector class written by Nicholas Rawitscher. This library is currently under development 
-    /// 
-    /// 
     /// </summary>
 
-
-
-    public struct Vec3 : IEquatable<Vec3>
+    public struct Vec3 : IEquatable<Vec3>, IComparable<Vec3>
     {
         // Field data
 
@@ -28,18 +27,7 @@ namespace SharpMatter.SharpGeometry
         private double m_y;
         private double m_z;
 
-
-
-        public Vec3(double x, double y, double z)
-        {
-            m_x = x;
-            m_y = y;
-            m_z = z;
-
-
-        }
-
-
+        public Vec3(double x, double y, double z) { m_x = x; m_y = y; m_z = z; }
 
 
         #region PROPERTIES
@@ -62,6 +50,11 @@ namespace SharpMatter.SharpGeometry
             }
         }
 
+        
+        /// <summary>
+        /// Constructs an invalid vector
+        /// </summary>
+        public static Vec3 Invalid => new Vec3(double.NaN, double.NaN, double.NaN);
 
         /// <summary>
         /// Returns de magnitude of the vector
@@ -75,59 +68,43 @@ namespace SharpMatter.SharpGeometry
         /// <summary>
         /// Returns the squared magnitude of the vector
         /// </summary>
-        public double SqrMagnitude
-        {
-            get { return Math.Pow(Magnitude, 2); }
-        }
-
-
+        public double SqrMagnitude  { get => Math.Pow(Magnitude, 2); }
 
         /// <summary>
-        /// 
+        /// Gets or sets the vectors X component
         /// </summary>
         public double X  { get => m_x; set => m_x = value; }
 
-
-
-        
-
-        public static Vec3 XAxis
-
-        {
-
-            get { return new Vec3(1.0, 0.0, 0.0); }
-
-        }
-
+        /// <summary>
+        /// Gets or sets the vectors Y component
+        /// </summary>
         public double Y { get => m_y; set => m_y = value; }
 
-
-
-        public static Vec3 YAxis
-
-        {
-
-            get { return new Vec3(0.0, 1.0, 0.0); }
-
-        }
-
+        /// <summary>
+        /// Gets or sets the vectors Z component
+        /// </summary>
         public double Z { get => m_z; set => m_z = value; }
 
 
-        public static Vec3 ZAxis
+        /// <summary>
+        ///  Creates a X axis unit vector
+        /// </summary>
+        public static Vec3 XAxis => new Vec3(1, 0, 0);
 
-        {
+        /// <summary>
+        /// Creates a Y axis unit vector
+        /// </summary>
+        public static Vec3 YAxis => new Vec3(0, 1, 0);
 
-            get { return new Vec3(0.0, 0.0, 1.0); }
+        /// <summary>
+        /// Creates a Z axis unit vector
+        /// </summary>
+        public static Vec3 ZAxis => new Vec3(0, 0, 1);
 
-        }
-
-
-        public static Vec3 Zero
-        {
-            get { return new Vec3(0.0, 0.0, 0.0); }
-        }
-
+        /// <summary>
+        /// Creates a vector at cartisian origin
+        /// </summary>
+        public static Vec3 Zero { get => new Vec3(0.0, 0.0, 0.0); }
 
 
         #endregion
@@ -147,54 +124,25 @@ namespace SharpMatter.SharpGeometry
         {
 
             if (m_x < other.m_x)
-
                 return -1;
 
             if (m_x > other.m_x)
-
                 return 1;
 
-
-
             if (m_y < other.m_y)
-
                 return -1;
 
             if (m_y > other.m_y)
-
                 return 1;
 
-
-
             if (m_z < other.m_z)
-
                 return -1;
 
             if (m_z > other.m_z)
-
                 return 1;
-
-
-
             return 0;
 
         }
-
-
-        /// <summary>
-        /// true if other has the same coordinates as this vector, else  otherwise false.
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns> Bool
-        public bool Equals(Vec3 other)
-        {
-            if (other.m_x == this.m_x && other.m_y == this.m_y && other.m_z == this.m_z)
-                return true;
-
-            else
-                return false;
-        }
-
 
 
 
@@ -207,54 +155,17 @@ namespace SharpMatter.SharpGeometry
         /// <param name="index"></param>
         /// <returns></returns>
         public double this[int index]
-
         {
-
             get
-
             {
-
-                if (0 == index)
-
-                    return m_x;
-
-                if (1 == index)
-
-                    return m_y;
-
-                if (2 == index)
-
-                    return m_z;
-
-
-                else throw new IndexOutOfRangeException();
-
-
+                switch (index)
+                {
+                    case 0: return X;
+                    case 1: return Y;
+                    case 2: return Z;
+                    default: throw new IndexOutOfRangeException(nameof(index));
+                }
             }
-
-            set
-
-            {
-
-                if (0 == index)
-
-                    m_x = value;
-
-                else if (1 == index)
-
-                    m_y = value;
-
-                else if (2 == index)
-
-                    m_z = value;
-
-                else throw new IndexOutOfRangeException();
-
-
-
-
-            }
-
         }
 
 
@@ -264,45 +175,32 @@ namespace SharpMatter.SharpGeometry
         /// Cast from Point3d to Vec3
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vec3(Point3d v)
-        {
-            return new Vec3(v.X, v.Y, v.Z);
-        }
+        public static explicit operator Vec3(Point3d v) => new Vec3(v.X, v.Y, v.Z);
+
+
         /// <summary>
         /// Cast from Vec3 to Point3d
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Point3d(Vec3 v)
-        {
-            return new Point3d(v.m_x, v.m_y, v.m_z);
-        }
+        public static explicit operator Point3d(Vec3 v) => new Point3d(v.m_x, v.m_y, v.m_z);
+
 
         /// <summary>
         /// Cast from Vector3d to Vec3
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vec3(Vector3d v)
-        {
-            return new Vec3(v.X, v.Y, v.Z);
-        }
-
+        public static explicit operator Vec3(Vector3d v) => new Vec3(v.X, v.Y, v.Z);
 
 
         /// <summary>
         /// Cast from Color to Vec3
         /// </summary>
         /// <param name="c"></param>
-        public static explicit operator Vec3(Color c)
-        {
-            return new Vec3(c.R, c.G, c.B);
-        }
+        public static explicit operator Vec3(Color c) => new Vec3(c.R, c.G, c.B);
 
 
 
-        public static explicit operator Vec3(GH_Colour c)
-        {
-            return new Vec3(c.Value.R, c.Value.G, c.Value.B);
-        }
+        public static explicit operator Vec3(GH_Colour c) => new Vec3(c.Value.R, c.Value.G, c.Value.B);
 
 
 
@@ -310,56 +208,42 @@ namespace SharpMatter.SharpGeometry
         /// Cast from Vec3 to Vector3d
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vector3d(Vec3 v)
-        {
-            return new Vector3d(v.X, v.Y, v.Z);
-        }
+        public static explicit operator Vector3d(Vec3 v) => new Vector3d(v.X, v.Y, v.Z);
+
 
 
         /// <summary>
         /// Cast from Vec3 to GH_Vector
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator GH_Vector(Vec3 v)
-        {
-            return new GH_Vector(new Vector3d(v.X, v.Y, v.Z));
-        }
+        public static explicit operator GH_Vector(Vec3 v) => new GH_Vector(new Vector3d(v.X, v.Y, v.Z));
+
 
 
         /// <summary>
         /// Cast from GH_Vector to Vec3
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vec3(GH_Vector v)
-        {
-            return new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
-        }
+        public static explicit operator Vec3(GH_Vector v) => new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
 
         /// <summary>
         /// Cast from GH_Point to Vec3
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator Vec3(GH_Point v)
-        {
-            return new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
-        }
+        public static explicit operator Vec3(GH_Point v) => new Vec3(v.Value.X, v.Value.Y, v.Value.Z);
+
 
 
         /// <summary>
         /// Cast from Vec3 to GH_Point
         /// </summary>
         /// <param name="v"></param>
-        public static explicit operator GH_Point(Vec3 v)
-        {
-            return new GH_Point(new Point3d(v.X, v.Y, v.Z));
-        }
+        public static explicit operator GH_Point(Vec3 v) => new GH_Point(new Point3d(v.X, v.Y, v.Z));
 
 
-        public static implicit operator string(Vec3 vector)
-        {
-            return vector.ToString();
-        }
 
+        public static implicit operator string(Vec3 vector) => vector.ToString();
+     
 
 
 
@@ -433,10 +317,7 @@ namespace SharpMatter.SharpGeometry
         /// <param name="vecA"></param>
         /// <param name="vecB"></param>
         /// <returns></returns>
-        public static double operator *(Vec3 vecA, Vec3 vecB)
-        {
-            return vecA.m_x * vecB.m_x + vecA.m_y * vecB.m_y + vecA.m_z * vecB.m_z;
-        }
+        public static double operator *(Vec3 vecA, Vec3 vecB) => vecA.m_x * vecB.m_x + vecA.m_y * vecB.m_y + vecA.m_z * vecB.m_z;
 
 
 
@@ -480,10 +361,14 @@ namespace SharpMatter.SharpGeometry
         /// <returns></returns>
         public static bool operator !=(Vec3 vecA, Vec3 vecB)
         {
-            if (vecA.m_x != vecB.m_x && vecA.m_y != vecB.m_y && vecA.m_z != vecB.m_z)
-            {
+            if (vecA.m_x != 
+                vecB.m_x && 
+                vecA.m_y != 
+                vecB.m_y && 
+                vecA.m_z != 
+                vecB.m_z)
                 return true;
-            }
+            
             else
                 return false;
 
@@ -492,12 +377,13 @@ namespace SharpMatter.SharpGeometry
 
         public static bool operator ==(Vec3 vecA, Vec3 vecB)
         {
-            if (vecA.m_x == vecB.m_x && vecA.m_y == vecB.m_y && vecA.m_z == vecB.m_z)
-            {
+            if (vecA.m_x == vecB.m_x 
+                && vecA.m_y == vecB.m_y 
+                && 
+                vecA.m_z == vecB.m_z)           
                 return true;
-            }
-            else
-                return false;
+            
+            else return false;
 
 
         }
@@ -514,7 +400,13 @@ namespace SharpMatter.SharpGeometry
         {
             // a.X is larger than b.X, or a.X == b.X and a.Y is larger than b.Y, or a.X == b.X and a.Y == b.Y and a.Z is larger than b.Z;
 
-            if (vecA.m_x > vecB.m_x || vecA.m_x == vecB.m_x && vecA.m_y > vecB.m_y || vecA.m_x == vecB.m_x && vecA.m_y == vecB.m_y && vecA.m_z > vecB.m_z) return true;
+            if (vecA.m_x > vecB.m_x || 
+                vecA.m_x == vecB.m_x && 
+                vecA.m_y > vecB.m_y || 
+                vecA.m_x == vecB.m_x && 
+                vecA.m_y == vecB.m_y && 
+                vecA.m_z > vecB.m_z)
+                return true;
 
             else return false;
 
@@ -532,7 +424,13 @@ namespace SharpMatter.SharpGeometry
         {
             // a.X is larger than b.X, or a.X == b.X and a.Y is larger than b.Y, or a.X == b.X and a.Y == b.Y and a.Z >= b.Z
 
-            if (vecA.m_x > vecB.m_x || vecA.m_x == vecB.m_x && vecA.m_y > vecB.m_y || vecA.m_x == vecB.m_x && vecA.m_y == vecB.m_y && vecA.m_z >= vecB.m_z) return true;
+            if (vecA.m_x > vecB.m_x || 
+                vecA.m_x == vecB.m_x && 
+                vecA.m_y > vecB.m_y ||
+                vecA.m_x == vecB.m_x && 
+                vecA.m_y == vecB.m_y && 
+                vecA.m_z >= vecB.m_z)
+                return true;
 
             else return false;
 
@@ -578,6 +476,31 @@ namespace SharpMatter.SharpGeometry
 
 
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Vec3 vec)
+                return Equals(vec);
+            return false;
+        }
+        public bool Equals(Vec3 other)
+        {
+            return X.Equals(other.X) &&
+                   Y.Equals(other.Y) &&
+                   Z.Equals(other.Z);
+        }
+
+
+        public override int GetHashCode()
+        {
+            
+            return X.GetHashCode() * 9 ^
+                   Y.GetHashCode() * 23 ^
+                   Z.GetHashCode() * 51;
+        }
+
+
+
+
 
 
         #endregion
@@ -602,7 +525,7 @@ namespace SharpMatter.SharpGeometry
 
 
         /// <summary>
-        /// 
+        /// Computes the Manhattan distance between two vectors
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -749,10 +672,10 @@ namespace SharpMatter.SharpGeometry
 
         }
 
-        public static Vec3 ColourToVector(Color color)
-        {
-            return new Vec3(color.R, color.G, color.B);
-        }
+        public static Vec3 ColourToVector(Color color) => new Vec3(color.R, color.G, color.B);
+     
+
+
         /// <summary>
         /// Return the cross product of two vectos. The result is a third vector that is at 90 degrees to both
         /// </summary>
@@ -775,7 +698,7 @@ namespace SharpMatter.SharpGeometry
 
 
         /// <summary>
-        /// 
+        /// Constain a vector to a given domain
         /// </summary>
         /// <param name="vec"></param>
         /// <param name="minTargetDomain"></param>
@@ -796,6 +719,13 @@ namespace SharpMatter.SharpGeometry
         }
 
 
+        /// <summary>
+        /// Constrain a collection of vectors to a given domain
+        /// </summary>
+        /// <param name="vecs"></param>
+        /// <param name="minTargetDomain"></param>
+        /// <param name="maxTargetDomain"></param>
+        /// <returns></returns>
         public static Vec3[] ConstrainCollectionOfVectors(List<Vec3> vecs, double minTargetDomain, double maxTargetDomain)
         {
             Vec3[] remapedVecs = new Vec3[vecs.Count];
@@ -827,30 +757,97 @@ namespace SharpMatter.SharpGeometry
         /// <param name="vecA"></param>
         /// <param name="vecB"></param>
         /// <returns></returns>
-        public static double DotProduct(Vec3 vecA, Vec3 vecB)
+        public static double DotProduct(Vec3 vecA, Vec3 vecB) => vecA.X * vecB.X + vecA.Y * vecB.Y + vecA.Z * vecB.Z;
+
+
+
+        /// <summary>
+        /// Find closest point in a point collection.
+        /// </summary>
+        /// <param name="vecToSearchFrom"></param>
+        /// <param name="vectors"></param>
+        /// <param name="maxDist"></param>
+        /// <returns></returns>
+        public static Vec3 FarthestPoint(Vec3 vecToSearchFrom, List<Vec3> vectors, out double maxDist)
         {
 
-            return vecA.X + vecB.X * vecA.Y + vecB.Y * vecA.Z + vecB.Z;
+            if (!vecToSearchFrom.IsValid) throw new ArgumentException(" Point to search from is Invalid!");
+            Vec3 closest = Vec3.Zero;
+            maxDist = double.MaxValue;
 
+            for (int i = 0; i < vectors.Count; i++)
+            {
+                if (vectors[i].IsValid)
+                {
+                    double dist = vecToSearchFrom.DistanceTo(vectors[i]);
+
+                    if (dist > maxDist)
+                    {
+                        maxDist = dist;
+                        closest = vectors[i];
+                    }
+                }
+
+                else
+                    throw new Exception(" Point cloud at index:" + " " + i.ToString() + " " + "is invalid");
+
+
+            }
+
+
+            return closest;
         }
 
 
+        /// <summary>
+        /// Find farthest vector in a vector collection given a search vector.
+        /// </summary>
+        /// <param name="vecToSearchFrom"></param>
+        /// <param name="vectors"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
+        public static Vec3 FarthesPointParallel(Vec3 vecToSearchFrom, List<Vec3> vectors, out double distance)
+        {
+            if (!vecToSearchFrom.IsValid) throw new ArgumentException(" Point to search from is Invalid!");
+
+            Vec3 closest = Vec3.Zero;
+            double maxDist = double.MinValue;
+
+            System.Threading.Tasks.Parallel.For(0, vectors.Count, i =>
+            {
+                if (vectors[i].IsValid)
+                {
+                    double dist = vecToSearchFrom.DistanceTo(vectors[i]);
+
+                    if (dist > maxDist)
+                    {
+                        maxDist = dist;
+                        closest = vectors[i];
+                    }
+
+                }
+
+                else
+                {
+                    throw new ArgumentException(" Point cloud at index:" + " " + i.ToString() + " " + "is invalid");
+                }
+            });
+
+            distance = maxDist;
+            return closest;
+        }
+
+
+        ///<remarks>
+        /// also calculated as: DotProduct(vecA, VecB) /  VecB.SqrMagnitude * VecB;
+        /// </remarks>
         /// <summary>
         /// Project VecA on to VecB
         /// </summary>
         /// <param name="vecA"></param>
         /// <param name="VecB"></param>
         /// <returns></returns>
-        public static Vec3 Project(Vec3 vecA, Vec3 VecB)
-        {
-           
-            return DotProduct(vecA, VecB) / DotProduct(VecB, VecB) * VecB;
-
-            // also calculated as: DotProduct(vecA, VecB) /  VecB.SqrMagnitude * VecB;
-        }
-
-
-
+        public static Vec3 Project(Vec3 vecA, Vec3 VecB) => DotProduct(vecA, VecB) / DotProduct(VecB, VecB) * VecB;
 
 
 
@@ -873,6 +870,28 @@ namespace SharpMatter.SharpGeometry
             var y = y0 + (radius * Math.Sin(phi) * Math.Sin(theta));
             var z = z0 + (radius * Math.Cos(phi));
             return new Vec3(x, y, z);
+        }
+
+
+        /// <summary>
+        /// This method sorts the vertices of a 2D polygon in counterclockwise order.
+        /// </summary>
+        /// <param name="vertices">A collection of vertices to sort</param>
+        /// <returns>A sorted collection of vertices </returns>
+        public static Vec3 [] SortPolygonVertices(List<Vec3> vertices)
+        {
+            Vec3 cntr = Average(vertices);
+
+            double[] _angles = new double[vertices.Count];
+
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                _angles[i] = Math.Atan2(vertices[i].X - cntr.X, vertices[i].Y - cntr.Y);
+            }
+
+            Vec3 [] orderedData = vertices.OrderBy( item => _angles).ToArray();
+
+            return orderedData;
         }
 
 
@@ -955,28 +974,17 @@ namespace SharpMatter.SharpGeometry
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static Vec3 VectorialAverege(List<Vec3> data, bool round)
+        public static Vec3 Average(List<Vec3> data)
         {
             Vec3 tempAverege = Vec3.Zero;
             Vec3 averege = Vec3.Zero;
 
             for (int i = 0; i < data.Count; i++)
             {
-                tempAverege += data[i];
+                averege += data[i];
             }
 
-            tempAverege /= data.Count;
-            if (round)
-            {
-                averege = VectorRound(tempAverege);
-            }
-
-            if (round == false)
-            {
-                averege = tempAverege;
-            }
-
-
+            averege /= data.Count;
             return averege;
         }
 
@@ -1068,10 +1076,7 @@ namespace SharpMatter.SharpGeometry
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
-        public static Vec3 VectorRound(Vec3 vec)
-        {
-            return new Vec3(Math.Round(vec.X), Math.Round(vec.Y), Math.Round(vec.Z));
-        }
+        public static Vec3 VectorRound(Vec3 vec) => new Vec3(Math.Round(vec.X), Math.Round(vec.Y), Math.Round(vec.Z));
 
 
 
@@ -1107,42 +1112,9 @@ namespace SharpMatter.SharpGeometry
         {
             var culture = System.Globalization.CultureInfo.InvariantCulture;
             return $"({m_x.ToString(culture)}, {m_y.ToString(culture)}, {m_z.ToString(culture)})";
-
-
-
-            //return String.Format("{0},{1},{2}", m_x.ToString(culture), m_y.ToString(culture), m_z.ToString(culture));
         }
 
 
-
-        public override bool Equals(object obj)
-        {
-            Vec3 temp;
-            temp = (Vec3)obj;
-            if (obj is Vec3 && obj != null)
-            {
-                if (temp.m_x == this.m_x && temp.m_y == this.m_y && temp.m_z == this.m_z)
-                {
-                    return true;
-                }
-
-                else return false;
-            }
-
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            //return base.GetHashCode();
-
-            return ToString().GetHashCode();
-        }
-
-        //bool IEquatable<Vec3>.Equals(Vec3 other)
-        //{
-        //    throw new NotImplementedException();
-        //}
         #endregion
 
 
