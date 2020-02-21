@@ -24,28 +24,17 @@ namespace SharpMatter.SharpMath
         /// Construct an VecN from an array of values
         /// </summary>
         /// <param name="values"></param>
-        public VecN(double[] values)
-
-        {
-            m_vecN = values;
-        }
+        public VecN(double[] values) => m_vecN = values;
 
 
         /// <summary>
         /// Construct a VecN from an initial dimension
         /// </summary>
         /// <param name="dimension"></param>
-        public VecN(int dimension)
-        {
+        public VecN(int dimension) => m_vecN = new double[dimension];
 
-            m_vecN = new double[dimension];
-        }
 
         #endregion
-
-
-
-
 
 
 
@@ -56,10 +45,8 @@ namespace SharpMatter.SharpMath
         /// 
         /// </summary>
         /// <param name="vector"></param>
-        public static implicit operator string(VecN vector)
-        {
-            return vector.ToString();
-        }
+        public static implicit operator string(VecN vector) => vector.ToString();
+
 
 
         /// <summary>
@@ -72,7 +59,6 @@ namespace SharpMatter.SharpMath
         {
 
             if (NVecA.NVec.Length != NVecB.NVec.Length) throw new ArgumentException("Vectors have to be the same dimensions!");
-
  
                 for (int i = 0; i < NVecA.NVec.Length; i++)
                 {
@@ -222,20 +208,13 @@ namespace SharpMatter.SharpMath
         /// Compute the Magnitude of an VecN.
         /// Calculates a pythaorean theorem in N dimensions
         /// </summary>
-        public double Magnitude
-        {
-            get { return System.Math.Sqrt(Mag()); }
+        public double Magnitude => System.Math.Sqrt(Mag());
 
-        }
 
         /// <summary>
         /// 
         /// </summary>
-        public double[] NVec
-        {
-            get { return m_vecN; }
-            set { m_vecN = value; }
-        }
+        public double[] NVec { get => m_vecN; set => m_vecN = value; }
 
         #endregion
 
@@ -256,7 +235,6 @@ namespace SharpMatter.SharpMath
             // if the number of cols in the matrix does not match the vector dim
             if (matrix.Values[0].Length != m_vecN.Length) throw new ArgumentException("Matrix has to have same number of columns as vector!");
 
-
             else
             {
 
@@ -266,9 +244,7 @@ namespace SharpMatter.SharpMath
                     List<double> partialR = new List<double>();
                     for (int j = 0; j < matrix.Values[i].Length; j++)
                     {
-
                         partialR.Add(this.m_vecN[j] * matrix.Values[i][j]);
-
                     }
 
                     double r = partialR.Sum();
@@ -292,13 +268,10 @@ namespace SharpMatter.SharpMath
         {
 
             double sum = 0;
-
             for (int i = 0; i < other.NVec.Length; i++)
             {
                 sum+= other.m_vecN[i] *this.m_vecN[i];
             }
-
-           
 
             return sum;
         }
@@ -310,12 +283,9 @@ namespace SharpMatter.SharpMath
         /// <returns></returns>
         public double DistanceTo(VecN other)
         {
-
             for (int i = 0; i < other.NVec.Length; i++)
             {
-
                 other.m_vecN[i] -= this.m_vecN[i];
-
             }
 
             return other.Magnitude;

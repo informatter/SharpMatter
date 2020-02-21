@@ -90,6 +90,7 @@
     <Compile Include="SharpData\Graphs\Graph.cs" />
     <Compile Include="SharpData\Graphs\GraphNode.cs" />
     <Compile Include="SharpData\Graphs\Node.cs" />
+    <Compile Include="SharpExceptions\SharpException.cs" />
     <Compile Include="SharpExtensions\Extensions.cs" />
     <Compile Include="SharpField\Interfaces\IField2D.cs" />
     <Compile Include="SharpField\SharpField1D.cs" />
