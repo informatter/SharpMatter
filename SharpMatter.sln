@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatterGH", "SharpMatte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatter.Core", "SharpMatter.Core\SharpMatter.Core.csproj", "{6C546E08-851D-4F54-814A-A6DF6ABEE5B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatter.Physics", "SharpMatter.Physics\SharpMatter.Physics.csproj", "{F126E718-DF8E-4889-86E7-9843723F1A93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpMatter.Extensions", "SharpMatter.Extensions\SharpMatter.Extensions.csproj", "{EDAEE53F-FF49-4EB6-83F1-1CEDEC429C6E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{6C546E08-851D-4F54-814A-A6DF6ABEE5B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C546E08-851D-4F54-814A-A6DF6ABEE5B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C546E08-851D-4F54-814A-A6DF6ABEE5B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F126E718-DF8E-4889-86E7-9843723F1A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F126E718-DF8E-4889-86E7-9843723F1A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F126E718-DF8E-4889-86E7-9843723F1A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F126E718-DF8E-4889-86E7-9843723F1A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDAEE53F-FF49-4EB6-83F1-1CEDEC429C6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDAEE53F-FF49-4EB6-83F1-1CEDEC429C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDAEE53F-FF49-4EB6-83F1-1CEDEC429C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDAEE53F-FF49-4EB6-83F1-1CEDEC429C6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

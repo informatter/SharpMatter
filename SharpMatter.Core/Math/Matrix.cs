@@ -12,6 +12,8 @@ namespace SharpMatter.Core.Math
         private int m_columns;
         private int m_rows;
 
+        public double[][] Values { get; }
+
         /// <summary>
         /// Initialize a N X N Matrix with default values set to zero
         /// </summary>
@@ -30,7 +32,9 @@ namespace SharpMatter.Core.Math
             for (int j = 0; j < columns; j++)
                 temp[i, j] = 0;
 
-            this.Values = temp.ToJaggedArray(m_columns, rows);
+            throw new NotImplementedException();
+
+            //this.Values = temp.ToJaggedArray(m_columns, rows);
         }
 
         public int Columns
@@ -59,7 +63,6 @@ namespace SharpMatter.Core.Math
             }
         }
 
-        public double[][] Values { get; }
 
         #region METHODS
 
@@ -71,12 +74,16 @@ namespace SharpMatter.Core.Math
 
         public void DisplayToTextFile(string path, string name)
         {
-            this.Values.JaggedArrayToTxtFile(path, name);
+            //this.Values.JaggedArrayToTxtFile(path, name);
+
+            throw new NotImplementedException();
         }
 
         public void DisplayToConsoleWindow()
         {
-            this.Values.JaggedArrayToConsoleWindow();
+            //this.Values.JaggedArrayToConsoleWindow();
+
+            throw new NotImplementedException();
         }
 
         public void InitializeValues(double[][] data)

@@ -16,7 +16,7 @@ namespace SharpMatter.Core
         /// The collection of all <see cref="IComponent"/>'s
         /// attached to this <see cref="ISharpObject"/>.
         /// </summary>
-        IReadOnlyCollection<IComponent> Components { get; }
+        IList<IComponent> Components { get; }
 
         /// <summary>
         /// Adds the <paramref name="component"/>
@@ -29,12 +29,12 @@ namespace SharpMatter.Core
         /// Removes the specified component.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        void RemoveComponent<T>();
+        void RemoveComponent(IComponent component);
 
         /// <summary>
         /// Gets the specified component.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        bool GetComponent<T>();
+        IComponent GetComponent<T>();
     }
 }
