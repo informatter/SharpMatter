@@ -42,6 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharpGeometry\SharpCloudItem.cs" />
+    <Compile Include="SharpGeometry\SharpPointCloud.cs" />
+    <Compile Include="SharpGeometry\Vec3.cs" />
+    <Compile Include="SharpMath\Matrix.cs" />
+    <Compile Include="SharpMath\SharpDomain.cs" />
+    <Compile Include="SharpMath\SharpMath.cs" />
+    <Compile Include="SharpMath\VecN.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
