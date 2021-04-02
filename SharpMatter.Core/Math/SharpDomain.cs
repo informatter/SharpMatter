@@ -1,130 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SharpMatter.SharpMath
+﻿namespace SharpMatter.Core.Math
 {
     /// <summary>
-    /// 
-    /// 
-    /// 
-    /// 
     /// </summary>
     public struct SharpDomain
     {
         #region FIELDS
-        private double m_min;
-        private double m_max;
+
         #endregion
 
         #region CONSTRUCTORS
+
         public SharpDomain(double min, double max)
         {
-            this.m_min = min;
-            this.m_max = max;
+            this.Min = min;
+            this.Max = max;
         }
 
         #endregion
 
-
         #region PROPERTIES
-        public double Min { get => m_min; set => m_min = value; }
-      
 
-        public double Max { get => m_max; set => m_max = value; }
+        public double Min { get; set; }
 
+        public double Max { get; set; }
 
         #endregion
 
         #region OPERATOR OVERLOADING
 
-
         public static SharpDomain operator +(SharpDomain domainA, SharpDomain domainB)
         {
-            domainA.m_min += domainB.m_min;
-            domainA.m_max += domainB.m_max;
-      
+            domainA.Min += domainB.Min;
+            domainA.Max += domainB.Max;
+
             return domainA;
         }
-
-
 
         public static SharpDomain operator -(SharpDomain domainA, SharpDomain domainB)
         {
-            domainA.m_min -= domainB.m_min;
-            domainA.m_max -= domainB.m_max;
-   
+            domainA.Min -= domainB.Min;
+            domainA.Max -= domainB.Max;
+
             return domainA;
         }
-
 
         public static SharpDomain operator *(SharpDomain domain, double scalar)
         {
-            domain.m_min *= scalar;
-            domain.m_max *= scalar;
+            domain.Min *= scalar;
+            domain.Max *= scalar;
             return domain;
         }
 
-        public static SharpDomain operator *(SharpDomain domainA,  SharpDomain domainB)
+        public static SharpDomain operator *(SharpDomain domainA, SharpDomain domainB)
         {
-            domainA.m_min *= domainB.m_min;
-            domainA.m_max *= domainB.m_max; 
+            domainA.Min *= domainB.Min;
+            domainA.Max *= domainB.Max;
             return domainA;
         }
 
-
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="domainA"></param>
         /// <param name="domainB"></param>
         /// <returns></returns>
         public static bool operator !=(SharpDomain domainA, SharpDomain domainB)
         {
-            if (domainA.m_min != domainB.m_min && domainA.m_max != domainB.m_max )
-            {
+            if (domainA.Min != domainB.Min && domainA.Max != domainB.Max)
                 return true;
-            }
-            else
-                return false;
 
-
+            return false;
         }
 
         public static bool operator ==(SharpDomain domainA, SharpDomain domainB)
         {
-            if (domainA.m_min == domainB.m_min && domainA.m_max == domainB.m_max )
-            {
+            if (domainA.Min == domainB.Min && domainA.Max == domainB.Max)
                 return true;
-            }
-            else
-                return false;
 
-
+            return false;
         }
 
-
         /// <summary>
-        /// Determines whether the first specified vector comes after (has superior sorting value than) the second vector. 
+        /// Determines whether the first specified vector comes after (has superior sorting value than) the
+        /// second vector.
         /// Components evaluation priority is first X, then Y, then Z.
         /// </summary>
         /// <param name="domainA"></param>
         /// <param name="domainB"></param>
         /// <returns></returns>
-
         public static bool operator >(SharpDomain domainA, SharpDomain domainB)
         {
-           
+            if (domainA.Min > domainB.Min || domainA.Min == domainB.Min && domainA.Max > domainB.Max ||
+                domainA.Min == domainB.Min && domainA.Max == domainB.Max) return true;
 
-            if (domainA.m_min > domainB.m_min || domainA.m_min == domainB.m_min && domainA.m_max > domainB.m_max || domainA.m_min == domainB.m_min && domainA.m_max == domainB.m_max ) return true;
-
-            else return false;
-
-
+            return false;
         }
 
         /// <summary>
-        /// Determines whether the first specified vector comes after (has superior sorting value than) the second vector. 
+        /// Determines whether the first specified vector comes after (has superior sorting value than) the
+        /// second vector.
         /// Components evaluation priority is first X, then Y, then Z.
         /// </summary>
         /// <param name="domainA"></param>
@@ -132,17 +105,15 @@ namespace SharpMatter.SharpMath
         /// <returns></returns>
         public static bool operator >=(SharpDomain domainA, SharpDomain domainB)
         {
-      
+            if (domainA.Min > domainB.Min || domainA.Min == domainB.Min && domainA.Max > domainB.Max ||
+                domainA.Min == domainB.Min && domainA.Max == domainB.Max) return true;
 
-            if (domainA.m_min > domainB.m_min || domainA.m_min == domainB.m_min && domainA.m_max > domainB.m_max || domainA.m_min == domainB.m_min && domainA.m_max == domainB.m_max) return true;
-
-            else return false;
-
-
+            return false;
         }
 
         /// <summary>
-        /// Determines whether the first specified vector comes after (has superior sorting value than) the second vector. 
+        /// Determines whether the first specified vector comes after (has superior sorting value than) the
+        /// second vector.
         /// Components evaluation priority is first X, then Y, then Z.
         /// </summary>
         /// <param name="domainA"></param>
@@ -152,15 +123,15 @@ namespace SharpMatter.SharpMath
         {
             // a.X is smaller than b.X, or a.X == b.X and a.Y is smaller than b.Y, or a.X == b.X and a.Y == b.Y and a.Z is smaller than b.Z
 
-            if (domainA.m_min < domainB.m_min || domainA.m_min == domainB.m_min && domainA.m_max < domainB.m_max || domainA.m_min == domainB.m_min && domainA.m_max == domainB.m_max) return true;
+            if (domainA.Min < domainB.Min || domainA.Min == domainB.Min && domainA.Max < domainB.Max ||
+                domainA.Min == domainB.Min && domainA.Max == domainB.Max) return true;
 
-            else return false;
-
-
+            return false;
         }
 
         /// <summary>
-        /// Determines whether the first specified vector comes after (has superior sorting value than) the second vector. 
+        /// Determines whether the first specified vector comes after (has superior sorting value than) the
+        /// second vector.
         /// Components evaluation priority is first X, then Y, then Z.
         /// </summary>
         /// <param name="domainA"></param>
@@ -170,27 +141,31 @@ namespace SharpMatter.SharpMath
         {
             // a.X is smaller than b.X, or a.X == b.X and a.Y is smaller than b.Y, or a.X == b.X and a.Y == b.Y and a.Z <= b.Z
 
-            if (domainA.m_min < domainB.m_min || domainA.m_min == domainB.m_min && domainA.m_max < domainB.m_max || domainA.m_min == domainB.m_min && domainA.m_max == domainB.m_max ) return true;
+            if (domainA.Min < domainB.Min || domainA.Min == domainB.Min && domainA.Max < domainB.Max ||
+                domainA.Min == domainB.Min && domainA.Max == domainB.Max) return true;
 
-            else return false;
-
-
+            return false;
         }
 
-
         #endregion
-
-
 
         #region STATIC METHODS
 
         /// <summary>
         /// Tests whether a number is inside a domain
         /// </summary>
-        /// <param name="minVal">Minimum value</param>
-        /// <param name="maxVal">Maximum value</param>
-        /// <param name="numToTest">Number to test </param>
-        /// <returns>True if in domain, false otherwise </returns>
+        /// <param name="minVal">
+        /// Minimum value
+        /// </param>
+        /// <param name="maxVal">
+        /// Maximum value
+        /// </param>
+        /// <param name="numToTest">
+        /// Number to test
+        /// </param>
+        /// <returns>
+        /// True if in domain, false otherwise
+        /// </returns>
         public static bool InDomain(double minVal, double maxVal, double numToTest)
         {
             double min = 0;
@@ -207,11 +182,9 @@ namespace SharpMatter.SharpMath
                 max = maxVal;
             }
 
-
             if (numToTest >= min && numToTest <= max) return true;
 
-            else return false;
-
+            return false;
         }
 
         #endregion
@@ -225,26 +198,23 @@ namespace SharpMatter.SharpMath
         //        return false;
         //}
 
-
         #region METHODS OVERRIDE
 
         public override string ToString()
         {
-            return $"SharpDomain {m_min} To {m_max} ";
+            return $"SharpDomain {this.Min} To {this.Max} ";
         }
 
         public override bool Equals(object obj)
         {
             SharpDomain temp;
-            temp = (SharpDomain)obj;
+            temp = (SharpDomain) obj;
             if (obj is SharpDomain && obj != null)
             {
-                if (temp.m_min == this.m_min && temp.m_max == this.m_max)
-                {
+                if (temp.Min == this.Min && temp.Max == this.Max)
                     return true;
-                }
 
-                else return false;
+                return false;
             }
 
             return false;
@@ -252,15 +222,9 @@ namespace SharpMatter.SharpMath
 
         public override int GetHashCode()
         {
-            
-
-            return ToString().GetHashCode();
+            return this.ToString().GetHashCode();
         }
 
         #endregion
-
-
-
     }
 }
-

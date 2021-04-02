@@ -1,154 +1,94 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using SharpMatter.SharpExtensions;
-namespace SharpMatter.SharpMath
-{
 
+namespace SharpMatter.Core.Math
+{
     /// <summary>
     /// Matrix class. Currently under development
     /// </summary>
     /// <typeparam name="T"></typeparam>
-   
-        [Serializable]
-        public class Matrix 
+    [Serializable]
+    public class Matrix
+    {
+        private int m_columns;
+        private int m_rows;
+
+        /// <summary>
+        /// Initialize a N X N Matrix with default values set to zero
+        /// </summary>
+        /// <param name="columns"></param>
+        /// <param name="rows"></param>
+        public Matrix(int columns, int rows)
         {
-     
-            private int m_columns;
-            private int m_rows;
-            private double [][] m_values;
+            m_columns = columns;
+            m_rows = rows;
 
+            this.Values = new double [m_rows][];
 
-            /// <summary>
-            /// Initialize a N X N Matrix with default values set to zero
-            /// </summary>
-            /// <param name="columns"></param>
-            /// <param name="rows"></param>
-            public Matrix(int columns, int rows)
+            double[,] temp = new double [m_columns, m_rows];
+
+            for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                temp[i, j] = 0;
+
+            this.Values = temp.ToJaggedArray(m_columns, rows);
+        }
+
+        public int Columns
+        {
+            get => m_columns;
+
+            set
             {
-                this.m_columns = columns;
-                this.m_rows = rows;
+                if (value <= 0)
+                    throw new Exception("value has to be larger than 0!");
 
-                m_values = new double [m_rows][];
-
-                double[,] temp = new double [m_columns,m_rows];
-
-                for (int i = 0; i < rows; i++)
-                {
-
-                    for (int j = 0; j< columns; j++)
-                    {
-                        temp[i, j] = 0;
-                    }
-    
-                }
-
-                m_values = temp.ToJaggedArray(m_columns, rows);
-
-
+                m_columns = value;
             }
+        }
 
+        public int Rows
+        {
+            get => m_rows;
 
-            public int Columns
+            set
             {
-                get { return m_columns; }
+                if (value <= 0)
+                    throw new Exception("value has to be larger than 0!");
 
-                set
-                {
-                    if (value <= 0)
-                    {
-                    
-                        throw new Exception("value has to be larger than 0!");
-                       
-                    }
-
-                    else m_columns = value;
-
-                }
+                m_rows = value;
             }
+        }
 
-
-            public int Rows
-            {
-                get { return m_rows; }
-
-                set
-                {
-                    if (value <= 0)
-                    {
-                        throw new Exception("value has to be larger than 0!");
-                    }
-
-                    else m_rows = value;
-
-                }
-            }
-
-
-            public double[][] Values
-            {
-                get { return m_values; }
-
-            }
-
+        public double[][] Values { get; }
 
         #region METHODS
 
-
-            public void Create()
-            {
-
-            }
+        public void Create() { }
 
         #endregion
 
         #region STATIC METHODS
 
-            public void DisplayToTextFile(string path, string name)
-            {
-                m_values.JaggedArrayToTxtFile(path, name);
-            }
+        public void DisplayToTextFile(string path, string name)
+        {
+            this.Values.JaggedArrayToTxtFile(path, name);
+        }
 
+        public void DisplayToConsoleWindow()
+        {
+            this.Values.JaggedArrayToConsoleWindow();
+        }
 
-            public void DisplayToConsoleWindow()
-            {
-                m_values.JaggedArrayToConsoleWindow();
-            }
+        public void InitializeValues(double[][] data)
+        {
+            if (data.Length != m_rows && data[0].Length != m_columns)
+                throw new ArgumentException("Input  has to have the same dimensions as the current matrix");
 
+            for (int i = 0; i < this.Values.Length; i++)
+            for (int j = 0; j < this.Values[i].Length; j++)
+                this.Values[i][j] = data[i][j];
+        }
 
-
-            public  void InitializeValues(double [][] data)
-            {
-
-                
-
-                if (data.Length!= m_rows && data[0].Length != m_columns)
-                {
-                    throw new ArgumentException("Input  has to have the same dimensions as the current matrix");
-                }
-
-                else
-                {
-
-                    for (int i = 0; i < m_values.Length; i++)
-                    {
-                        for (int j = 0; j < m_values[i].Length; j++)
-                        {
-                            m_values[i][j] = data[i][j];
-                        }
-                    }
-                     
-                }
-
-            }
-
-      
         #endregion
-
-
-
     }
 }
