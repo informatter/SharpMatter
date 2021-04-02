@@ -43,8 +43,6 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Geometry\SharpCloudItem.cs" />
-    <Compile Include="Geometry\SharpPointCloud.cs" />
     <Compile Include="Geometry\Vec3.cs" />
     <Compile Include="Math\Matrix.cs" />
     <Compile Include="Math\SharpDomain.cs" />
