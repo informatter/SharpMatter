@@ -8,13 +8,14 @@ using SharpMatter.Core.Geometry;
 
 namespace SharpMatter.Physics
 {
-    public struct SharpParticle: IParticle
+    public class SharpParticle: IParticle
     {
         private Vec3 _forceSum;
         private Vec3 _deltaSum;
         private double _weightSum;
         private double _mass;
         private double _inverseMass;
+        private Vec3 _acceleration;
 
         /// <summary>
         /// The position of this <see cref="IParticle"/>.
@@ -25,6 +26,8 @@ namespace SharpMatter.Physics
         /// The velocity of this <see cref="IParticle"/>.
         /// </summary>
         public Vec3 Velocity { get; set; }
+
+        public Vec3 Force { get; set; }
 
         /// <summary>
         /// The mass of this <see cref="IParticle"/>.
@@ -47,7 +50,7 @@ namespace SharpMatter.Physics
         /// is active or not. If its not active
         /// no forces will act upon it.
         /// </summary>
-        public bool Fixed { get; }
+        public bool Fixed { get; set; }
 
         /// <summary>
         /// Construct a <see cref="SharpParticle"/>.
@@ -58,6 +61,7 @@ namespace SharpMatter.Physics
         /// <param name="pinned"></param>
         public SharpParticle(Vec3 position, Vec3 velocity, double mass, bool pinned)
         {
+            _acceleration = Vec3.Zero;
             _inverseMass = 0;
 
             _mass = 0;
@@ -85,7 +89,11 @@ namespace SharpMatter.Physics
         /// <param name="force"></param>
         public void AddForce(Vec3 force)
         {
-            _forceSum += force;
+            // _forceSum += force;
+
+            var scaledForce = force / this.Mass;
+
+            _acceleration += scaledForce;
         }
 
         /// <summary>
@@ -105,16 +113,27 @@ namespace SharpMatter.Physics
         /// </summary>
         public void Update(double timeStep, double damping)
         {
-            var deltaVelocity = this.Velocity * (1.0 - damping) + _forceSum * (timeStep * _inverseMass);
+            if(this.Fixed) return;
 
-            if (_weightSum > 0.0)
-                deltaVelocity += _deltaSum * (timeStep * _inverseMass / _weightSum);
+            //var deltaVelocity = this.Velocity * (1.0 - damping) + _forceSum * (timeStep * _inverseMass);
 
-            var deltaPosition = deltaVelocity * timeStep;
+            //if (_weightSum > 0.0)
+            //    deltaVelocity += _deltaSum * (timeStep * _inverseMass / _weightSum);
 
-            this.Position += deltaPosition;
+            //var deltaPosition = deltaVelocity * timeStep;
 
-            this.Velocity += deltaVelocity;
+            //this.Position += deltaPosition;
+
+            //this.Velocity += deltaVelocity;
+
+            //this.Velocity += _acceleration * timeStep;
+            //this.Position += this.Velocity * timeStep;
+
+            this.Velocity += _acceleration;
+
+            this.Velocity *= damping;
+
+            this.Position += this.Velocity;
 
             this.Reset();
         }
@@ -125,8 +144,10 @@ namespace SharpMatter.Physics
         /// </summary>
         public void Reset()
         {
-            _forceSum = _deltaSum = Vec3.Zero;
-            _weightSum = 0.0;
+            //_forceSum = _deltaSum = Vec3.Zero;
+            //_weightSum = 0.0;
+
+            _acceleration *= 0;
         }
 
      

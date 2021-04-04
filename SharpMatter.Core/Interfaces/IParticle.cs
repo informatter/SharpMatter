@@ -7,7 +7,7 @@ using SharpMatter.Core.Geometry;
 
 namespace SharpMatter.Core
 {
-    public interface IParticle //: ISharpObject
+    public interface IParticle
     {
         /// <summary>
         /// The position of this <see cref="IParticle"/>.
@@ -19,6 +19,8 @@ namespace SharpMatter.Core
         /// </summary>
         Vec3 Velocity { get; set; }
 
+        Vec3 Force { get; set; }
+
         /// <summary>
         /// The mass of this <see cref="IParticle"/>.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SharpMatter.Core
         /// is active or not. If its not active
         /// no forces will act upon it.
         /// </summary>
-        bool Fixed { get; }
+        bool Fixed { get; set; }
 
         /// <summary>
         /// Adds a <paramref name="force"/>

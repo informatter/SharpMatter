@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace SharpMatter.Core
 {
-    public interface IComponent
+    public interface IConstraint
     {
         /// <summary>
-        /// The <see cref="ISharpObject"/> this <see cref="IComponent"/>
-        /// is attached to.
+        /// Calculates this <see cref="IConstraint"/>.
         /// </summary>
-        ISharpObject Owner { get; }
+        void Calculate();
     }
 }
