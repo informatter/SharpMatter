@@ -743,6 +743,24 @@ namespace SharpMatter.Core.Geometry
         }
 
         /// <summary>
+        /// Reflects the provided <paramref name="vec"/>
+        /// given a <paramref name="normal"/>.
+        /// </summary>
+        /// <param name="vec">
+        /// The <see cref="Vec3"/> to reflect from.
+        /// </param>
+        /// <param name="normal">
+        /// The normal of the plane to reflect from.
+        /// </param>
+        /// <returns></returns>
+        public static Vec3 Reflect(Vec3 vec, Vec3 normal)
+        {
+            var reflectVec = vec - (2 * (vec * normal)) * normal; 
+
+           return  reflectVec;
+        }
+
+        /// <summary>
         /// </summary>
         /// <param name="x0"></param>
         /// <param name="y0"></param>

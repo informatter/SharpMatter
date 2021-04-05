@@ -12,29 +12,23 @@ namespace SharpMatter.Core
     /// </summary>
     public interface ISharpObject
     {
-        ///// <summary>
-        ///// The collection of all <see cref="IComponent"/>'s
-        ///// attached to this <see cref="ISharpObject"/>.
-        ///// </summary>
-        //IList<IComponent> Components { get; }
+        /// <summary>
+        /// The collection of all <see cref="IComponent"/>'s
+        /// attached to this <see cref="ISharpObject"/>.
+        /// </summary>
+        IList<IComponent> Components { get; }
 
-        ///// <summary>
-        ///// Adds the <paramref name="component"/>
-        ///// to this <see cref="ISharpObject"/>
-        ///// </summary>
-        ///// <param name="component"></param>
-        //void AttachComponent(IComponent component);
+        /// <summary>
+        /// Adds the <paramref name="component"/>
+        /// to this <see cref="ISharpObject"/>
+        /// </summary>
+        /// <param name="component"></param>
+        void AttachComponent(IComponent component);
 
-        ///// <summary>
-        ///// Removes the specified component.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        //void RemoveComponent(IComponent component);
-
-        ///// <summary>
-        ///// Gets the specified component.
-        ///// </summary>
-        ///// <typeparam name="T"></typeparam>
-        //IComponent GetComponent<T>();
+        /// <summary>
+        /// Gets the specified component.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        IComponent GetComponent<T>();
     }
 }
